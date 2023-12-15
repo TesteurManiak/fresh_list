@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/src/core/consts.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
+import 'package:todo_list/src/core/widgets/separated_row.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/data/models/grocery.dart';
 import 'package:todo_list/src/features/home/widgets/add_grocery_bottom_sheet.dart';
@@ -86,15 +87,29 @@ class _GroceryTile extends ConsumerWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
-              // TODO(Guillaume): edit grocery
+              // TODO(Guillaume): shortcut to edit grocery
             },
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: SeparatedRow(
+                separator: const SizedBox(width: 16),
                 children: [
-                  Text(grocery.name),
-                  if (quantity != null) Text('$quantity'),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(grocery.name),
+                        if (quantity != null) Text('$quantity'),
+                      ],
+                    ),
+                  ),
+                  // More button
+                  IconButton(
+                    icon: const Icon(Icons.more_vert),
+                    onPressed: () {
+                      // TODO(Guillaume): show more options (edit, delete, etc.)
+                    },
+                  ),
                 ],
               ),
             ),
