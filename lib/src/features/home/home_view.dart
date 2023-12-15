@@ -90,13 +90,14 @@ class _GroceryTile extends ConsumerWidget {
               // TODO(Guillaume): shortcut to edit grocery
             },
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: SeparatedRow(
                 separator: const SizedBox(width: 16),
                 children: [
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(grocery.name),
                         if (quantity != null) Text('$quantity'),
