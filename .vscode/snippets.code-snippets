@@ -17,6 +17,12 @@
             "part '${TM_FILENAME_BASE}.tailor.dart';",
         ]
     },
+    "Generate mapper part directive": {
+        "prefix": "mpart",
+        "body": [
+            "part '${TM_FILENAME_BASE}.mapper.dart';",
+        ]
+    },
     "Get semanticColorTheme": {
         "prefix": "colorTheme",
         "description": "Retrieve color theme from context in a variable",

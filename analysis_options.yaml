@@ -5,4 +5,5 @@ analyzer:
     - custom_lint
   exclude:
     - "**/*.tailor.dart"
+    - "**/*.mapper.dart"
     - lib/gen/**.dart

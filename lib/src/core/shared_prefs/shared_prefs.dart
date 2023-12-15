@@ -10,7 +10,8 @@ Future<SharedPreferences> sharedPreferences(SharedPreferencesRef ref) {
 
 enum SharedPrefsKey {
   locale,
-  themeMode;
+  themeMode,
+  dbVersion;
 
   String get key => '$_prefix$name';
 
