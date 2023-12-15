@@ -22,29 +22,19 @@ class GroceryListController extends _$GroceryListController {
     return initialGroceries;
   }
 
-  void createGrocery(Grocery grocery) {
+  Future<void> createGrocery(Grocery grocery) async {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
     final newElement = grocery.copyWith(order: elements.length);
-    final newList = List.of(elements)..add(newElement);
-
-    state = AsyncData(newList);
-    ref.read(homeLocalDatasourceProvider).addGrocery(newElement);
+    await ref.read(homeLocalDatasourceProvider).addGrocery(newElement);
   }
 
   void updateGrocery(Grocery grocery) {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
-    final newList = List.of(elements);
-    final index = newList.indexWhere((e) => e.order == grocery.order);
-    if (index == -1) return;
-
-    newList[index] = grocery;
-
-    state = AsyncData(newList);
-    ref.read(homeLocalDatasourceProvider).updateGroceries(newList);
+    ref.read(homeLocalDatasourceProvider).updateGrocery(grocery);
   }
 
   Future<void> deleteGrocery(Grocery grocery) async {
