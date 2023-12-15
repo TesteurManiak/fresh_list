@@ -10,16 +10,8 @@ class AppTheme {
     const colors = AppColors.light();
     const typography = AppTypography.regular();
 
-    return ThemeData(
+    return baseTheme.copyWith(
       brightness: Brightness.light,
-      primaryColor: colors.primary,
-      scaffoldBackgroundColor: colors.background,
-      colorScheme: baseTheme.colorScheme.copyWith(
-        secondary: colors.accent,
-        background: colors.background,
-        error: colors.warning,
-      ),
-      highlightColor: colors.callToAction,
       appBarTheme: baseTheme.appBarTheme.copyWith(
         centerTitle: true,
       ),
@@ -35,16 +27,8 @@ class AppTheme {
     const colors = AppColors.dark();
     const typography = AppTypography.regular();
 
-    return ThemeData(
+    return baseTheme.copyWith(
       brightness: Brightness.dark,
-      primaryColor: colors.primary,
-      scaffoldBackgroundColor: colors.background,
-      colorScheme: baseTheme.colorScheme.copyWith(
-        secondary: colors.accent,
-        background: colors.background,
-        error: colors.warning,
-      ),
-      highlightColor: colors.callToAction,
       appBarTheme: baseTheme.appBarTheme.copyWith(
         centerTitle: true,
       ),
