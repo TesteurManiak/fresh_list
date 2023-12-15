@@ -90,7 +90,11 @@ class _GroceryTile extends ConsumerWidget {
               // TODO(Guillaume): shortcut to edit grocery
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.only(
+                left: 16,
+                top: 8,
+                bottom: 8,
+              ),
               child: SeparatedRow(
                 separator: const SizedBox(width: 16),
                 children: [

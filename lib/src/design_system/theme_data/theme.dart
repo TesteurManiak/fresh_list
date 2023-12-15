@@ -15,6 +15,9 @@ class AppTheme {
       appBarTheme: baseTheme.appBarTheme.copyWith(
         centerTitle: true,
       ),
+      bottomSheetTheme: baseTheme.bottomSheetTheme.copyWith(
+        clipBehavior: Clip.antiAlias,
+      ),
       extensions: const [
         colors,
         typography,
@@ -31,6 +34,9 @@ class AppTheme {
       brightness: Brightness.dark,
       appBarTheme: baseTheme.appBarTheme.copyWith(
         centerTitle: true,
+      ),
+      bottomSheetTheme: baseTheme.bottomSheetTheme.copyWith(
+        clipBehavior: Clip.antiAlias,
       ),
       extensions: const [
         colors,
