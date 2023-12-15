@@ -6,7 +6,7 @@ part of 'clock.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appClockHash() => r'0da664e2a567d3b23d27432f69d7a0f8c3eb3bcb';
+String _$appClockHash() => r'0124b97c0649a7e13df87b0ee6a44a6b347bae67';
 
 /// See also [appClock].
 @ProviderFor(appClock)

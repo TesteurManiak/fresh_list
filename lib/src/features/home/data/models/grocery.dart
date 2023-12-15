@@ -9,7 +9,7 @@ part 'grocery.mapper.dart';
 @MappableClass()
 class Grocery with GroceryMappable {
   Grocery({
-    required this.index,
+    required this.order,
     required this.name,
     required this.createdAt,
     this.quantity,
@@ -18,7 +18,7 @@ class Grocery with GroceryMappable {
   Id? id;
 
   @Index(unique: true, replace: true)
-  final int index;
+  final int order;
   final String name;
   final double? quantity;
   final DateTime createdAt;

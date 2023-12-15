@@ -20,8 +20,8 @@ class GroceryMapper extends ClassMapperBase<Grocery> {
   @override
   final String id = 'Grocery';
 
-  static int _$index(Grocery v) => v.index;
-  static const Field<Grocery, int> _f$index = Field('index', _$index);
+  static int _$order(Grocery v) => v.order;
+  static const Field<Grocery, int> _f$order = Field('order', _$order);
   static String _$name(Grocery v) => v.name;
   static const Field<Grocery, String> _f$name = Field('name', _$name);
   static DateTime _$createdAt(Grocery v) => v.createdAt;
@@ -36,7 +36,7 @@ class GroceryMapper extends ClassMapperBase<Grocery> {
 
   @override
   final Map<Symbol, Field<Grocery, dynamic>> fields = const {
-    #index: _f$index,
+    #order: _f$order,
     #name: _f$name,
     #createdAt: _f$createdAt,
     #quantity: _f$quantity,
@@ -45,7 +45,7 @@ class GroceryMapper extends ClassMapperBase<Grocery> {
 
   static Grocery _instantiate(DecodingData data) {
     return Grocery(
-        index: data.dec(_f$index),
+        order: data.dec(_f$order),
         name: data.dec(_f$name),
         createdAt: data.dec(_f$createdAt),
         quantity: data.dec(_f$quantity));
@@ -102,7 +102,7 @@ extension GroceryValueCopy<$R, $Out> on ObjectCopyWith<$R, Grocery, $Out> {
 
 abstract class GroceryCopyWith<$R, $In extends Grocery, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({int? index, String? name, DateTime? createdAt, double? quantity});
+  $R call({int? order, String? name, DateTime? createdAt, double? quantity});
   GroceryCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -116,19 +116,19 @@ class _GroceryCopyWithImpl<$R, $Out>
       GroceryMapper.ensureInitialized();
   @override
   $R call(
-          {int? index,
+          {int? order,
           String? name,
           DateTime? createdAt,
           Object? quantity = $none}) =>
       $apply(FieldCopyWithData({
-        if (index != null) #index: index,
+        if (order != null) #order: order,
         if (name != null) #name: name,
         if (createdAt != null) #createdAt: createdAt,
         if (quantity != $none) #quantity: quantity
       }));
   @override
   Grocery $make(CopyWithData data) => Grocery(
-      index: data.get(#index, or: $value.index),
+      order: data.get(#order, or: $value.order),
       name: data.get(#name, or: $value.name),
       createdAt: data.get(#createdAt, or: $value.createdAt),
       quantity: data.get(#quantity, or: $value.quantity));

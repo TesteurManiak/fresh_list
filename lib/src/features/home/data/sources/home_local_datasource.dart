@@ -17,7 +17,29 @@ class HomeLocalDataSource {
 
   Stream<List<Grocery>> watchGroceries() async* {
     final isar = await ref.read(isarDbProvider.future);
-    final query = isar.groceries.where().sortByIndex().build();
+    final query = isar.groceries.where().sortByOrder().build();
     yield* query.watch(fireImmediately: true);
+  }
+
+  Future<void> updateGroceries(List<Grocery> groceries) async {
+    final isar = await ref.read(isarDbProvider.future);
+    await isar.writeTxn(() async {
+      await isar.groceries.putAllByOrder(groceries);
+    });
+  }
+
+  Future<void> addGrocery(Grocery grocery) async {
+    final isar = await ref.read(isarDbProvider.future);
+    await isar.writeTxn(() async {
+      await isar.groceries.putByOrder(grocery);
+    });
+  }
+
+  Future<void> replaceGroceries(List<Grocery> groceries) async {
+    final isar = await ref.read(isarDbProvider.future);
+    await isar.writeTxn(() async {
+      await isar.groceries.clear();
+      await isar.groceries.putAllByOrder(groceries);
+    });
   }
 }

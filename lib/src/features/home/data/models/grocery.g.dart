@@ -22,15 +22,15 @@ const GrocerySchema = CollectionSchema(
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
-    r'index': PropertySchema(
-      id: 1,
-      name: r'index',
-      type: IsarType.long,
-    ),
     r'name': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'name',
       type: IsarType.string,
+    ),
+    r'order': PropertySchema(
+      id: 2,
+      name: r'order',
+      type: IsarType.long,
     ),
     r'quantity': PropertySchema(
       id: 3,
@@ -44,14 +44,14 @@ const GrocerySchema = CollectionSchema(
   deserializeProp: _groceryDeserializeProp,
   idName: r'id',
   indexes: {
-    r'index': IndexSchema(
-      id: -5425839060849557016,
-      name: r'index',
+    r'order': IndexSchema(
+      id: 5897270977454184057,
+      name: r'order',
       unique: true,
       replace: true,
       properties: [
         IndexPropertySchema(
-          name: r'index',
+          name: r'order',
           type: IndexType.value,
           caseSensitive: false,
         )
@@ -83,8 +83,8 @@ void _grocerySerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDateTime(offsets[0], object.createdAt);
-  writer.writeLong(offsets[1], object.index);
-  writer.writeString(offsets[2], object.name);
+  writer.writeString(offsets[1], object.name);
+  writer.writeLong(offsets[2], object.order);
   writer.writeDouble(offsets[3], object.quantity);
 }
 
@@ -96,8 +96,8 @@ Grocery _groceryDeserialize(
 ) {
   final object = Grocery(
     createdAt: reader.readDateTime(offsets[0]),
-    index: reader.readLong(offsets[1]),
-    name: reader.readString(offsets[2]),
+    name: reader.readString(offsets[1]),
+    order: reader.readLong(offsets[2]),
     quantity: reader.readDoubleOrNull(offsets[3]),
   );
   object.id = id;
@@ -114,9 +114,9 @@ P _groceryDeserializeProp<P>(
     case 0:
       return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readLong(offset)) as P;
-    case 2:
       return (reader.readString(offset)) as P;
+    case 2:
+      return (reader.readLong(offset)) as P;
     case 3:
       return (reader.readDoubleOrNull(offset)) as P;
     default:
@@ -137,56 +137,56 @@ void _groceryAttach(IsarCollection<dynamic> col, Id id, Grocery object) {
 }
 
 extension GroceryByIndex on IsarCollection<Grocery> {
-  Future<Grocery?> getByIndex(int index) {
-    return getByIndex(r'index', [index]);
+  Future<Grocery?> getByOrder(int order) {
+    return getByIndex(r'order', [order]);
   }
 
-  Grocery? getByIndexSync(int index) {
-    return getByIndexSync(r'index', [index]);
+  Grocery? getByOrderSync(int order) {
+    return getByIndexSync(r'order', [order]);
   }
 
-  Future<bool> deleteByIndex(int index) {
-    return deleteByIndex(r'index', [index]);
+  Future<bool> deleteByOrder(int order) {
+    return deleteByIndex(r'order', [order]);
   }
 
-  bool deleteByIndexSync(int index) {
-    return deleteByIndexSync(r'index', [index]);
+  bool deleteByOrderSync(int order) {
+    return deleteByIndexSync(r'order', [order]);
   }
 
-  Future<List<Grocery?>> getAllByIndex(List<int> indexValues) {
-    final values = indexValues.map((e) => [e]).toList();
-    return getAllByIndex(r'index', values);
+  Future<List<Grocery?>> getAllByOrder(List<int> orderValues) {
+    final values = orderValues.map((e) => [e]).toList();
+    return getAllByIndex(r'order', values);
   }
 
-  List<Grocery?> getAllByIndexSync(List<int> indexValues) {
-    final values = indexValues.map((e) => [e]).toList();
-    return getAllByIndexSync(r'index', values);
+  List<Grocery?> getAllByOrderSync(List<int> orderValues) {
+    final values = orderValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'order', values);
   }
 
-  Future<int> deleteAllByIndex(List<int> indexValues) {
-    final values = indexValues.map((e) => [e]).toList();
-    return deleteAllByIndex(r'index', values);
+  Future<int> deleteAllByOrder(List<int> orderValues) {
+    final values = orderValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'order', values);
   }
 
-  int deleteAllByIndexSync(List<int> indexValues) {
-    final values = indexValues.map((e) => [e]).toList();
-    return deleteAllByIndexSync(r'index', values);
+  int deleteAllByOrderSync(List<int> orderValues) {
+    final values = orderValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'order', values);
   }
 
-  Future<Id> putByIndex(Grocery object) {
-    return putByIndex(r'index', object);
+  Future<Id> putByOrder(Grocery object) {
+    return putByIndex(r'order', object);
   }
 
-  Id putByIndexSync(Grocery object, {bool saveLinks = true}) {
-    return putByIndexSync(r'index', object, saveLinks: saveLinks);
+  Id putByOrderSync(Grocery object, {bool saveLinks = true}) {
+    return putByIndexSync(r'order', object, saveLinks: saveLinks);
   }
 
-  Future<List<Id>> putAllByIndex(List<Grocery> objects) {
-    return putAllByIndex(r'index', objects);
+  Future<List<Id>> putAllByOrder(List<Grocery> objects) {
+    return putAllByIndex(r'order', objects);
   }
 
-  List<Id> putAllByIndexSync(List<Grocery> objects, {bool saveLinks = true}) {
-    return putAllByIndexSync(r'index', objects, saveLinks: saveLinks);
+  List<Id> putAllByOrderSync(List<Grocery> objects, {bool saveLinks = true}) {
+    return putAllByIndexSync(r'order', objects, saveLinks: saveLinks);
   }
 }
 
@@ -197,10 +197,10 @@ extension GroceryQueryWhereSort on QueryBuilder<Grocery, Grocery, QWhere> {
     });
   }
 
-  QueryBuilder<Grocery, Grocery, QAfterWhere> anyIndex() {
+  QueryBuilder<Grocery, Grocery, QAfterWhere> anyOrder() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'index'),
+        const IndexWhereClause.any(indexName: r'order'),
       );
     });
   }
@@ -272,89 +272,89 @@ extension GroceryQueryWhere on QueryBuilder<Grocery, Grocery, QWhereClause> {
     });
   }
 
-  QueryBuilder<Grocery, Grocery, QAfterWhereClause> indexEqualTo(int index) {
+  QueryBuilder<Grocery, Grocery, QAfterWhereClause> orderEqualTo(int order) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'index',
-        value: [index],
+        indexName: r'order',
+        value: [order],
       ));
     });
   }
 
-  QueryBuilder<Grocery, Grocery, QAfterWhereClause> indexNotEqualTo(int index) {
+  QueryBuilder<Grocery, Grocery, QAfterWhereClause> orderNotEqualTo(int order) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'index',
+              indexName: r'order',
               lower: [],
-              upper: [index],
+              upper: [order],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'index',
-              lower: [index],
+              indexName: r'order',
+              lower: [order],
               includeLower: false,
               upper: [],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'index',
-              lower: [index],
+              indexName: r'order',
+              lower: [order],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'index',
+              indexName: r'order',
               lower: [],
-              upper: [index],
+              upper: [order],
               includeUpper: false,
             ));
       }
     });
   }
 
-  QueryBuilder<Grocery, Grocery, QAfterWhereClause> indexGreaterThan(
-    int index, {
+  QueryBuilder<Grocery, Grocery, QAfterWhereClause> orderGreaterThan(
+    int order, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'index',
-        lower: [index],
+        indexName: r'order',
+        lower: [order],
         includeLower: include,
         upper: [],
       ));
     });
   }
 
-  QueryBuilder<Grocery, Grocery, QAfterWhereClause> indexLessThan(
-    int index, {
+  QueryBuilder<Grocery, Grocery, QAfterWhereClause> orderLessThan(
+    int order, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'index',
+        indexName: r'order',
         lower: [],
-        upper: [index],
+        upper: [order],
         includeUpper: include,
       ));
     });
   }
 
-  QueryBuilder<Grocery, Grocery, QAfterWhereClause> indexBetween(
-    int lowerIndex,
-    int upperIndex, {
+  QueryBuilder<Grocery, Grocery, QAfterWhereClause> orderBetween(
+    int lowerOrder,
+    int upperOrder, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'index',
-        lower: [lowerIndex],
+        indexName: r'order',
+        lower: [lowerOrder],
         includeLower: includeLower,
-        upper: [upperIndex],
+        upper: [upperOrder],
         includeUpper: includeUpper,
       ));
     });
@@ -476,59 +476,6 @@ extension GroceryQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> indexEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'index',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> indexGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'index',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> indexLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'index',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> indexBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'index',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -667,6 +614,59 @@ extension GroceryQueryFilter
     });
   }
 
+  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> orderEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'order',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> orderGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'order',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> orderLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'order',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> orderBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'order',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Grocery, Grocery, QAfterFilterCondition> quantityIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -765,18 +765,6 @@ extension GroceryQuerySortBy on QueryBuilder<Grocery, Grocery, QSortBy> {
     });
   }
 
-  QueryBuilder<Grocery, Grocery, QAfterSortBy> sortByIndex() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'index', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Grocery, Grocery, QAfterSortBy> sortByIndexDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'index', Sort.desc);
-    });
-  }
-
   QueryBuilder<Grocery, Grocery, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -786,6 +774,18 @@ extension GroceryQuerySortBy on QueryBuilder<Grocery, Grocery, QSortBy> {
   QueryBuilder<Grocery, Grocery, QAfterSortBy> sortByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Grocery, Grocery, QAfterSortBy> sortByOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'order', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Grocery, Grocery, QAfterSortBy> sortByOrderDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'order', Sort.desc);
     });
   }
 
@@ -828,18 +828,6 @@ extension GroceryQuerySortThenBy
     });
   }
 
-  QueryBuilder<Grocery, Grocery, QAfterSortBy> thenByIndex() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'index', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Grocery, Grocery, QAfterSortBy> thenByIndexDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'index', Sort.desc);
-    });
-  }
-
   QueryBuilder<Grocery, Grocery, QAfterSortBy> thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -849,6 +837,18 @@ extension GroceryQuerySortThenBy
   QueryBuilder<Grocery, Grocery, QAfterSortBy> thenByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Grocery, Grocery, QAfterSortBy> thenByOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'order', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Grocery, Grocery, QAfterSortBy> thenByOrderDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'order', Sort.desc);
     });
   }
 
@@ -873,16 +873,16 @@ extension GroceryQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Grocery, Grocery, QDistinct> distinctByIndex() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'index');
-    });
-  }
-
   QueryBuilder<Grocery, Grocery, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Grocery, Grocery, QDistinct> distinctByOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'order');
     });
   }
 
@@ -907,15 +907,15 @@ extension GroceryQueryProperty
     });
   }
 
-  QueryBuilder<Grocery, int, QQueryOperations> indexProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'index');
-    });
-  }
-
   QueryBuilder<Grocery, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
+    });
+  }
+
+  QueryBuilder<Grocery, int, QQueryOperations> orderProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'order');
     });
   }
 
