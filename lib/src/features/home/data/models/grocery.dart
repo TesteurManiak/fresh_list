@@ -11,7 +11,6 @@ class Grocery with GroceryMappable {
   Grocery({
     required this.order,
     required this.name,
-    required this.createdAt,
     this.quantity,
   });
 
@@ -21,5 +20,4 @@ class Grocery with GroceryMappable {
   final int order;
   final String name;
   final double? quantity;
-  final DateTime createdAt;
 }

@@ -1,5 +1,4 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:todo_list/src/core/clock.dart';
 import 'package:todo_list/src/features/home/data/models/grocery.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
 
@@ -23,25 +22,32 @@ class GroceryListController extends _$GroceryListController {
     return initialGroceries;
   }
 
-  void create({required String name, double? quantity}) {
+  void createGrocery(Grocery grocery) {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
-    final clock = ref.read(appClockProvider);
-
-    final grocery = Grocery(
-      order: elements.length,
-      name: name,
-      createdAt: clock.now(),
-    );
-
-    final newList = List.of(elements)..add(grocery);
+    final newElement = grocery.copyWith(order: elements.length);
+    final newList = List.of(elements)..add(newElement);
 
     state = AsyncData(newList);
-    ref.read(homeLocalDatasourceProvider).addGrocery(grocery);
+    ref.read(homeLocalDatasourceProvider).addGrocery(newElement);
   }
 
-  Future<void> delete(Grocery grocery) async {
+  void updateGrocery(Grocery grocery) {
+    final elements = state.valueOrNull;
+    if (elements == null) return;
+
+    final newList = List.of(elements);
+    final index = newList.indexWhere((e) => e.order == grocery.order);
+    if (index == -1) return;
+
+    newList[index] = grocery;
+
+    state = AsyncData(newList);
+    ref.read(homeLocalDatasourceProvider).updateGroceries(newList);
+  }
+
+  Future<void> deleteGrocery(Grocery grocery) async {
     final elements = state.valueOrNull;
     if (elements == null) return;
 

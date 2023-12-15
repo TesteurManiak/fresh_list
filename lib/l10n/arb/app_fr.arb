@@ -2,5 +2,7 @@
     "@@locale": "fr",
     "generic_error": "Une erreur s'est produite. Veuillez réessayer plus tard.",
     "empty_grocery_list": "Votre liste est vide. Ajoutez des articles en appuyant sur le bouton + ci-dessus.",
-    "settings_title": "Paramètres"
+    "settings_title": "Paramètres",
+    "quick_action_edit": "Modifier",
+    "quick_action_delete": "Supprimer"
 }

@@ -17,23 +17,18 @@ const GrocerySchema = CollectionSchema(
   name: r'Groceries',
   id: 915670894466760838,
   properties: {
-    r'createdAt': PropertySchema(
-      id: 0,
-      name: r'createdAt',
-      type: IsarType.dateTime,
-    ),
     r'name': PropertySchema(
-      id: 1,
+      id: 0,
       name: r'name',
       type: IsarType.string,
     ),
     r'order': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'order',
       type: IsarType.long,
     ),
     r'quantity': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'quantity',
       type: IsarType.double,
     )
@@ -82,10 +77,9 @@ void _grocerySerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.createdAt);
-  writer.writeString(offsets[1], object.name);
-  writer.writeLong(offsets[2], object.order);
-  writer.writeDouble(offsets[3], object.quantity);
+  writer.writeString(offsets[0], object.name);
+  writer.writeLong(offsets[1], object.order);
+  writer.writeDouble(offsets[2], object.quantity);
 }
 
 Grocery _groceryDeserialize(
@@ -95,10 +89,9 @@ Grocery _groceryDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Grocery(
-    createdAt: reader.readDateTime(offsets[0]),
-    name: reader.readString(offsets[1]),
-    order: reader.readLong(offsets[2]),
-    quantity: reader.readDoubleOrNull(offsets[3]),
+    name: reader.readString(offsets[0]),
+    order: reader.readLong(offsets[1]),
+    quantity: reader.readDoubleOrNull(offsets[2]),
   );
   object.id = id;
   return object;
@@ -112,12 +105,10 @@ P _groceryDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTime(offset)) as P;
-    case 1:
       return (reader.readString(offset)) as P;
-    case 2:
+    case 1:
       return (reader.readLong(offset)) as P;
-    case 3:
+    case 2:
       return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -363,59 +354,6 @@ extension GroceryQueryWhere on QueryBuilder<Grocery, Grocery, QWhereClause> {
 
 extension GroceryQueryFilter
     on QueryBuilder<Grocery, Grocery, QFilterCondition> {
-  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> createdAtEqualTo(
-      DateTime value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'createdAt',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> createdAtGreaterThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'createdAt',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> createdAtLessThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'createdAt',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> createdAtBetween(
-    DateTime lower,
-    DateTime upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'createdAt',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
   QueryBuilder<Grocery, Grocery, QAfterFilterCondition> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -753,18 +691,6 @@ extension GroceryQueryLinks
     on QueryBuilder<Grocery, Grocery, QFilterCondition> {}
 
 extension GroceryQuerySortBy on QueryBuilder<Grocery, Grocery, QSortBy> {
-  QueryBuilder<Grocery, Grocery, QAfterSortBy> sortByCreatedAt() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Grocery, Grocery, QAfterSortBy> sortByCreatedAtDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.desc);
-    });
-  }
-
   QueryBuilder<Grocery, Grocery, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -804,18 +730,6 @@ extension GroceryQuerySortBy on QueryBuilder<Grocery, Grocery, QSortBy> {
 
 extension GroceryQuerySortThenBy
     on QueryBuilder<Grocery, Grocery, QSortThenBy> {
-  QueryBuilder<Grocery, Grocery, QAfterSortBy> thenByCreatedAt() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Grocery, Grocery, QAfterSortBy> thenByCreatedAtDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.desc);
-    });
-  }
-
   QueryBuilder<Grocery, Grocery, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -867,12 +781,6 @@ extension GroceryQuerySortThenBy
 
 extension GroceryQueryWhereDistinct
     on QueryBuilder<Grocery, Grocery, QDistinct> {
-  QueryBuilder<Grocery, Grocery, QDistinct> distinctByCreatedAt() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'createdAt');
-    });
-  }
-
   QueryBuilder<Grocery, Grocery, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -898,12 +806,6 @@ extension GroceryQueryProperty
   QueryBuilder<Grocery, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
-    });
-  }
-
-  QueryBuilder<Grocery, DateTime, QQueryOperations> createdAtProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'createdAt');
     });
   }
 

@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_list/gen/app_localizations.dart';
 import 'package:todo_list/src/core/consts.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
+import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/widgets/separated_row.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/data/models/grocery.dart';
-import 'package:todo_list/src/features/home/widgets/add_grocery_bottom_sheet.dart';
+import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
@@ -20,9 +22,11 @@ class HomeView extends ConsumerWidget {
       appBar: AppBar(title: const Text(Consts.appName)),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final name = await const AddGroceryBottomSheet().show(context);
-          if (name != null) {
-            ref.read(groceryListControllerProvider.notifier).create(name: name);
+          final grocery = await const EditGroceryBottomSheet().show(context);
+          if (grocery != null) {
+            ref
+                .read(groceryListControllerProvider.notifier)
+                .createGrocery(grocery);
           }
         },
         child: const Icon(Icons.add),
@@ -61,16 +65,17 @@ class _GroceryTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final quantity = grocery.quantity;
     final theme = Theme.of(context);
+    final strings = context.strings;
     final colorScheme = theme.colorScheme;
 
     return Dismissible(
       key: ObjectKey(grocery),
       direction: DismissDirection.endToStart,
       onDismissed: (_) {
-        ref.read(groceryListControllerProvider.notifier).delete(grocery);
+        ref.read(groceryListControllerProvider.notifier).deleteGrocery(grocery);
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 4),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -86,8 +91,15 @@ class _GroceryTile extends ConsumerWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () {
-              // TODO(Guillaume): shortcut to edit grocery
+            onTap: () async {
+              final newGrocery =
+                  await EditGroceryBottomSheet(initialValue: grocery)
+                      .show(context);
+              if (newGrocery == null || newGrocery == grocery) return;
+
+              ref
+                  .read(groceryListControllerProvider.notifier)
+                  .updateGrocery(newGrocery);
             },
             child: Padding(
               padding: const EdgeInsets.only(
@@ -109,10 +121,17 @@ class _GroceryTile extends ConsumerWidget {
                     ),
                   ),
                   // More button
-                  IconButton(
-                    icon: const Icon(Icons.more_vert),
-                    onPressed: () {
-                      // TODO(Guillaume): show more options (edit, delete, etc.)
+                  PopupMenuButton<_GroceryTileAction>(
+                    onSelected: (action) {
+                      // TODO(Guillaume): handle action
+                    },
+                    itemBuilder: (context) {
+                      return [
+                        for (final e in _GroceryTileAction.values)
+                          PopupMenuItem<_GroceryTileAction>(
+                            child: Text(e.label(strings)),
+                          ),
+                      ];
                     },
                   ),
                 ],
@@ -142,5 +161,22 @@ class _CenteredText extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+enum _GroceryTileAction {
+  edit(editLabel),
+  delete(deleteLabel);
+
+  const _GroceryTileAction(this.label);
+
+  final LocalizedString label;
+
+  static String editLabel(AppLocalizations strings) {
+    return strings.quick_action_edit;
+  }
+
+  static String deleteLabel(AppLocalizations strings) {
+    return strings.quick_action_delete;
   }
 }

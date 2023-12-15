@@ -21,6 +21,13 @@ class HomeLocalDataSource {
     yield* query.watch(fireImmediately: true);
   }
 
+  Future<void> updateGrocery(Grocery grocery) async {
+    final isar = await ref.read(isarDbProvider.future);
+    await isar.writeTxn(() async {
+      await isar.groceries.putByOrder(grocery);
+    });
+  }
+
   Future<void> updateGroceries(List<Grocery> groceries) async {
     final isar = await ref.read(isarDbProvider.future);
     await isar.writeTxn(() async {

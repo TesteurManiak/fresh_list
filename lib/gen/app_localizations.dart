@@ -108,6 +108,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Paramètres'**
   String get settings_title;
+
+  /// No description provided for @quick_action_edit.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier'**
+  String get quick_action_edit;
+
+  /// No description provided for @quick_action_delete.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer'**
+  String get quick_action_delete;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

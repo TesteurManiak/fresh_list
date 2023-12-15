@@ -12,4 +12,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settings_title => 'Paramètres';
+
+  @override
+  String get quick_action_edit => 'Modifier';
+
+  @override
+  String get quick_action_delete => 'Supprimer';
 }

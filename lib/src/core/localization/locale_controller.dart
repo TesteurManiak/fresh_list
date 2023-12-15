@@ -6,6 +6,8 @@ import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
 
 part 'locale_controller.g.dart';
 
+typedef LocalizedString = String Function(AppLocalizations strings);
+
 @Riverpod(keepAlive: true)
 Locale fallbackLocale(FallbackLocaleRef ref) {
   return AppLocalizations.supportedLocales.first;
