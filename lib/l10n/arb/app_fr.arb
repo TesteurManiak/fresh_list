@@ -1,4 +1,5 @@
 {
     "@@locale": "fr",
+    "generic_error": "Une erreur s'est produite. Veuillez réessayer plus tard.",
     "settings_title": "Paramètres"
 }

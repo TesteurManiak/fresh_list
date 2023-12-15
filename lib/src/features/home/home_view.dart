@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/src/core/consts.dart';
+import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/data/models/grocery.dart';
 import 'package:todo_list/src/features/home/widgets/add_grocery_bottom_sheet.dart';
@@ -12,6 +13,7 @@ class HomeView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final groceriesValue = ref.watch(groceryListControllerProvider);
+    final strings = context.strings;
 
     return Scaffold(
       appBar: AppBar(title: const Text(Consts.appName)),
@@ -27,9 +29,7 @@ class HomeView extends ConsumerWidget {
       body: groceriesValue.when(
         data: (data) {
           return ReorderableListView.builder(
-            itemBuilder: (_, index) {
-              return _GroceryTile(data[index], key: ValueKey(index));
-            },
+            itemBuilder: (_, i) => _GroceryTile(data[i], key: ValueKey(i)),
             itemCount: data.length,
             onReorder: (oldIndex, newIndex) {
               ref.read(groceryListControllerProvider.notifier).reorder(
@@ -39,10 +39,7 @@ class HomeView extends ConsumerWidget {
             },
           );
         },
-        error: (_, __) {
-          // TODO(Guillaume): Localize message
-          return const Center(child: Text('Error'));
-        },
+        error: (_, __) => Center(child: Text(strings.generic_error)),
         loading: () => const Center(child: CupertinoActivityIndicator()),
       ),
     );

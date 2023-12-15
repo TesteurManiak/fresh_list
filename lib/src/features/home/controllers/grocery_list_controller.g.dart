@@ -23,7 +23,7 @@ final watchGroceriesProvider =
 
 typedef WatchGroceriesRef = AutoDisposeStreamProviderRef<List<Grocery>>;
 String _$groceryListControllerHash() =>
-    r'68122cf8784b34514713d43ab74e21cfd378355e';
+    r'924882bab016ba0344b2a3a3f2c97533372a4469';
 
 /// See also [GroceryListController].
 @ProviderFor(GroceryListController)

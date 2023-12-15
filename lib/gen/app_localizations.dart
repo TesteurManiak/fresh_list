@@ -91,6 +91,12 @@ abstract class AppLocalizations {
     Locale('fr')
   ];
 
+  /// No description provided for @generic_error.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une erreur s\'est produite. Veuillez réessayer plus tard.'**
+  String get generic_error;
+
   /// No description provided for @settings_title.
   ///
   /// In fr, this message translates to:
