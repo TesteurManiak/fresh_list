@@ -97,6 +97,12 @@ abstract class AppLocalizations {
   /// **'Une erreur s\'est produite. Veuillez réessayer plus tard.'**
   String get generic_error;
 
+  /// No description provided for @empty_grocery_list.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre liste est vide. Ajoutez des articles en appuyant sur le bouton + ci-dessus.'**
+  String get empty_grocery_list;
+
   /// No description provided for @settings_title.
   ///
   /// In fr, this message translates to:

@@ -28,7 +28,12 @@ class HomeView extends ConsumerWidget {
       ),
       body: groceriesValue.when(
         data: (data) {
+          if (data.isEmpty) {
+            return _CenteredText(strings.empty_grocery_list);
+          }
+
           return ReorderableListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             itemBuilder: (_, i) => _GroceryTile(data[i], key: ValueKey(i)),
             itemCount: data.length,
             onReorder: (oldIndex, newIndex) {
@@ -39,7 +44,7 @@ class HomeView extends ConsumerWidget {
             },
           );
         },
-        error: (_, __) => Center(child: Text(strings.generic_error)),
+        error: (_, __) => _CenteredText(strings.generic_error),
         loading: () => const Center(child: CupertinoActivityIndicator()),
       ),
     );
@@ -54,22 +59,67 @@ class _GroceryTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final quantity = grocery.quantity;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Dismissible(
       key: ObjectKey(grocery),
       direction: DismissDirection.endToStart,
-      background: Container(
-        color: Colors.red,
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 16),
-        child: const Icon(Icons.delete, color: Colors.white),
-      ),
       onDismissed: (_) {
         ref.read(groceryListControllerProvider.notifier).delete(grocery);
       },
-      child: ListTile(
-        title: Text(grocery.name),
-        subtitle: Text(grocery.createdAt.toString()),
-        trailing: quantity != null ? Text('$quantity') : null,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: colorScheme.surface,
+          boxShadow: [
+            BoxShadow(
+              color: colorScheme.onSurface.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              // TODO(Guillaume): edit grocery
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(grocery.name),
+                  if (quantity != null) Text('$quantity'),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CenteredText extends StatelessWidget {
+  const _CenteredText(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          text,
+          style: Theme.of(context).textTheme.titleLarge,
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

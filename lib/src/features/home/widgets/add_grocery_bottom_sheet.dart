@@ -17,7 +17,7 @@ class AddGroceryBottomSheet extends StatelessWidget
             decoration: const InputDecoration(
               hintText: 'Name',
             ),
-            onSubmitted: (value) => context.pop(value),
+            onSubmitted: (value) => context.pop(value.trim()),
           ),
         ],
       ),

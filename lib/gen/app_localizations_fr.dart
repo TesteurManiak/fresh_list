@@ -8,5 +8,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get generic_error => 'Une erreur s\'est produite. Veuillez réessayer plus tard.';
 
   @override
+  String get empty_grocery_list => 'Votre liste est vide. Ajoutez des articles en appuyant sur le bouton + ci-dessus.';
+
+  @override
   String get settings_title => 'Paramètres';
 }
