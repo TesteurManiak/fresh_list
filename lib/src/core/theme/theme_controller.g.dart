@@ -6,11 +6,11 @@ part of 'theme_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$defaultThemeModeHash() => r'266a2a0779b5bbeedd555e2ae70d9dcacc70bf83';
+String _$defaultThemeModeHash() => r'385d218e2016e96468ed29baba17066367d66853';
 
 /// See also [defaultThemeMode].
 @ProviderFor(defaultThemeMode)
-final defaultThemeModeProvider = Provider<ThemeMode>.internal(
+final defaultThemeModeProvider = AutoDisposeProvider<ThemeMode>.internal(
   defaultThemeMode,
   name: r'defaultThemeModeProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,12 +20,12 @@ final defaultThemeModeProvider = Provider<ThemeMode>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef DefaultThemeModeRef = ProviderRef<ThemeMode>;
-String _$lightThemeHash() => r'8575e2483263b13545511fd244b3b4eaa3dfa203';
+typedef DefaultThemeModeRef = AutoDisposeProviderRef<ThemeMode>;
+String _$lightThemeHash() => r'7ac4cc0518f9ab4ef609ebca51fa838f0e162d95';
 
 /// See also [lightTheme].
 @ProviderFor(lightTheme)
-final lightThemeProvider = Provider<ThemeData>.internal(
+final lightThemeProvider = AutoDisposeProvider<ThemeData>.internal(
   lightTheme,
   name: r'lightThemeProvider',
   debugGetCreateSourceHash:
@@ -34,12 +34,12 @@ final lightThemeProvider = Provider<ThemeData>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef LightThemeRef = ProviderRef<ThemeData>;
-String _$darkThemeHash() => r'bbe5d8a2603221176ca659cfdc7cce29f5ecb1ba';
+typedef LightThemeRef = AutoDisposeProviderRef<ThemeData>;
+String _$darkThemeHash() => r'a4c3f7a694df58a579a2441cb6a2a7e7027e704f';
 
 /// See also [darkTheme].
 @ProviderFor(darkTheme)
-final darkThemeProvider = Provider<ThemeData>.internal(
+final darkThemeProvider = AutoDisposeProvider<ThemeData>.internal(
   darkTheme,
   name: r'darkThemeProvider',
   debugGetCreateSourceHash:
@@ -48,7 +48,7 @@ final darkThemeProvider = Provider<ThemeData>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef DarkThemeRef = ProviderRef<ThemeData>;
+typedef DarkThemeRef = AutoDisposeProviderRef<ThemeData>;
 String _$platformBrightnessHash() =>
     r'd216448d440fab4a6896f853ce1af0c9f7918b34';
 

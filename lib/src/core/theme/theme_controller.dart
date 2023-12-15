@@ -7,13 +7,13 @@ import 'package:todo_list/src/design_system/theme_data/theme.dart';
 
 part 'theme_controller.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 ThemeMode defaultThemeMode(DefaultThemeModeRef ref) => ThemeMode.system;
 
-@Riverpod(keepAlive: true)
+@riverpod
 ThemeData lightTheme(LightThemeRef ref) => AppTheme.light();
 
-@Riverpod(keepAlive: true)
+@riverpod
 ThemeData darkTheme(DarkThemeRef ref) => AppTheme.dark();
 
 @riverpod

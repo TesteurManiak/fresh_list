@@ -1,16 +1,25 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:isar/isar.dart';
 
+part 'grocery.g.dart';
 part 'grocery.mapper.dart';
 
+@Collection(accessor: 'groceries')
+@Name('Groceries')
 @MappableClass()
 class Grocery with GroceryMappable {
-  const Grocery({
+  Grocery({
     required this.index,
     required this.name,
+    required this.createdAt,
     this.quantity,
   });
 
+  Id? id;
+
+  @Index(unique: true, replace: true)
   final int index;
   final String name;
   final double? quantity;
+  final DateTime createdAt;
 }

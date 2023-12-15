@@ -2,6 +2,8 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
+import 'package:todo_list/src/features/home/data/models/grocery.dart';
+import 'package:todo_list/src/features/home/data/models/recent_search.dart';
 
 part 'database.g.dart';
 
@@ -11,7 +13,10 @@ class IsarDb extends _$IsarDb {
   Future<Isar> build() async {
     final dir = await getApplicationDocumentsDirectory();
     final isar = await Isar.open(
-      [],
+      [
+        GrocerySchema,
+        RecentSearchSchema,
+      ],
       directory: dir.path,
     );
 
