@@ -65,7 +65,7 @@ final platformBrightnessProvider = AutoDisposeProvider<Brightness>.internal(
 );
 
 typedef PlatformBrightnessRef = AutoDisposeProviderRef<Brightness>;
-String _$themeControllerHash() => r'138fd68a74bf8a1830d7ff14fa9cb6c6674c0ca9';
+String _$themeControllerHash() => r'a75f9febe53856ffd4573a7df82b644423afc33a';
 
 /// See also [ThemeController].
 @ProviderFor(ThemeController)

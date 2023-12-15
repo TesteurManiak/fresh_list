@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:todo_list/design_system/theme_data/theme.dart';
 import 'package:todo_list/src/core/extensions/theme_mode_extensions.dart';
 import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
+import 'package:todo_list/src/design_system/theme_data/theme.dart';
 
 part 'theme_controller.g.dart';
 
@@ -23,7 +23,7 @@ Brightness platformBrightness(PlatformBrightnessRef ref) {
 
 @Riverpod(keepAlive: true)
 class ThemeController extends _$ThemeController {
-  static const themeKey = 'theme_mode';
+  static const themeKey = SharedPrefsKey.themeMode;
 
   @override
   ThemeMode build() {
@@ -36,7 +36,7 @@ class ThemeController extends _$ThemeController {
   /// (e.g: from the local storage).
   Future<void> init() async {
     final prefs = await ref.read(sharedPreferencesProvider.future);
-    final themeModeIndex = prefs.getInt(themeKey) ?? ThemeMode.system.index;
+    final themeModeIndex = prefs.getInt(themeKey.key) ?? ThemeMode.system.index;
 
     return setThemeMode(ThemeMode.values[themeModeIndex]);
   }
@@ -54,7 +54,7 @@ class ThemeController extends _$ThemeController {
     if (mode == state) return;
 
     final prefs = await ref.read(sharedPreferencesProvider.future);
-    await prefs.setInt(themeKey, mode.index);
+    await prefs.setInt(themeKey.key, mode.index);
 
     state = mode;
   }
