@@ -113,7 +113,6 @@ class _GroceryTile extends ConsumerWidget {
 
     return Dismissible(
       key: ObjectKey(grocery),
-      direction: DismissDirection.endToStart,
       onDismissed: (_) {
         ref.read(groceryListControllerProvider.notifier).deleteGrocery(grocery);
       },
@@ -134,16 +133,7 @@ class _GroceryTile extends ConsumerWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () async {
-              final newGrocery =
-                  await EditGroceryBottomSheet(initialValue: grocery)
-                      .show(context);
-              if (newGrocery == null || newGrocery == grocery) return;
-
-              ref
-                  .read(groceryListControllerProvider.notifier)
-                  .updateGrocery(newGrocery);
-            },
+            onTap: () => showEditionBottomSheet(context, ref, grocery),
             child: Padding(
               padding: const EdgeInsets.only(
                 left: 16,
@@ -166,12 +156,19 @@ class _GroceryTile extends ConsumerWidget {
                   // More button
                   PopupMenuButton<_GroceryTileAction>(
                     onSelected: (action) {
-                      // TODO(Guillaume): handle action
+                      switch (action) {
+                        case _GroceryTileAction.edit:
+                          showEditionBottomSheet(context, ref, grocery);
+                        case _GroceryTileAction.delete:
+                          // TODO(Guillaume): handle action
+                          break;
+                      }
                     },
                     itemBuilder: (context) {
                       return [
                         for (final e in _GroceryTileAction.values)
                           PopupMenuItem<_GroceryTileAction>(
+                            value: e,
                             child: Text(e.label(strings)),
                           ),
                       ];
@@ -184,6 +181,18 @@ class _GroceryTile extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> showEditionBottomSheet(
+    BuildContext context,
+    WidgetRef ref,
+    Grocery initialValue,
+  ) async {
+    final grocery =
+        await EditGroceryBottomSheet(initialValue: initialValue).show(context);
+    if (grocery == null || grocery == this.grocery) return;
+
+    ref.read(groceryListControllerProvider.notifier).updateGrocery(grocery);
   }
 }
 
