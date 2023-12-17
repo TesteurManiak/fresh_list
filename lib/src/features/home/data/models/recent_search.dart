@@ -15,6 +15,7 @@ class RecentSearch with RecentSearchMappable {
 
   Id? id;
 
+  @Index(unique: true, replace: true)
   final String query;
 
   @Index()

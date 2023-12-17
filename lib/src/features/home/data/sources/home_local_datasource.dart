@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_list/src/core/database/database.dart';
 import 'package:todo_list/src/features/home/data/models/grocery.dart';
+import 'package:todo_list/src/features/home/data/models/recent_search.dart';
 
 part 'home_local_datasource.g.dart';
 
@@ -19,6 +20,17 @@ class HomeLocalDataSource {
     final isar = await ref.read(isarDbProvider.future);
     final query = isar.groceries.where().sortByOrder().build();
     yield* query.watch(fireImmediately: true);
+  }
+
+  Stream<List<RecentSearch>> watchRecentSearches(String value) async* {
+    final isar = await ref.read(isarDbProvider.future);
+    final query = isar.recentSearches
+        .where()
+        .filter()
+        .queryStartsWith(value, caseSensitive: false)
+        .sortByTimestampDesc()
+        .build();
+    yield* query.watch(fireImmediately: true).take(4);
   }
 
   Future<void> updateGrocery(Grocery grocery) async {

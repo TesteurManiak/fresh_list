@@ -34,6 +34,19 @@ const RecentSearchSchema = CollectionSchema(
   deserializeProp: _recentSearchDeserializeProp,
   idName: r'id',
   indexes: {
+    r'query': IndexSchema(
+      id: -3238105102146786367,
+      name: r'query',
+      unique: true,
+      replace: true,
+      properties: [
+        IndexPropertySchema(
+          name: r'query',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    ),
     r'timestamp': IndexSchema(
       id: 1852253767416892198,
       name: r'timestamp',
@@ -119,6 +132,61 @@ void _recentSearchAttach(
   object.id = id;
 }
 
+extension RecentSearchByIndex on IsarCollection<RecentSearch> {
+  Future<RecentSearch?> getByQuery(String query) {
+    return getByIndex(r'query', [query]);
+  }
+
+  RecentSearch? getByQuerySync(String query) {
+    return getByIndexSync(r'query', [query]);
+  }
+
+  Future<bool> deleteByQuery(String query) {
+    return deleteByIndex(r'query', [query]);
+  }
+
+  bool deleteByQuerySync(String query) {
+    return deleteByIndexSync(r'query', [query]);
+  }
+
+  Future<List<RecentSearch?>> getAllByQuery(List<String> queryValues) {
+    final values = queryValues.map((e) => [e]).toList();
+    return getAllByIndex(r'query', values);
+  }
+
+  List<RecentSearch?> getAllByQuerySync(List<String> queryValues) {
+    final values = queryValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'query', values);
+  }
+
+  Future<int> deleteAllByQuery(List<String> queryValues) {
+    final values = queryValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'query', values);
+  }
+
+  int deleteAllByQuerySync(List<String> queryValues) {
+    final values = queryValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'query', values);
+  }
+
+  Future<Id> putByQuery(RecentSearch object) {
+    return putByIndex(r'query', object);
+  }
+
+  Id putByQuerySync(RecentSearch object, {bool saveLinks = true}) {
+    return putByIndexSync(r'query', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByQuery(List<RecentSearch> objects) {
+    return putAllByIndex(r'query', objects);
+  }
+
+  List<Id> putAllByQuerySync(List<RecentSearch> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'query', objects, saveLinks: saveLinks);
+  }
+}
+
 extension RecentSearchQueryWhereSort
     on QueryBuilder<RecentSearch, RecentSearch, QWhere> {
   QueryBuilder<RecentSearch, RecentSearch, QAfterWhere> anyId() {
@@ -202,6 +270,51 @@ extension RecentSearchQueryWhere
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<RecentSearch, RecentSearch, QAfterWhereClause> queryEqualTo(
+      String query) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'query',
+        value: [query],
+      ));
+    });
+  }
+
+  QueryBuilder<RecentSearch, RecentSearch, QAfterWhereClause> queryNotEqualTo(
+      String query) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'query',
+              lower: [],
+              upper: [query],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'query',
+              lower: [query],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'query',
+              lower: [query],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'query',
+              lower: [],
+              upper: [query],
+              includeUpper: false,
+            ));
+      }
     });
   }
 
