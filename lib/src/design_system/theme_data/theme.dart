@@ -14,6 +14,7 @@ class AppTheme {
       brightness: Brightness.light,
       appBarTheme: baseTheme.appBarTheme.copyWith(
         centerTitle: true,
+        surfaceTintColor: Colors.transparent,
       ),
       bottomSheetTheme: baseTheme.bottomSheetTheme.copyWith(
         clipBehavior: Clip.antiAlias,
@@ -34,6 +35,7 @@ class AppTheme {
       brightness: Brightness.dark,
       appBarTheme: baseTheme.appBarTheme.copyWith(
         centerTitle: true,
+        surfaceTintColor: Colors.transparent,
       ),
       bottomSheetTheme: baseTheme.bottomSheetTheme.copyWith(
         clipBehavior: Clip.antiAlias,

@@ -120,7 +120,8 @@ class _GroceryTile extends ConsumerWidget {
         margin: const EdgeInsets.symmetric(vertical: 4),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(width: 2),
           color: colorScheme.surface,
           boxShadow: [
             BoxShadow(
@@ -160,8 +161,9 @@ class _GroceryTile extends ConsumerWidget {
                         case _GroceryTileAction.edit:
                           showEditionBottomSheet(context, ref, grocery);
                         case _GroceryTileAction.delete:
-                          // TODO(Guillaume): handle action
-                          break;
+                          ref
+                              .read(groceryListControllerProvider.notifier)
+                              .deleteGrocery(grocery);
                       }
                     },
                     itemBuilder: (context) {
