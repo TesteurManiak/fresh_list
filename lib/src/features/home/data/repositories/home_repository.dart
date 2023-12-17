@@ -20,5 +20,11 @@ class HomeRepository {
 
   Future<void> addGrocery(Grocery grocery) async {
     await ref.read(homeLocalDatasourceProvider).addGrocery(grocery);
+    // TODO(Guillaume): save grocery name in recent searches
+  }
+
+  Future<void> updateGrocery(Grocery grocery) async {
+    await ref.read(homeLocalDatasourceProvider).updateGrocery(grocery);
+    // TODO(Guillaume): save grocery name in recent searches
   }
 }

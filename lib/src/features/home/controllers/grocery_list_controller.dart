@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_list/src/features/home/data/models/grocery.dart';
+import 'package:todo_list/src/features/home/data/repositories/home_repository.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
 
 part 'grocery_list_controller.g.dart';
@@ -27,14 +28,14 @@ class GroceryListController extends _$GroceryListController {
     if (elements == null) return;
 
     final newElement = grocery.copyWith(order: elements.length);
-    await ref.read(homeLocalDatasourceProvider).addGrocery(newElement);
+    await ref.read(homeRepositoryProvider).addGrocery(newElement);
   }
 
   void updateGrocery(Grocery grocery) {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
-    ref.read(homeLocalDatasourceProvider).updateGrocery(grocery);
+    ref.read(homeRepositoryProvider).updateGrocery(grocery);
   }
 
   Future<void> deleteGrocery(Grocery grocery) async {
@@ -69,6 +70,6 @@ class GroceryListController extends _$GroceryListController {
     }
 
     state = AsyncData(newList);
-    ref.read(homeLocalDatasourceProvider).updateGroceries(newList);
+    ref.read(homeRepositoryProvider).updateGroceries(newList);
   }
 }
