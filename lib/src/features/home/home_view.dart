@@ -44,6 +44,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 .read(groceryListControllerProvider.notifier)
                 .createGrocery(grocery);
 
+            if (!scrollController.hasClients) return;
             unawaited(
               scrollController.animateTo(
                 scrollController.position.maxScrollExtent,
