@@ -72,7 +72,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
             scrollController: scrollController,
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 40),
             proxyDecorator: proxyDecorator,
-            itemBuilder: (_, i) => GroceryTile(data[i], key: ValueKey(i)),
+            itemBuilder: (_, i) {
+              return GroceryTile(data[i], key: Key('Reorderable-$i'));
+            },
             itemCount: data.length,
             onReorder: (oldIndex, newIndex) {
               ref.read(groceryListControllerProvider.notifier).reorder(

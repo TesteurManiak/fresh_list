@@ -19,7 +19,9 @@ class GroceryTile extends ConsumerWidget {
     final colorScheme = theme.colorScheme;
 
     return Dismissible(
-      key: ObjectKey(grocery),
+      key: Key('Dismissible-${grocery.order}'),
+      dismissThresholds: const {DismissDirection.startToEnd: 0.2},
+      movementDuration: const Duration(milliseconds: 300),
       confirmDismiss: (direction) {
         if (direction == DismissDirection.endToStart) {
           return Future.value(true);
