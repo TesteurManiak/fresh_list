@@ -22,6 +22,9 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.transparent,
       ),
+      checkboxTheme: baseTheme.checkboxTheme.copyWith(
+        shape: const CircleBorder(),
+      ),
       floatingActionButtonTheme: baseTheme.floatingActionButtonTheme.copyWith(
         backgroundColor: colors.secondary,
         foregroundColor: colors.onSecondary,
@@ -35,6 +38,7 @@ class AppTheme {
     );
   }
 
+  // TODO(Guillaume): #2 - Implement dark theme
   static ThemeData dark() {
     final baseTheme = ThemeData.dark();
 
