@@ -24,13 +24,13 @@ class GroceryListController extends _$GroceryListController {
     return initialGroceries;
   }
 
-  void createGrocery(Grocery grocery) {
+  Future<void> createGrocery(Grocery grocery) async {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
     final newElement = grocery.copyWith(order: elements.length);
     state = AsyncData([...elements, newElement]);
-    ref.read(homeRepositoryProvider).addGrocery(newElement);
+    await ref.read(homeRepositoryProvider).addGrocery(newElement);
   }
 
   void updateGrocery(Grocery grocery) {
