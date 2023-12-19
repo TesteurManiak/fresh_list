@@ -24,6 +24,9 @@ class GroceryMapper extends ClassMapperBase<Grocery> {
   static const Field<Grocery, int> _f$order = Field('order', _$order);
   static String _$name(Grocery v) => v.name;
   static const Field<Grocery, String> _f$name = Field('name', _$name);
+  static bool _$completed(Grocery v) => v.completed;
+  static const Field<Grocery, bool> _f$completed =
+      Field('completed', _$completed);
   static double? _$quantity(Grocery v) => v.quantity;
   static const Field<Grocery, double> _f$quantity =
       Field('quantity', _$quantity, opt: true);
@@ -35,6 +38,7 @@ class GroceryMapper extends ClassMapperBase<Grocery> {
   final Map<Symbol, Field<Grocery, dynamic>> fields = const {
     #order: _f$order,
     #name: _f$name,
+    #completed: _f$completed,
     #quantity: _f$quantity,
     #id: _f$id,
   };
@@ -43,6 +47,7 @@ class GroceryMapper extends ClassMapperBase<Grocery> {
     return Grocery(
         order: data.dec(_f$order),
         name: data.dec(_f$name),
+        completed: data.dec(_f$completed),
         quantity: data.dec(_f$quantity));
   }
 
@@ -97,7 +102,7 @@ extension GroceryValueCopy<$R, $Out> on ObjectCopyWith<$R, Grocery, $Out> {
 
 abstract class GroceryCopyWith<$R, $In extends Grocery, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({int? order, String? name, double? quantity});
+  $R call({int? order, String? name, bool? completed, double? quantity});
   GroceryCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -110,16 +115,22 @@ class _GroceryCopyWithImpl<$R, $Out>
   late final ClassMapperBase<Grocery> $mapper =
       GroceryMapper.ensureInitialized();
   @override
-  $R call({int? order, String? name, Object? quantity = $none}) =>
+  $R call(
+          {int? order,
+          String? name,
+          bool? completed,
+          Object? quantity = $none}) =>
       $apply(FieldCopyWithData({
         if (order != null) #order: order,
         if (name != null) #name: name,
+        if (completed != null) #completed: completed,
         if (quantity != $none) #quantity: quantity
       }));
   @override
   Grocery $make(CopyWithData data) => Grocery(
       order: data.get(#order, or: $value.order),
       name: data.get(#name, or: $value.name),
+      completed: data.get(#completed, or: $value.completed),
       quantity: data.get(#quantity, or: $value.quantity));
 
   @override

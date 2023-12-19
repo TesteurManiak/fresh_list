@@ -20,8 +20,20 @@ class GroceryTile extends ConsumerWidget {
 
     return Dismissible(
       key: ObjectKey(grocery),
-      onDismissed: (_) {
-        ref.read(groceryListControllerProvider.notifier).deleteGrocery(grocery);
+      confirmDismiss: (direction) {
+        if (direction == DismissDirection.endToStart) {
+          return Future.value(true);
+        } else if (direction == DismissDirection.startToEnd) {
+          ref.read(groceryListControllerProvider.notifier).toggle(grocery);
+        }
+        return Future.value(false);
+      },
+      onDismissed: (direction) {
+        if (direction == DismissDirection.endToStart) {
+          ref
+              .read(groceryListControllerProvider.notifier)
+              .deleteGrocery(grocery);
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
@@ -45,6 +57,14 @@ class GroceryTile extends ConsumerWidget {
               padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
+                  Checkbox(
+                    value: grocery.completed,
+                    onChanged: (_) {
+                      ref
+                          .read(groceryListControllerProvider.notifier)
+                          .toggle(grocery);
+                    },
+                  ),
                   Expanded(child: Text(grocery.name)),
                   if (quantity != null)
                     Flexible(child: Text('$quantity', maxLines: 1)),

@@ -24,12 +24,13 @@ class GroceryListController extends _$GroceryListController {
     return initialGroceries;
   }
 
-  Future<void> createGrocery(Grocery grocery) async {
+  void createGrocery(Grocery grocery) {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
     final newElement = grocery.copyWith(order: elements.length);
-    await ref.read(homeRepositoryProvider).addGrocery(newElement);
+    state = AsyncData([...elements, newElement]);
+    ref.read(homeRepositoryProvider).addGrocery(newElement);
   }
 
   void updateGrocery(Grocery grocery) {
@@ -39,7 +40,7 @@ class GroceryListController extends _$GroceryListController {
     ref.read(homeRepositoryProvider).updateGrocery(grocery);
   }
 
-  Future<void> deleteGrocery(Grocery grocery) async {
+  void deleteGrocery(Grocery grocery) {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
@@ -50,7 +51,7 @@ class GroceryListController extends _$GroceryListController {
     }
 
     state = AsyncData(newList);
-    await ref.read(homeLocalDatasourceProvider).replaceGroceries(newList);
+    ref.read(homeLocalDatasourceProvider).replaceGroceries(newList);
   }
 
   void reorder(int oldIndex, int newIndex) {
@@ -83,5 +84,18 @@ class GroceryListController extends _$GroceryListController {
       shareBuffer.writeln('- ${grocery.name}');
     }
     await Share.share(shareBuffer.toString());
+  }
+
+  void toggle(Grocery grocery) {
+    final elements = state.valueOrNull;
+    if (elements == null) return;
+
+    final newList = List.of(elements);
+    final index = newList.indexOf(grocery);
+    final newValue = grocery.copyWith(completed: !grocery.completed);
+    newList[index] = newValue;
+
+    state = AsyncData(newList);
+    ref.read(homeRepositoryProvider).updateGrocery(newValue);
   }
 }

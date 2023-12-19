@@ -11,6 +11,7 @@ class Grocery with GroceryMappable {
   Grocery({
     required this.order,
     required this.name,
+    required this.completed,
     this.quantity,
   });
 
@@ -19,5 +20,6 @@ class Grocery with GroceryMappable {
   @Index(unique: true, replace: true)
   final int order;
   final String name;
+  final bool completed;
   final double? quantity;
 }

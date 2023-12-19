@@ -17,18 +17,23 @@ const GrocerySchema = CollectionSchema(
   name: r'Groceries',
   id: 915670894466760838,
   properties: {
-    r'name': PropertySchema(
+    r'completed': PropertySchema(
       id: 0,
+      name: r'completed',
+      type: IsarType.bool,
+    ),
+    r'name': PropertySchema(
+      id: 1,
       name: r'name',
       type: IsarType.string,
     ),
     r'order': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'order',
       type: IsarType.long,
     ),
     r'quantity': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'quantity',
       type: IsarType.double,
     )
@@ -77,9 +82,10 @@ void _grocerySerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.name);
-  writer.writeLong(offsets[1], object.order);
-  writer.writeDouble(offsets[2], object.quantity);
+  writer.writeBool(offsets[0], object.completed);
+  writer.writeString(offsets[1], object.name);
+  writer.writeLong(offsets[2], object.order);
+  writer.writeDouble(offsets[3], object.quantity);
 }
 
 Grocery _groceryDeserialize(
@@ -89,9 +95,10 @@ Grocery _groceryDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Grocery(
-    name: reader.readString(offsets[0]),
-    order: reader.readLong(offsets[1]),
-    quantity: reader.readDoubleOrNull(offsets[2]),
+    completed: reader.readBool(offsets[0]),
+    name: reader.readString(offsets[1]),
+    order: reader.readLong(offsets[2]),
+    quantity: reader.readDoubleOrNull(offsets[3]),
   );
   object.id = id;
   return object;
@@ -105,10 +112,12 @@ P _groceryDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 1:
-      return (reader.readLong(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 2:
+      return (reader.readLong(offset)) as P;
+    case 3:
       return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -354,6 +363,16 @@ extension GroceryQueryWhere on QueryBuilder<Grocery, Grocery, QWhereClause> {
 
 extension GroceryQueryFilter
     on QueryBuilder<Grocery, Grocery, QFilterCondition> {
+  QueryBuilder<Grocery, Grocery, QAfterFilterCondition> completedEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'completed',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<Grocery, Grocery, QAfterFilterCondition> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -691,6 +710,18 @@ extension GroceryQueryLinks
     on QueryBuilder<Grocery, Grocery, QFilterCondition> {}
 
 extension GroceryQuerySortBy on QueryBuilder<Grocery, Grocery, QSortBy> {
+  QueryBuilder<Grocery, Grocery, QAfterSortBy> sortByCompleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completed', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Grocery, Grocery, QAfterSortBy> sortByCompletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completed', Sort.desc);
+    });
+  }
+
   QueryBuilder<Grocery, Grocery, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -730,6 +761,18 @@ extension GroceryQuerySortBy on QueryBuilder<Grocery, Grocery, QSortBy> {
 
 extension GroceryQuerySortThenBy
     on QueryBuilder<Grocery, Grocery, QSortThenBy> {
+  QueryBuilder<Grocery, Grocery, QAfterSortBy> thenByCompleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completed', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Grocery, Grocery, QAfterSortBy> thenByCompletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completed', Sort.desc);
+    });
+  }
+
   QueryBuilder<Grocery, Grocery, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -781,6 +824,12 @@ extension GroceryQuerySortThenBy
 
 extension GroceryQueryWhereDistinct
     on QueryBuilder<Grocery, Grocery, QDistinct> {
+  QueryBuilder<Grocery, Grocery, QDistinct> distinctByCompleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'completed');
+    });
+  }
+
   QueryBuilder<Grocery, Grocery, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -806,6 +855,12 @@ extension GroceryQueryProperty
   QueryBuilder<Grocery, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<Grocery, bool, QQueryOperations> completedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'completed');
     });
   }
 
