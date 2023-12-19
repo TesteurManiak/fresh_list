@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/data/models/grocery.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
@@ -18,7 +17,6 @@ class GroceryTile extends ConsumerWidget {
     final quantity = grocery.quantity;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final strings = context.strings;
 
     return Dismissible(
       key: ObjectKey(grocery),
@@ -44,20 +42,9 @@ class GroceryTile extends ConsumerWidget {
           child: InkWell(
             onTap: () => showEditionBottomSheet(context, ref, grocery),
             child: Padding(
-              padding: const EdgeInsets.only(
-                top: 8,
-                bottom: 8,
-                right: 8,
-              ),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
-                  Checkbox(
-                    value: false,
-                    semanticLabel: strings.mark_as_bought,
-                    // TODO(Guillaume): Implement mark as bought
-                    onChanged: null,
-                    shape: const CircleBorder(),
-                  ),
                   Expanded(child: Text(grocery.name)),
                   if (quantity != null)
                     Flexible(child: Text('$quantity', maxLines: 1)),

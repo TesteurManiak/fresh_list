@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:todo_list/src/features/home/data/models/grocery.dart';
 import 'package:todo_list/src/features/home/data/repositories/home_repository.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
@@ -71,5 +72,16 @@ class GroceryListController extends _$GroceryListController {
 
     state = AsyncData(newList);
     ref.read(homeRepositoryProvider).updateGroceries(newList);
+  }
+
+  Future<void> shareList() async {
+    final groceries = state.valueOrNull;
+    if (groceries == null || groceries.isEmpty) return;
+
+    final shareBuffer = StringBuffer();
+    for (final grocery in groceries) {
+      shareBuffer.writeln('- ${grocery.name}');
+    }
+    await Share.share(shareBuffer.toString());
   }
 }

@@ -34,10 +34,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(Consts.appName),
-        leading: const IconButton(
-          icon: Icon(Icons.share),
-          // TODO(Guillaume): Implement share
-          onPressed: null,
+        leading: IconButton(
+          icon: const Icon(Icons.share),
+          onPressed: () {
+            ref.read(groceryListControllerProvider.notifier).shareList();
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
