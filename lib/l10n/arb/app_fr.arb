@@ -4,5 +4,7 @@
     "empty_grocery_list": "Votre liste est vide. Ajoutez des articles en appuyant sur le bouton + ci-dessus.",
     "settings_title": "Paramètres",
     "quick_action_edit": "Modifier",
-    "quick_action_delete": "Supprimer"
+    "quick_action_delete": "Supprimer",
+    "add_grocery": "Ajouter un article",
+    "mark_as_bought": "Marquer comme acheté"
 }

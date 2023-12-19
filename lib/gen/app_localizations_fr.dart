@@ -18,4 +18,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get quick_action_delete => 'Supprimer';
+
+  @override
+  String get add_grocery => 'Ajouter un article';
+
+  @override
+  String get mark_as_bought => 'Marquer comme acheté';
 }

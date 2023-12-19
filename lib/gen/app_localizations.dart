@@ -120,6 +120,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Supprimer'**
   String get quick_action_delete;
+
+  /// No description provided for @add_grocery.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un article'**
+  String get add_grocery;
+
+  /// No description provided for @mark_as_bought.
+  ///
+  /// In fr, this message translates to:
+  /// **'Marquer comme acheté'**
+  String get mark_as_bought;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -10,38 +10,31 @@ class AppColors extends ThemeExtension<AppColors>
     with DiagnosticableTreeMixin, _$AppColorsTailorMixin {
   const AppColors({
     required this.primary,
+    required this.secondary,
+    required this.onSecondary,
     required this.background,
-    required this.accent,
-    required this.callToAction,
-    required this.warning,
+    required this.surface,
   });
 
   const AppColors.light()
       : primary = ColorPalette.green,
-        background = Colors.white,
-        accent = ColorPalette.lightGrey,
-        callToAction = ColorPalette.blue,
-        warning = ColorPalette.yellow;
-
-  const AppColors.dark()
-      : primary = ColorPalette.darkGreen,
-        background = ColorPalette.charcoalBlack,
-        accent = ColorPalette.lightGrey2,
-        callToAction = ColorPalette.royalBlue,
-        warning = ColorPalette.amber;
+        secondary = ColorPalette.orange,
+        onSecondary = Colors.white,
+        background = ColorPalette.lightGrey,
+        surface = Colors.white;
 
   @override
   final Color primary;
 
   @override
+  final Color secondary;
+
+  @override
+  final Color onSecondary;
+
+  @override
   final Color background;
 
   @override
-  final Color accent;
-
-  @override
-  final Color callToAction;
-
-  @override
-  final Color warning;
+  final Color surface;
 }

@@ -32,8 +32,16 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final strings = context.strings;
 
     return Scaffold(
-      appBar: AppBar(title: const Text(Consts.appName)),
+      appBar: AppBar(
+        title: const Text(Consts.appName),
+        leading: const IconButton(
+          icon: Icon(Icons.share),
+          // TODO(Guillaume): Implement share
+          onPressed: null,
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
+        tooltip: strings.add_grocery,
         onPressed: () async {
           final grocery = await const EditGroceryBottomSheet().show(context);
           if (grocery != null) {

@@ -11,25 +11,25 @@ part of 'colors.dart';
 mixin _$AppColorsTailorMixin
     on ThemeExtension<AppColors>, DiagnosticableTreeMixin {
   Color get primary;
+  Color get secondary;
+  Color get onSecondary;
   Color get background;
-  Color get accent;
-  Color get callToAction;
-  Color get warning;
+  Color get surface;
 
   @override
   AppColors copyWith({
     Color? primary,
+    Color? secondary,
+    Color? onSecondary,
     Color? background,
-    Color? accent,
-    Color? callToAction,
-    Color? warning,
+    Color? surface,
   }) {
     return AppColors(
       primary: primary ?? this.primary,
+      secondary: secondary ?? this.secondary,
+      onSecondary: onSecondary ?? this.onSecondary,
       background: background ?? this.background,
-      accent: accent ?? this.accent,
-      callToAction: callToAction ?? this.callToAction,
-      warning: warning ?? this.warning,
+      surface: surface ?? this.surface,
     );
   }
 
@@ -38,10 +38,10 @@ mixin _$AppColorsTailorMixin
     if (other is! AppColors) return this as AppColors;
     return AppColors(
       primary: Color.lerp(primary, other.primary, t)!,
+      secondary: Color.lerp(secondary, other.secondary, t)!,
+      onSecondary: Color.lerp(onSecondary, other.onSecondary, t)!,
       background: Color.lerp(background, other.background, t)!,
-      accent: Color.lerp(accent, other.accent, t)!,
-      callToAction: Color.lerp(callToAction, other.callToAction, t)!,
-      warning: Color.lerp(warning, other.warning, t)!,
+      surface: Color.lerp(surface, other.surface, t)!,
     );
   }
 
@@ -51,12 +51,12 @@ mixin _$AppColorsTailorMixin
         (other.runtimeType == runtimeType &&
             other is AppColors &&
             const DeepCollectionEquality().equals(primary, other.primary) &&
+            const DeepCollectionEquality().equals(secondary, other.secondary) &&
+            const DeepCollectionEquality()
+                .equals(onSecondary, other.onSecondary) &&
             const DeepCollectionEquality()
                 .equals(background, other.background) &&
-            const DeepCollectionEquality().equals(accent, other.accent) &&
-            const DeepCollectionEquality()
-                .equals(callToAction, other.callToAction) &&
-            const DeepCollectionEquality().equals(warning, other.warning));
+            const DeepCollectionEquality().equals(surface, other.surface));
   }
 
   @override
@@ -64,10 +64,10 @@ mixin _$AppColorsTailorMixin
     return Object.hash(
       runtimeType.hashCode,
       const DeepCollectionEquality().hash(primary),
+      const DeepCollectionEquality().hash(secondary),
+      const DeepCollectionEquality().hash(onSecondary),
       const DeepCollectionEquality().hash(background),
-      const DeepCollectionEquality().hash(accent),
-      const DeepCollectionEquality().hash(callToAction),
-      const DeepCollectionEquality().hash(warning),
+      const DeepCollectionEquality().hash(surface),
     );
   }
 
@@ -77,18 +77,18 @@ mixin _$AppColorsTailorMixin
     properties
       ..add(DiagnosticsProperty('type', 'AppColors'))
       ..add(DiagnosticsProperty('primary', primary))
+      ..add(DiagnosticsProperty('secondary', secondary))
+      ..add(DiagnosticsProperty('onSecondary', onSecondary))
       ..add(DiagnosticsProperty('background', background))
-      ..add(DiagnosticsProperty('accent', accent))
-      ..add(DiagnosticsProperty('callToAction', callToAction))
-      ..add(DiagnosticsProperty('warning', warning));
+      ..add(DiagnosticsProperty('surface', surface));
   }
 }
 
 extension AppColorsBuildContextProps on BuildContext {
   AppColors get appColors => Theme.of(this).extension<AppColors>()!;
   Color get primary => appColors.primary;
+  Color get secondary => appColors.secondary;
+  Color get onSecondary => appColors.onSecondary;
   Color get background => appColors.background;
-  Color get accent => appColors.accent;
-  Color get callToAction => appColors.callToAction;
-  Color get warning => appColors.warning;
+  Color get surface => appColors.surface;
 }
