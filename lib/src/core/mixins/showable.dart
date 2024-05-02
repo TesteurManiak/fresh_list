@@ -10,6 +10,7 @@ mixin ShowableBottomSheetMixin<T> on Widget {
       context: context,
       isDismissible: isDismissible ?? this.isDismissible,
       isScrollControlled: isScrollControlled ?? this.isScrollControlled,
+      useSafeArea: true,
       builder: (_) => this,
     );
   }

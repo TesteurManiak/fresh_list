@@ -53,7 +53,7 @@ class GroceryListController extends _$GroceryListController {
     state = AsyncData(newList.lock);
     ref.read(homeLocalDatasourceProvider).deleteGrocery(grocery, newList);
 
-    // TODO: add a toast message to cancel deletion.
+    // TODO(Guillaume): add a toast message to cancel deletion.
   }
 
   void reorder(int oldIndex, int newIndex) {

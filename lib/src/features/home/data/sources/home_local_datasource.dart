@@ -65,6 +65,29 @@ class HomeLocalDataSource {
         ..replaceAll(db.dbGroceries, newOrder.map((e) => e.toEntity()));
     });
   }
+
+  Future<void> addRecentSearch(String query) async {
+    final db = ref.read(appDatabaseProvider);
+    await db.into(db.dbRecentSearches).insertOnConflictUpdate(
+          DbRecentSearchesCompanion.insert(
+            query: query,
+            timestamp: DateTime.now(),
+          ),
+        );
+  }
+
+  Future<List<RecentSearch>> getRecentSearches(String value) async {
+    final db = ref.read(appDatabaseProvider);
+    return (db.select(db.dbRecentSearches)
+          ..where((a) => a.query.like('$value%'))
+          ..orderBy([
+            (t) =>
+                OrderingTerm(expression: t.timestamp, mode: OrderingMode.desc),
+          ])
+          ..limit(4))
+        .get()
+        .then((searches) => searches.map((e) => e.toModel()).toList());
+  }
 }
 
 extension on Grocery {

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
+import 'package:todo_list/src/features/home/data/repositories/home_repository.dart';
 
-class EditGroceryBottomSheet extends StatefulWidget
+class EditGroceryBottomSheet extends ConsumerWidget
     with ShowableBottomSheetMixin<Grocery> {
   const EditGroceryBottomSheet({
     this.initialValue,
@@ -13,23 +15,46 @@ class EditGroceryBottomSheet extends StatefulWidget
   final Grocery? initialValue;
 
   @override
-  State<EditGroceryBottomSheet> createState() => _EditGroceryBottomSheetState();
+  bool get isScrollControlled => true;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return DraggableScrollableSheet(
+      initialChildSize: 1,
+      expand: false,
+      builder: (context, scrollController) {
+        return CustomScrollView(
+          controller: scrollController,
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: _InputField(initialValue),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
-class _EditGroceryBottomSheetState extends State<EditGroceryBottomSheet> {
-  final controller = TextEditingController();
+class _InputField extends ConsumerStatefulWidget {
+  const _InputField(this.initialValue);
+
+  final Grocery? initialValue;
+
+  @override
+  ConsumerState<_InputField> createState() => _InputFieldState();
+}
+
+class _InputFieldState extends ConsumerState<_InputField> {
+  late final TextEditingController controller;
 
   @override
   void initState() {
     super.initState();
-    controller
-      ..text = widget.initialValue?.name ?? ''
-      ..addListener(() {
-        final cleanedText = controller.text.trim();
-        if (cleanedText.isNotEmpty) {
-          setState(() {});
-        }
-      });
+    controller = TextEditingController(text: widget.initialValue?.name ?? '');
   }
 
   @override
@@ -40,28 +65,40 @@ class _EditGroceryBottomSheetState extends State<EditGroceryBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          TextField(
-            autofocus: true,
-            controller: controller,
-            decoration: const InputDecoration(hintText: 'Name'),
-            onSubmitted: (value) {
-              final name = value.trim();
-              if (name.isEmpty) {
-                context.pop();
-                return;
-              }
+    return Autocomplete<String>(
+      initialValue: TextEditingValue(text: widget.initialValue?.name ?? ''),
+      optionsBuilder: (textEditingValue) async {
+        final query = textEditingValue.text.trim();
+        if (query.isEmpty) return [];
 
-              final grocery = widget.initialValue?.copyWith(name: name) ??
-                  Grocery(id: 0, name: name, order: 0, completed: false);
-              context.pop(grocery);
-            },
-          ),
-        ],
-      ),
+        return ref.read(homeRepositoryProvider).getRecentSearches(query);
+      },
+      fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
+        return TextField(
+          autofocus: true,
+          decoration: const InputDecoration(hintText: 'Name'),
+          controller: controller,
+          focusNode: focusNode,
+          onSubmitted: (value) {
+            onFieldSubmitted();
+
+            final name = value.trim();
+            if (name.isEmpty) {
+              context.pop();
+              return;
+            }
+
+            final grocery = widget.initialValue?.copyWith(name: name) ??
+                Grocery(
+                  id: 0,
+                  name: name,
+                  order: 0,
+                  completed: false,
+                );
+            context.pop(grocery);
+          },
+        );
+      },
     );
   }
 }
