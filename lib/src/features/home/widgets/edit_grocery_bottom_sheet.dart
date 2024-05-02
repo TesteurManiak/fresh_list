@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
-import 'package:todo_list/src/features/home/data/models/grocery.dart';
+import 'package:todo_list/src/core/models/grocery.dart';
 
 class EditGroceryBottomSheet extends StatefulWidget
     with ShowableBottomSheetMixin<Grocery> {

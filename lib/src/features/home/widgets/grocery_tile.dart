@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
-import 'package:todo_list/src/features/home/data/models/grocery.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 
 class GroceryTile extends ConsumerWidget {

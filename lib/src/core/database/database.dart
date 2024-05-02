@@ -1,42 +1,66 @@
-import 'package:isar/isar.dart';
+import 'dart:io' as io;
+
+import 'package:drift/drift.dart';
+import 'package:drift/native.dart';
+import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
-import 'package:todo_list/src/features/home/data/models/grocery.dart';
-import 'package:todo_list/src/features/home/data/models/recent_search.dart';
+import 'package:todo_list/src/core/models/grocery.dart';
+import 'package:todo_list/src/core/models/recent_search.dart';
 
 part 'database.g.dart';
 
-@Riverpod(keepAlive: true)
-class IsarDb extends _$IsarDb {
+class DbGroceries extends Table {
+  IntColumn get order => integer()();
+  TextColumn get name => text()();
+  BoolColumn get completed => boolean()();
+  RealColumn get quantity => real().nullable()();
+
   @override
-  Future<Isar> build() async {
-    final dir = await getApplicationDocumentsDirectory();
-    final isar = await Isar.open(
-      [
-        GrocerySchema,
-        RecentSearchSchema,
-      ],
-      directory: dir.path,
-    );
+  Set<Column<Object>>? get primaryKey => {order};
+}
 
-    await _performMigrationIfNeeded(isar);
+class DbRecentSearches extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get query => text().unique()();
+  DateTimeColumn get timestamp => dateTime()();
+}
 
-    ref.onDispose(isar.close);
+@DriftDatabase(tables: [DbGroceries, DbRecentSearches])
+class AppDatabase extends _$AppDatabase {
+  AppDatabase() : super(_openConnection());
 
-    return isar;
+  @override
+  int get schemaVersion => 1;
+
+  static LazyDatabase _openConnection() {
+    return LazyDatabase(() async {
+      final dir = await getApplicationDocumentsDirectory();
+      final file = io.File(p.join(dir.path, 'appdb.sqlite'));
+      return NativeDatabase.createInBackground(file);
+    });
   }
+}
 
-  static const version = 1;
-  static const sharedPrefsKey = SharedPrefsKey.dbVersion;
+@riverpod
+AppDatabase appDatabase(AppDatabaseRef ref) => AppDatabase();
 
-  Future<void> _performMigrationIfNeeded(Isar isar) async {
-    final prefs = await ref.read(sharedPreferencesProvider.future);
-    final cacheVersion = prefs.getInt(sharedPrefsKey.key);
-    if (cacheVersion == version) return;
+extension DbGroceriesExt on DbGrocery {
+  Grocery toModel() {
+    return Grocery(
+      order: order,
+      name: name,
+      completed: completed,
+      quantity: quantity,
+    );
+  }
+}
 
-    // Handle migrations here
-
-    await prefs.setInt(sharedPrefsKey.key, version);
+extension DbRecentSearchesExt on DbRecentSearche {
+  RecentSearch toModel() {
+    return RecentSearch(
+      query: query,
+      timestamp: timestamp,
+    );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:todo_list/src/features/home/data/models/grocery.dart';
+import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
 
 part 'home_repository.g.dart';
