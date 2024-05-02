@@ -12,7 +12,7 @@ part 'database.g.dart';
 
 class DbGroceries extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get order => integer().unique()();
+  IntColumn get order => integer()();
   TextColumn get name => text()();
   BoolColumn get completed => boolean()();
   RealColumn get quantity => real().nullable()();

@@ -14,8 +14,8 @@ class HomeRepository {
 
   final HomeRepositoryRef ref;
 
-  Future<void> updateGroceries(List<Grocery> groceries) async {
-    await ref.read(homeLocalDatasourceProvider).updateGroceries(groceries);
+  Future<void> reorderGroceries(List<Grocery> groceries) async {
+    await ref.read(homeLocalDatasourceProvider).reorderGroceries(groceries);
   }
 
   Future<void> addGrocery(Grocery grocery) async {

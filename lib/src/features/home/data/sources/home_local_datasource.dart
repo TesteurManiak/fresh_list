@@ -42,10 +42,10 @@ class HomeLocalDataSource {
     await db.into(db.dbGroceries).insertOnConflictUpdate(grocery.toEntity());
   }
 
-  Future<void> updateGroceries(List<Grocery> groceries) async {
+  Future<void> reorderGroceries(List<Grocery> groceries) async {
     final db = ref.read(appDatabaseProvider);
     await db.batch((b) {
-      b.insertAllOnConflictUpdate(
+      b.replaceAll(
         db.dbGroceries,
         groceries.map((e) => e.toEntity()),
       );

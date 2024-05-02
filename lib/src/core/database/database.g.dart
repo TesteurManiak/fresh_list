@@ -22,9 +22,7 @@ class $DbGroceriesTable extends DbGroceries
   @override
   late final GeneratedColumn<int> order = GeneratedColumn<int>(
       'order', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+      type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(

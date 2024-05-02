@@ -73,7 +73,7 @@ class GroceryListController extends _$GroceryListController {
     }
 
     state = AsyncData(newList);
-    ref.read(homeRepositoryProvider).updateGroceries(newList);
+    ref.read(homeRepositoryProvider).reorderGroceries(newList);
   }
 
   Future<void> shareList() async {
