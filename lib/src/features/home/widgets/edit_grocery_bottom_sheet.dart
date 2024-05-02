@@ -50,6 +50,11 @@ class _EditGroceryBottomSheetState extends State<EditGroceryBottomSheet> {
             decoration: const InputDecoration(hintText: 'Name'),
             onSubmitted: (value) {
               final name = value.trim();
+              if (name.isEmpty) {
+                context.pop();
+                return;
+              }
+
               final grocery = widget.initialValue?.copyWith(name: name) ??
                   Grocery(id: 0, name: name, order: 0, completed: false);
               context.pop(grocery);

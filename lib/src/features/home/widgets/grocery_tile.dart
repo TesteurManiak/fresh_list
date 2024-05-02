@@ -67,7 +67,16 @@ class GroceryTile extends ConsumerWidget {
                           .toggle(grocery);
                     },
                   ),
-                  Expanded(child: Text(grocery.name)),
+                  Expanded(
+                    child: Text(
+                      grocery.name,
+                      style: TextStyle(
+                        decoration: grocery.completed
+                            ? TextDecoration.lineThrough
+                            : null,
+                      ),
+                    ),
+                  ),
                   if (quantity != null)
                     Flexible(child: Text('$quantity', maxLines: 1)),
                 ],

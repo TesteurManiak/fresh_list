@@ -65,9 +65,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
       ),
       body: groceriesValue.when(
         data: (data) {
-          if (data.isEmpty) {
-            return _CenteredText(strings.empty_grocery_list);
-          }
+          if (data.isEmpty) return _CenteredText(strings.empty_grocery_list);
 
           return ReorderableListView.builder(
             scrollController: scrollController,
