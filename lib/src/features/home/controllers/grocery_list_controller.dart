@@ -1,3 +1,4 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
@@ -14,23 +15,21 @@ Stream<List<Grocery>> watchGroceries(WatchGroceriesRef ref) {
 @riverpod
 class GroceryListController extends _$GroceryListController {
   @override
-  Future<List<Grocery>> build() async {
+  Future<IList<Grocery>> build() async {
     final initialGroceries = await ref.read(watchGroceriesProvider.future);
 
     ref.listen(watchGroceriesProvider, (_, next) {
-      next.whenData((data) => state = AsyncData(data));
+      next.whenData((data) => state = AsyncData(data.lock));
     });
 
-    return initialGroceries;
+    return initialGroceries.lock;
   }
 
   Future<void> createGrocery(Grocery grocery) async {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
-    final newElement =
-        grocery.copyWith(id: elements.length, order: elements.length);
-    state = AsyncData([...elements, newElement]);
+    final newElement = grocery.copyWith(order: elements.length);
     await ref.read(homeRepositoryProvider).addGrocery(newElement);
   }
 
@@ -41,18 +40,18 @@ class GroceryListController extends _$GroceryListController {
     ref.read(homeRepositoryProvider).updateGrocery(grocery);
   }
 
-  Future<void> deleteGrocery(Grocery grocery) async {
+  void deleteGrocery(Grocery grocery) {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
-    final newList = List.of(elements)..remove(grocery);
+    final newList = elements.unlock..remove(grocery);
 
     for (int i = 0; i < newList.length; i++) {
       newList[i] = newList[i].copyWith(order: i);
     }
 
-    state = AsyncData(newList);
-    await ref.read(homeLocalDatasourceProvider).deleteGrocery(grocery, newList);
+    state = AsyncData(newList.lock);
+    ref.read(homeLocalDatasourceProvider).deleteGrocery(grocery, newList);
   }
 
   void reorder(int oldIndex, int newIndex) {
@@ -61,7 +60,7 @@ class GroceryListController extends _$GroceryListController {
 
     int nextIndex = newIndex;
 
-    final newList = List.of(elements);
+    final newList = elements.unlock;
     final elemToMove = newList.removeAt(oldIndex);
     if (nextIndex > oldIndex) nextIndex--;
     nextIndex = nextIndex.clamp(0, newList.length);
@@ -72,7 +71,7 @@ class GroceryListController extends _$GroceryListController {
       newList[i] = newList[i].copyWith(order: i);
     }
 
-    state = AsyncData(newList);
+    state = AsyncData(newList.lock);
     ref.read(homeRepositoryProvider).reorderGroceries(newList);
   }
 
@@ -91,12 +90,12 @@ class GroceryListController extends _$GroceryListController {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
-    final newList = List.of(elements);
+    final newList = elements.unlock;
     final index = newList.indexOf(grocery);
     final newValue = grocery.copyWith(completed: !grocery.completed);
     newList[index] = newValue;
 
-    state = AsyncData(newList);
+    state = AsyncData(newList.lock);
     ref.read(homeRepositoryProvider).updateGrocery(newValue);
   }
 }

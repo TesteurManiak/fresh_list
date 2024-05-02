@@ -23,12 +23,12 @@ final watchGroceriesProvider =
 
 typedef WatchGroceriesRef = AutoDisposeStreamProviderRef<List<Grocery>>;
 String _$groceryListControllerHash() =>
-    r'bb1c4761fd729c98404de7a67e5843cc84021019';
+    r'50cd93413a59f371afd04ea1dfb7bb2cc8ffb1f9';
 
 /// See also [GroceryListController].
 @ProviderFor(GroceryListController)
 final groceryListControllerProvider = AutoDisposeAsyncNotifierProvider<
-    GroceryListController, List<Grocery>>.internal(
+    GroceryListController, IList<Grocery>>.internal(
   GroceryListController.new,
   name: r'groceryListControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -38,6 +38,6 @@ final groceryListControllerProvider = AutoDisposeAsyncNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$GroceryListController = AutoDisposeAsyncNotifier<List<Grocery>>;
+typedef _$GroceryListController = AutoDisposeAsyncNotifier<IList<Grocery>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

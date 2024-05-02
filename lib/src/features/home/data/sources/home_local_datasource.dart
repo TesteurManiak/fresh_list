@@ -52,9 +52,9 @@ class HomeLocalDataSource {
     });
   }
 
-  Future<void> addGrocery(Grocery grocery) async {
+  Future<int> addGrocery(Grocery grocery) {
     final db = ref.read(appDatabaseProvider);
-    await db.into(db.dbGroceries).insert(grocery.toEntity());
+    return db.into(db.dbGroceries).insert(grocery.toCompanion());
   }
 
   Future<void> deleteGrocery(Grocery grocery, List<Grocery> newOrder) async {
@@ -62,15 +62,21 @@ class HomeLocalDataSource {
     await db.batch((b) {
       b
         ..delete(db.dbGroceries, grocery.toEntity())
-        ..insertAllOnConflictUpdate(
-          db.dbGroceries,
-          newOrder.map((e) => e.toEntity()),
-        );
+        ..replaceAll(db.dbGroceries, newOrder.map((e) => e.toEntity()));
     });
   }
 }
 
 extension on Grocery {
+  DbGroceriesCompanion toCompanion() {
+    return DbGroceriesCompanion.insert(
+      order: order,
+      name: name,
+      completed: completed,
+      quantity: Value.absentIfNull(quantity),
+    );
+  }
+
   DbGrocery toEntity() {
     return DbGrocery(
       id: id,
