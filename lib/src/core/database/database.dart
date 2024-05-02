@@ -42,7 +42,7 @@ class AppDatabase extends _$AppDatabase {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 AppDatabase appDatabase(AppDatabaseRef ref) => AppDatabase();
 
 extension DbGroceriesExt on DbGrocery {

@@ -482,11 +482,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appDatabaseHash() => r'e151cda86f5d12245922187e36c675da52ecec4f';
+String _$appDatabaseHash() => r'92a246abcb363d93aa5a028712241f464abc4efe';
 
 /// See also [appDatabase].
 @ProviderFor(appDatabase)
-final appDatabaseProvider = AutoDisposeProvider<AppDatabase>.internal(
+final appDatabaseProvider = Provider<AppDatabase>.internal(
   appDatabase,
   name: r'appDatabaseProvider',
   debugGetCreateSourceHash:
@@ -495,6 +495,6 @@ final appDatabaseProvider = AutoDisposeProvider<AppDatabase>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef AppDatabaseRef = AutoDisposeProviderRef<AppDatabase>;
+typedef AppDatabaseRef = ProviderRef<AppDatabase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

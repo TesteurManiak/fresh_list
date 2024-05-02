@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -84,7 +85,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
             },
           );
         },
-        error: (_, __) => _CenteredText(strings.generic_error),
+        error: (e, s) {
+          log(e.toString(), error: e, stackTrace: s);
+          return _CenteredText(strings.generic_error);
+        },
         loading: () => const Center(child: CupertinoActivityIndicator()),
       ),
     );

@@ -22,6 +22,7 @@ dependencies:
   riverpod_annotation: ^2.3.5
   share_plus: ^9.0.0
   shared_preferences: ^2.2.3
+  sqlite3_flutter_libs: ^0.5.21
   theme_tailor_annotation: ^3.0.1
 
 dev_dependencies:
