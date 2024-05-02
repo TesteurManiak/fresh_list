@@ -51,7 +51,7 @@ class _EditGroceryBottomSheetState extends State<EditGroceryBottomSheet> {
             onSubmitted: (value) {
               final name = value.trim();
               final grocery = widget.initialValue?.copyWith(name: name) ??
-                  Grocery(name: name, order: 0, completed: false);
+                  Grocery(id: 0, name: name, order: 0, completed: false);
               context.pop(grocery);
             },
           ),

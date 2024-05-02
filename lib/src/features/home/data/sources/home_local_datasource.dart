@@ -53,24 +53,27 @@ class HomeLocalDataSource {
   }
 
   Future<void> addGrocery(Grocery grocery) async {
-    // final isar = await ref.read(isarDbProvider.future);
-    // await isar.writeTxn(() async {
-    //   await isar.groceries.putByOrder(grocery);
-    // });
+    final db = ref.read(appDatabaseProvider);
+    await db.into(db.dbGroceries).insert(grocery.toEntity());
   }
 
-  Future<void> replaceGroceries(List<Grocery> groceries) async {
-    // final isar = await ref.read(isarDbProvider.future);
-    // await isar.writeTxn(() async {
-    //   await isar.groceries.clear();
-    //   await isar.groceries.putAllByOrder(groceries);
-    // });
+  Future<void> deleteGrocery(Grocery grocery, List<Grocery> newOrder) async {
+    final db = ref.read(appDatabaseProvider);
+    await db.batch((b) {
+      b
+        ..delete(db.dbGroceries, grocery.toEntity())
+        ..insertAllOnConflictUpdate(
+          db.dbGroceries,
+          newOrder.map((e) => e.toEntity()),
+        );
+    });
   }
 }
 
 extension on Grocery {
   DbGrocery toEntity() {
     return DbGrocery(
+      id: id,
       order: order,
       name: name,
       completed: completed,

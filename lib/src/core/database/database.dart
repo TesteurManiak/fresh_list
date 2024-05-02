@@ -11,19 +11,19 @@ import 'package:todo_list/src/core/models/recent_search.dart';
 part 'database.g.dart';
 
 class DbGroceries extends Table {
-  IntColumn get order => integer()();
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get order => integer().unique()();
   TextColumn get name => text()();
   BoolColumn get completed => boolean()();
   RealColumn get quantity => real().nullable()();
-
-  @override
-  Set<Column<Object>>? get primaryKey => {order};
 }
 
 class DbRecentSearches extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get query => text().unique()();
+  TextColumn get query => text()();
   DateTimeColumn get timestamp => dateTime()();
+
+  @override
+  Set<Column<Object>>? get primaryKey => {query};
 }
 
 @DriftDatabase(tables: [DbGroceries, DbRecentSearches])
@@ -48,6 +48,7 @@ AppDatabase appDatabase(AppDatabaseRef ref) => AppDatabase();
 extension DbGroceriesExt on DbGrocery {
   Grocery toModel() {
     return Grocery(
+      id: id,
       order: order,
       name: name,
       completed: completed,

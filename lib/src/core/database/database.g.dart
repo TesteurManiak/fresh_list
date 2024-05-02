@@ -9,11 +9,22 @@ class $DbGroceriesTable extends DbGroceries
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $DbGroceriesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
   static const VerificationMeta _orderMeta = const VerificationMeta('order');
   @override
   late final GeneratedColumn<int> order = GeneratedColumn<int>(
       'order', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -35,7 +46,7 @@ class $DbGroceriesTable extends DbGroceries
       'quantity', aliasedName, true,
       type: DriftSqlType.double, requiredDuringInsert: false);
   @override
-  List<GeneratedColumn> get $columns => [order, name, completed, quantity];
+  List<GeneratedColumn> get $columns => [id, order, name, completed, quantity];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -46,9 +57,14 @@ class $DbGroceriesTable extends DbGroceries
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
     if (data.containsKey('order')) {
       context.handle(
           _orderMeta, order.isAcceptableOrUnknown(data['order']!, _orderMeta));
+    } else if (isInserting) {
+      context.missing(_orderMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -70,11 +86,13 @@ class $DbGroceriesTable extends DbGroceries
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {order};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   DbGrocery map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DbGrocery(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       order: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}order'])!,
       name: attachedDatabase.typeMapping
@@ -93,18 +111,21 @@ class $DbGroceriesTable extends DbGroceries
 }
 
 class DbGrocery extends DataClass implements Insertable<DbGrocery> {
+  final int id;
   final int order;
   final String name;
   final bool completed;
   final double? quantity;
   const DbGrocery(
-      {required this.order,
+      {required this.id,
+      required this.order,
       required this.name,
       required this.completed,
       this.quantity});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
     map['order'] = Variable<int>(order);
     map['name'] = Variable<String>(name);
     map['completed'] = Variable<bool>(completed);
@@ -116,6 +137,7 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
 
   DbGroceriesCompanion toCompanion(bool nullToAbsent) {
     return DbGroceriesCompanion(
+      id: Value(id),
       order: Value(order),
       name: Value(name),
       completed: Value(completed),
@@ -129,6 +151,7 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DbGrocery(
+      id: serializer.fromJson<int>(json['id']),
       order: serializer.fromJson<int>(json['order']),
       name: serializer.fromJson<String>(json['name']),
       completed: serializer.fromJson<bool>(json['completed']),
@@ -139,6 +162,7 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
       'order': serializer.toJson<int>(order),
       'name': serializer.toJson<String>(name),
       'completed': serializer.toJson<bool>(completed),
@@ -147,11 +171,13 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
   }
 
   DbGrocery copyWith(
-          {int? order,
+          {int? id,
+          int? order,
           String? name,
           bool? completed,
           Value<double?> quantity = const Value.absent()}) =>
       DbGrocery(
+        id: id ?? this.id,
         order: order ?? this.order,
         name: name ?? this.name,
         completed: completed ?? this.completed,
@@ -160,6 +186,7 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
   @override
   String toString() {
     return (StringBuffer('DbGrocery(')
+          ..write('id: $id, ')
           ..write('order: $order, ')
           ..write('name: $name, ')
           ..write('completed: $completed, ')
@@ -169,11 +196,12 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
   }
 
   @override
-  int get hashCode => Object.hash(order, name, completed, quantity);
+  int get hashCode => Object.hash(id, order, name, completed, quantity);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is DbGrocery &&
+          other.id == this.id &&
           other.order == this.order &&
           other.name == this.name &&
           other.completed == this.completed &&
@@ -181,30 +209,36 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
 }
 
 class DbGroceriesCompanion extends UpdateCompanion<DbGrocery> {
+  final Value<int> id;
   final Value<int> order;
   final Value<String> name;
   final Value<bool> completed;
   final Value<double?> quantity;
   const DbGroceriesCompanion({
+    this.id = const Value.absent(),
     this.order = const Value.absent(),
     this.name = const Value.absent(),
     this.completed = const Value.absent(),
     this.quantity = const Value.absent(),
   });
   DbGroceriesCompanion.insert({
-    this.order = const Value.absent(),
+    this.id = const Value.absent(),
+    required int order,
     required String name,
     required bool completed,
     this.quantity = const Value.absent(),
-  })  : name = Value(name),
+  })  : order = Value(order),
+        name = Value(name),
         completed = Value(completed);
   static Insertable<DbGrocery> custom({
+    Expression<int>? id,
     Expression<int>? order,
     Expression<String>? name,
     Expression<bool>? completed,
     Expression<double>? quantity,
   }) {
     return RawValuesInsertable({
+      if (id != null) 'id': id,
       if (order != null) 'order': order,
       if (name != null) 'name': name,
       if (completed != null) 'completed': completed,
@@ -213,11 +247,13 @@ class DbGroceriesCompanion extends UpdateCompanion<DbGrocery> {
   }
 
   DbGroceriesCompanion copyWith(
-      {Value<int>? order,
+      {Value<int>? id,
+      Value<int>? order,
       Value<String>? name,
       Value<bool>? completed,
       Value<double?>? quantity}) {
     return DbGroceriesCompanion(
+      id: id ?? this.id,
       order: order ?? this.order,
       name: name ?? this.name,
       completed: completed ?? this.completed,
@@ -228,6 +264,9 @@ class DbGroceriesCompanion extends UpdateCompanion<DbGrocery> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
     if (order.present) {
       map['order'] = Variable<int>(order.value);
     }
@@ -246,6 +285,7 @@ class DbGroceriesCompanion extends UpdateCompanion<DbGrocery> {
   @override
   String toString() {
     return (StringBuffer('DbGroceriesCompanion(')
+          ..write('id: $id, ')
           ..write('order: $order, ')
           ..write('name: $name, ')
           ..write('completed: $completed, ')
@@ -261,22 +301,11 @@ class $DbRecentSearchesTable extends DbRecentSearches
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $DbRecentSearchesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
   static const VerificationMeta _queryMeta = const VerificationMeta('query');
   @override
   late final GeneratedColumn<String> query = GeneratedColumn<String>(
       'query', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _timestampMeta =
       const VerificationMeta('timestamp');
   @override
@@ -284,7 +313,7 @@ class $DbRecentSearchesTable extends DbRecentSearches
       'timestamp', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, query, timestamp];
+  List<GeneratedColumn> get $columns => [query, timestamp];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -295,9 +324,6 @@ class $DbRecentSearchesTable extends DbRecentSearches
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
     if (data.containsKey('query')) {
       context.handle(
           _queryMeta, query.isAcceptableOrUnknown(data['query']!, _queryMeta));
@@ -314,13 +340,11 @@ class $DbRecentSearchesTable extends DbRecentSearches
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {query};
   @override
   DbRecentSearche map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DbRecentSearche(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       query: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}query'])!,
       timestamp: attachedDatabase.typeMapping
@@ -335,15 +359,12 @@ class $DbRecentSearchesTable extends DbRecentSearches
 }
 
 class DbRecentSearche extends DataClass implements Insertable<DbRecentSearche> {
-  final int id;
   final String query;
   final DateTime timestamp;
-  const DbRecentSearche(
-      {required this.id, required this.query, required this.timestamp});
+  const DbRecentSearche({required this.query, required this.timestamp});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
     map['query'] = Variable<String>(query);
     map['timestamp'] = Variable<DateTime>(timestamp);
     return map;
@@ -351,7 +372,6 @@ class DbRecentSearche extends DataClass implements Insertable<DbRecentSearche> {
 
   DbRecentSearchesCompanion toCompanion(bool nullToAbsent) {
     return DbRecentSearchesCompanion(
-      id: Value(id),
       query: Value(query),
       timestamp: Value(timestamp),
     );
@@ -361,7 +381,6 @@ class DbRecentSearche extends DataClass implements Insertable<DbRecentSearche> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DbRecentSearche(
-      id: serializer.fromJson<int>(json['id']),
       query: serializer.fromJson<String>(json['query']),
       timestamp: serializer.fromJson<DateTime>(json['timestamp']),
     );
@@ -370,22 +389,19 @@ class DbRecentSearche extends DataClass implements Insertable<DbRecentSearche> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
       'query': serializer.toJson<String>(query),
       'timestamp': serializer.toJson<DateTime>(timestamp),
     };
   }
 
-  DbRecentSearche copyWith({int? id, String? query, DateTime? timestamp}) =>
+  DbRecentSearche copyWith({String? query, DateTime? timestamp}) =>
       DbRecentSearche(
-        id: id ?? this.id,
         query: query ?? this.query,
         timestamp: timestamp ?? this.timestamp,
       );
   @override
   String toString() {
     return (StringBuffer('DbRecentSearche(')
-          ..write('id: $id, ')
           ..write('query: $query, ')
           ..write('timestamp: $timestamp')
           ..write(')'))
@@ -393,63 +409,62 @@ class DbRecentSearche extends DataClass implements Insertable<DbRecentSearche> {
   }
 
   @override
-  int get hashCode => Object.hash(id, query, timestamp);
+  int get hashCode => Object.hash(query, timestamp);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is DbRecentSearche &&
-          other.id == this.id &&
           other.query == this.query &&
           other.timestamp == this.timestamp);
 }
 
 class DbRecentSearchesCompanion extends UpdateCompanion<DbRecentSearche> {
-  final Value<int> id;
   final Value<String> query;
   final Value<DateTime> timestamp;
+  final Value<int> rowid;
   const DbRecentSearchesCompanion({
-    this.id = const Value.absent(),
     this.query = const Value.absent(),
     this.timestamp = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   DbRecentSearchesCompanion.insert({
-    this.id = const Value.absent(),
     required String query,
     required DateTime timestamp,
+    this.rowid = const Value.absent(),
   })  : query = Value(query),
         timestamp = Value(timestamp);
   static Insertable<DbRecentSearche> custom({
-    Expression<int>? id,
     Expression<String>? query,
     Expression<DateTime>? timestamp,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
       if (query != null) 'query': query,
       if (timestamp != null) 'timestamp': timestamp,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   DbRecentSearchesCompanion copyWith(
-      {Value<int>? id, Value<String>? query, Value<DateTime>? timestamp}) {
+      {Value<String>? query, Value<DateTime>? timestamp, Value<int>? rowid}) {
     return DbRecentSearchesCompanion(
-      id: id ?? this.id,
       query: query ?? this.query,
       timestamp: timestamp ?? this.timestamp,
+      rowid: rowid ?? this.rowid,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
     if (query.present) {
       map['query'] = Variable<String>(query.value);
     }
     if (timestamp.present) {
       map['timestamp'] = Variable<DateTime>(timestamp.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -457,9 +472,9 @@ class DbRecentSearchesCompanion extends UpdateCompanion<DbRecentSearche> {
   @override
   String toString() {
     return (StringBuffer('DbRecentSearchesCompanion(')
-          ..write('id: $id, ')
           ..write('query: $query, ')
-          ..write('timestamp: $timestamp')
+          ..write('timestamp: $timestamp, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }

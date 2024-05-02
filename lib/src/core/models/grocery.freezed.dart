@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Grocery {
+  int get id => throw _privateConstructorUsedError;
   int get order => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   bool get completed => throw _privateConstructorUsedError;
@@ -30,7 +31,7 @@ abstract class $GroceryCopyWith<$Res> {
   factory $GroceryCopyWith(Grocery value, $Res Function(Grocery) then) =
       _$GroceryCopyWithImpl<$Res, Grocery>;
   @useResult
-  $Res call({int order, String name, bool completed, double? quantity});
+  $Res call({int id, int order, String name, bool completed, double? quantity});
 }
 
 /// @nodoc
@@ -46,12 +47,17 @@ class _$GroceryCopyWithImpl<$Res, $Val extends Grocery>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? order = null,
     Object? name = null,
     Object? completed = null,
     Object? quantity = freezed,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       order: null == order
           ? _value.order
           : order // ignore: cast_nullable_to_non_nullable
@@ -79,7 +85,7 @@ abstract class _$$GroceryImplCopyWith<$Res> implements $GroceryCopyWith<$Res> {
       __$$GroceryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int order, String name, bool completed, double? quantity});
+  $Res call({int id, int order, String name, bool completed, double? quantity});
 }
 
 /// @nodoc
@@ -93,12 +99,17 @@ class __$$GroceryImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? order = null,
     Object? name = null,
     Object? completed = null,
     Object? quantity = freezed,
   }) {
     return _then(_$GroceryImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       order: null == order
           ? _value.order
           : order // ignore: cast_nullable_to_non_nullable
@@ -123,11 +134,14 @@ class __$$GroceryImplCopyWithImpl<$Res>
 
 class _$GroceryImpl implements _Grocery {
   const _$GroceryImpl(
-      {required this.order,
+      {required this.id,
+      required this.order,
       required this.name,
       required this.completed,
       this.quantity});
 
+  @override
+  final int id;
   @override
   final int order;
   @override
@@ -139,7 +153,7 @@ class _$GroceryImpl implements _Grocery {
 
   @override
   String toString() {
-    return 'Grocery(order: $order, name: $name, completed: $completed, quantity: $quantity)';
+    return 'Grocery(id: $id, order: $order, name: $name, completed: $completed, quantity: $quantity)';
   }
 
   @override
@@ -147,6 +161,7 @@ class _$GroceryImpl implements _Grocery {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GroceryImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.order, order) || other.order == order) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.completed, completed) ||
@@ -157,7 +172,7 @@ class _$GroceryImpl implements _Grocery {
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, order, name, completed, quantity);
+      Object.hash(runtimeType, id, order, name, completed, quantity);
 
   @JsonKey(ignore: true)
   @override
@@ -168,11 +183,14 @@ class _$GroceryImpl implements _Grocery {
 
 abstract class _Grocery implements Grocery {
   const factory _Grocery(
-      {required final int order,
+      {required final int id,
+      required final int order,
       required final String name,
       required final bool completed,
       final double? quantity}) = _$GroceryImpl;
 
+  @override
+  int get id;
   @override
   int get order;
   @override

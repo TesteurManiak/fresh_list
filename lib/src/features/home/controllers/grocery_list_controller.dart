@@ -28,7 +28,8 @@ class GroceryListController extends _$GroceryListController {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
-    final newElement = grocery.copyWith(order: elements.length);
+    final newElement =
+        grocery.copyWith(id: elements.length, order: elements.length);
     state = AsyncData([...elements, newElement]);
     await ref.read(homeRepositoryProvider).addGrocery(newElement);
   }
@@ -40,7 +41,7 @@ class GroceryListController extends _$GroceryListController {
     ref.read(homeRepositoryProvider).updateGrocery(grocery);
   }
 
-  void deleteGrocery(Grocery grocery) {
+  Future<void> deleteGrocery(Grocery grocery) async {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
@@ -51,7 +52,7 @@ class GroceryListController extends _$GroceryListController {
     }
 
     state = AsyncData(newList);
-    ref.read(homeLocalDatasourceProvider).replaceGroceries(newList);
+    await ref.read(homeLocalDatasourceProvider).deleteGrocery(grocery, newList);
   }
 
   void reorder(int oldIndex, int newIndex) {
