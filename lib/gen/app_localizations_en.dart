@@ -8,6 +8,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get generic_error => 'An error occurred. Please try again later.';
 
   @override
+  String get close => 'Close';
+
+  @override
   String get empty_grocery_list => 'Your grocery list is empty.\nAdd items by clicking the \"+\" button.';
 
   @override
@@ -21,6 +24,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get add_grocery => 'Add grocery';
+
+  @override
+  String get edit_grocery => 'Edit grocery';
 
   @override
   String get mark_as_bought => 'Mark as bought';

@@ -8,6 +8,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get generic_error => 'Une erreur s\'est produite. Veuillez réessayer plus tard.';
 
   @override
+  String get close => 'Fermer';
+
+  @override
   String get empty_grocery_list => 'Votre liste est vide.\nAjoutez des articles en appuyant sur le bouton \"+\".';
 
   @override
@@ -20,7 +23,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get quick_action_delete => 'Supprimer';
 
   @override
-  String get add_grocery => 'Ajouter un article';
+  String get add_grocery => 'Ajouter une entrée';
+
+  @override
+  String get edit_grocery => 'Modifier l\'entrée';
 
   @override
   String get mark_as_bought => 'Marquer comme acheté';

@@ -99,6 +99,12 @@ abstract class AppLocalizations {
   /// **'Une erreur s\'est produite. Veuillez réessayer plus tard.'**
   String get generic_error;
 
+  /// No description provided for @close.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermer'**
+  String get close;
+
   /// No description provided for @empty_grocery_list.
   ///
   /// In fr, this message translates to:
@@ -126,8 +132,14 @@ abstract class AppLocalizations {
   /// No description provided for @add_grocery.
   ///
   /// In fr, this message translates to:
-  /// **'Ajouter un article'**
+  /// **'Ajouter une entrée'**
   String get add_grocery;
+
+  /// No description provided for @edit_grocery.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier l\'entrée'**
+  String get edit_grocery;
 
   /// No description provided for @mark_as_bought.
   ///

@@ -1,11 +1,13 @@
 {
     "@@locale": "fr",
     "generic_error": "Une erreur s'est produite. Veuillez réessayer plus tard.",
+    "close": "Fermer",
     "empty_grocery_list": "Votre liste est vide.\nAjoutez des articles en appuyant sur le bouton \"+\".",
     "settings_title": "Paramètres",
     "quick_action_edit": "Modifier",
     "quick_action_delete": "Supprimer",
-    "add_grocery": "Ajouter un article",
+    "add_grocery": "Ajouter une entrée",
+    "edit_grocery": "Modifier l'entrée",
     "mark_as_bought": "Marquer comme acheté",
     "product_name": "Nom du produit"
 }
