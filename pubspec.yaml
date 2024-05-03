@@ -28,11 +28,9 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.4.9
+  custom_lint: ^0.6.4
   drift_dev: ^2.17.0
-  fd_lints:
-    git:
-      url: https://github.com/Floating-Dartists/fd_lints.git
-      ref: 185cca3e1f6ef67ba594f93fdd873bb78d26214c
+  fd_lints: ^2.2.1
   flutter_gen: ^5.4.0
   flutter_gen_runner: ^5.4.0
   flutter_launcher_icons: ^0.13.1
