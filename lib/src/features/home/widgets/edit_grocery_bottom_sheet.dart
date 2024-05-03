@@ -94,7 +94,7 @@ class _InputFieldState extends ConsumerState<_InputField> {
       },
       fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
         return TextField(
-          autofocus: true,
+          autofocus: widget.initialValue == null,
           decoration: InputDecoration(hintText: strings.product_name),
           controller: controller,
           focusNode: focusNode,
