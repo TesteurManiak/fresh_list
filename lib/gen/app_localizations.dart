@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_en.dart';
 import 'app_localizations_fr.dart';
 
 /// Callers can lookup localized strings with an instance of AppLocalizations
@@ -88,6 +89,7 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
     Locale('fr')
   ];
 
@@ -100,7 +102,7 @@ abstract class AppLocalizations {
   /// No description provided for @empty_grocery_list.
   ///
   /// In fr, this message translates to:
-  /// **'Votre liste est vide. Ajoutez des articles en appuyant sur le bouton + ci-dessus.'**
+  /// **'Votre liste est vide.\nAjoutez des articles en appuyant sur le bouton \"+\".'**
   String get empty_grocery_list;
 
   /// No description provided for @settings_title.
@@ -132,6 +134,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Marquer comme acheté'**
   String get mark_as_bought;
+
+  /// No description provided for @product_name.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom du produit'**
+  String get product_name;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -143,7 +151,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['fr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'fr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -154,6 +162,7 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'en': return AppLocalizationsEn();
     case 'fr': return AppLocalizationsFr();
   }
 

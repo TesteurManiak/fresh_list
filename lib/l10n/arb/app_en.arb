@@ -1,0 +1,11 @@
+{
+    "@@locale": "en",
+    "generic_error": "An error occurred. Please try again later.",
+    "empty_grocery_list": "Your grocery list is empty.\nAdd items by clicking the \"+\" button.",
+    "settings_title": "Settings",
+    "quick_action_edit": "Edit",
+    "quick_action_delete": "Delete",
+    "add_grocery": "Add grocery",
+    "mark_as_bought": "Mark as bought",
+    "product_name": "Product name"
+}
