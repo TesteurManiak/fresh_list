@@ -56,7 +56,7 @@ class GroceryTile extends ConsumerWidget {
           child: InkWell(
             onTap: () => showEditionBottomSheet(context, ref, grocery),
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(12),
               child: Row(
                 children: [
                   Checkbox(

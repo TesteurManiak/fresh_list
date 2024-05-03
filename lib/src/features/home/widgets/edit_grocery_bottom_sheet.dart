@@ -26,16 +26,19 @@ class EditGroceryBottomSheet extends ConsumerWidget
       initialChildSize: 1,
       expand: false,
       builder: (context, scrollController) {
-        return CustomScrollView(
-          controller: scrollController,
-          slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: _InputField(initialValue),
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: CustomScrollView(
+            controller: scrollController,
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: _InputField(initialValue),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
