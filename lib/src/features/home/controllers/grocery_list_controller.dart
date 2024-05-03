@@ -1,6 +1,7 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:todo_list/src/features/home/data/models/grocery.dart';
+import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/features/home/data/repositories/home_repository.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
 
@@ -14,14 +15,14 @@ Stream<List<Grocery>> watchGroceries(WatchGroceriesRef ref) {
 @riverpod
 class GroceryListController extends _$GroceryListController {
   @override
-  Future<List<Grocery>> build() async {
+  Future<IList<Grocery>> build() async {
     final initialGroceries = await ref.read(watchGroceriesProvider.future);
 
     ref.listen(watchGroceriesProvider, (_, next) {
-      next.whenData((data) => state = AsyncData(data));
+      next.whenData((data) => state = AsyncData(data.lock));
     });
 
-    return initialGroceries;
+    return initialGroceries.lock;
   }
 
   Future<void> createGrocery(Grocery grocery) async {
@@ -29,7 +30,6 @@ class GroceryListController extends _$GroceryListController {
     if (elements == null) return;
 
     final newElement = grocery.copyWith(order: elements.length);
-    state = AsyncData([...elements, newElement]);
     await ref.read(homeRepositoryProvider).addGrocery(newElement);
   }
 
@@ -44,14 +44,16 @@ class GroceryListController extends _$GroceryListController {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
-    final newList = List.of(elements)..remove(grocery);
+    final newList = elements.unlock..remove(grocery);
 
     for (int i = 0; i < newList.length; i++) {
       newList[i] = newList[i].copyWith(order: i);
     }
 
-    state = AsyncData(newList);
-    ref.read(homeLocalDatasourceProvider).replaceGroceries(newList);
+    state = AsyncData(newList.lock);
+    ref.read(homeLocalDatasourceProvider).deleteGrocery(grocery, newList);
+
+    // TODO(Guillaume): add a toast message to cancel deletion.
   }
 
   void reorder(int oldIndex, int newIndex) {
@@ -60,7 +62,7 @@ class GroceryListController extends _$GroceryListController {
 
     int nextIndex = newIndex;
 
-    final newList = List.of(elements);
+    final newList = elements.unlock;
     final elemToMove = newList.removeAt(oldIndex);
     if (nextIndex > oldIndex) nextIndex--;
     nextIndex = nextIndex.clamp(0, newList.length);
@@ -71,8 +73,8 @@ class GroceryListController extends _$GroceryListController {
       newList[i] = newList[i].copyWith(order: i);
     }
 
-    state = AsyncData(newList);
-    ref.read(homeRepositoryProvider).updateGroceries(newList);
+    state = AsyncData(newList.lock);
+    ref.read(homeRepositoryProvider).reorderGroceries(newList);
   }
 
   Future<void> shareList() async {
@@ -90,12 +92,12 @@ class GroceryListController extends _$GroceryListController {
     final elements = state.valueOrNull;
     if (elements == null) return;
 
-    final newList = List.of(elements);
+    final newList = elements.unlock;
     final index = newList.indexOf(grocery);
     final newValue = grocery.copyWith(completed: !grocery.completed);
     newList[index] = newValue;
 
-    state = AsyncData(newList);
+    state = AsyncData(newList.lock);
     ref.read(homeRepositoryProvider).updateGrocery(newValue);
   }
 }

@@ -48,6 +48,9 @@ class AppTheme {
         centerTitle: true,
         surfaceTintColor: Colors.transparent,
       ),
+      checkboxTheme: baseTheme.checkboxTheme.copyWith(
+        shape: const CircleBorder(),
+      ),
       bottomSheetTheme: baseTheme.bottomSheetTheme.copyWith(
         clipBehavior: Clip.antiAlias,
       ),
