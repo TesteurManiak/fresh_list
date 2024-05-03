@@ -18,6 +18,9 @@ class EditGroceryBottomSheet extends ConsumerWidget
   bool get isScrollControlled => true;
 
   @override
+  bool get showDragHandle => true;
+
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DraggableScrollableSheet(
       initialChildSize: 1,

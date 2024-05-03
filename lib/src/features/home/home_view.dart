@@ -70,6 +70,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
           return ReorderableListView.builder(
             scrollController: scrollController,
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 40),
+            physics: const AlwaysScrollableScrollPhysics(),
             proxyDecorator: proxyDecorator,
             itemBuilder: (_, i) {
               return GroceryTile(data[i], key: Key('Reorderable-$i'));
