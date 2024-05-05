@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:todo_list/src/core/clock.dart';
 import 'package:todo_list/src/core/database/database.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
@@ -68,10 +69,11 @@ class HomeLocalDataSource {
 
   Future<void> addRecentSearch(String query) async {
     final db = ref.read(appDatabaseProvider);
+    final clock = ref.read(appClockProvider);
     await db.into(db.dbRecentSearches).insertOnConflictUpdate(
           DbRecentSearchesCompanion.insert(
             query: query,
-            timestamp: DateTime.now(),
+            timestamp: clock.now(),
           ),
         );
   }
