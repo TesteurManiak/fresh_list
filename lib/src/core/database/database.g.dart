@@ -12,37 +12,59 @@ class $DbGroceriesTable extends DbGroceries
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
   static const VerificationMeta _orderMeta = const VerificationMeta('order');
   @override
   late final GeneratedColumn<int> order = GeneratedColumn<int>(
-      'order', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+    'order',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _completedMeta =
-      const VerificationMeta('completed');
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _completedMeta = const VerificationMeta(
+    'completed',
+  );
   @override
   late final GeneratedColumn<bool> completed = GeneratedColumn<bool>(
-      'completed', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("completed" IN (0, 1))'));
-  static const VerificationMeta _quantityMeta =
-      const VerificationMeta('quantity');
+    'completed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("completed" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _quantityMeta = const VerificationMeta(
+    'quantity',
+  );
   @override
   late final GeneratedColumn<double> quantity = GeneratedColumn<double>(
-      'quantity', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
+    'quantity',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [id, order, name, completed, quantity];
   @override
@@ -51,8 +73,10 @@ class $DbGroceriesTable extends DbGroceries
   String get actualTableName => $name;
   static const String $name = 'db_groceries';
   @override
-  VerificationContext validateIntegrity(Insertable<DbGrocery> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<DbGrocery> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -60,25 +84,33 @@ class $DbGroceriesTable extends DbGroceries
     }
     if (data.containsKey('order')) {
       context.handle(
-          _orderMeta, order.isAcceptableOrUnknown(data['order']!, _orderMeta));
+        _orderMeta,
+        order.isAcceptableOrUnknown(data['order']!, _orderMeta),
+      );
     } else if (isInserting) {
       context.missing(_orderMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('completed')) {
-      context.handle(_completedMeta,
-          completed.isAcceptableOrUnknown(data['completed']!, _completedMeta));
+      context.handle(
+        _completedMeta,
+        completed.isAcceptableOrUnknown(data['completed']!, _completedMeta),
+      );
     } else if (isInserting) {
       context.missing(_completedMeta);
     }
     if (data.containsKey('quantity')) {
-      context.handle(_quantityMeta,
-          quantity.isAcceptableOrUnknown(data['quantity']!, _quantityMeta));
+      context.handle(
+        _quantityMeta,
+        quantity.isAcceptableOrUnknown(data['quantity']!, _quantityMeta),
+      );
     }
     return context;
   }
@@ -89,16 +121,30 @@ class $DbGroceriesTable extends DbGroceries
   DbGrocery map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DbGrocery(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      order: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}order'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      completed: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}completed'])!,
-      quantity: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}quantity']),
+      id:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.int,
+            data['${effectivePrefix}id'],
+          )!,
+      order:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.int,
+            data['${effectivePrefix}order'],
+          )!,
+      name:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}name'],
+          )!,
+      completed:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.bool,
+            data['${effectivePrefix}completed'],
+          )!,
+      quantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}quantity'],
+      ),
     );
   }
 
@@ -114,12 +160,13 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
   final String name;
   final bool completed;
   final double? quantity;
-  const DbGrocery(
-      {required this.id,
-      required this.order,
-      required this.name,
-      required this.completed,
-      this.quantity});
+  const DbGrocery({
+    required this.id,
+    required this.order,
+    required this.name,
+    required this.completed,
+    this.quantity,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -139,14 +186,17 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
       order: Value(order),
       name: Value(name),
       completed: Value(completed),
-      quantity: quantity == null && nullToAbsent
-          ? const Value.absent()
-          : Value(quantity),
+      quantity:
+          quantity == null && nullToAbsent
+              ? const Value.absent()
+              : Value(quantity),
     );
   }
 
-  factory DbGrocery.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory DbGrocery.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DbGrocery(
       id: serializer.fromJson<int>(json['id']),
@@ -168,19 +218,29 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
     };
   }
 
-  DbGrocery copyWith(
-          {int? id,
-          int? order,
-          String? name,
-          bool? completed,
-          Value<double?> quantity = const Value.absent()}) =>
-      DbGrocery(
-        id: id ?? this.id,
-        order: order ?? this.order,
-        name: name ?? this.name,
-        completed: completed ?? this.completed,
-        quantity: quantity.present ? quantity.value : this.quantity,
-      );
+  DbGrocery copyWith({
+    int? id,
+    int? order,
+    String? name,
+    bool? completed,
+    Value<double?> quantity = const Value.absent(),
+  }) => DbGrocery(
+    id: id ?? this.id,
+    order: order ?? this.order,
+    name: name ?? this.name,
+    completed: completed ?? this.completed,
+    quantity: quantity.present ? quantity.value : this.quantity,
+  );
+  DbGrocery copyWithCompanion(DbGroceriesCompanion data) {
+    return DbGrocery(
+      id: data.id.present ? data.id.value : this.id,
+      order: data.order.present ? data.order.value : this.order,
+      name: data.name.present ? data.name.value : this.name,
+      completed: data.completed.present ? data.completed.value : this.completed,
+      quantity: data.quantity.present ? data.quantity.value : this.quantity,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('DbGrocery(')
@@ -225,9 +285,9 @@ class DbGroceriesCompanion extends UpdateCompanion<DbGrocery> {
     required String name,
     required bool completed,
     this.quantity = const Value.absent(),
-  })  : order = Value(order),
-        name = Value(name),
-        completed = Value(completed);
+  }) : order = Value(order),
+       name = Value(name),
+       completed = Value(completed);
   static Insertable<DbGrocery> custom({
     Expression<int>? id,
     Expression<int>? order,
@@ -244,12 +304,13 @@ class DbGroceriesCompanion extends UpdateCompanion<DbGrocery> {
     });
   }
 
-  DbGroceriesCompanion copyWith(
-      {Value<int>? id,
-      Value<int>? order,
-      Value<String>? name,
-      Value<bool>? completed,
-      Value<double?>? quantity}) {
+  DbGroceriesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? order,
+    Value<String>? name,
+    Value<bool>? completed,
+    Value<double?>? quantity,
+  }) {
     return DbGroceriesCompanion(
       id: id ?? this.id,
       order: order ?? this.order,
@@ -302,14 +363,23 @@ class $DbRecentSearchesTable extends DbRecentSearches
   static const VerificationMeta _queryMeta = const VerificationMeta('query');
   @override
   late final GeneratedColumn<String> query = GeneratedColumn<String>(
-      'query', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _timestampMeta =
-      const VerificationMeta('timestamp');
+    'query',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _timestampMeta = const VerificationMeta(
+    'timestamp',
+  );
   @override
   late final GeneratedColumn<DateTime> timestamp = GeneratedColumn<DateTime>(
-      'timestamp', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+    'timestamp',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [query, timestamp];
   @override
@@ -318,19 +388,25 @@ class $DbRecentSearchesTable extends DbRecentSearches
   String get actualTableName => $name;
   static const String $name = 'db_recent_searches';
   @override
-  VerificationContext validateIntegrity(Insertable<DbRecentSearche> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<DbRecentSearche> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('query')) {
       context.handle(
-          _queryMeta, query.isAcceptableOrUnknown(data['query']!, _queryMeta));
+        _queryMeta,
+        query.isAcceptableOrUnknown(data['query']!, _queryMeta),
+      );
     } else if (isInserting) {
       context.missing(_queryMeta);
     }
     if (data.containsKey('timestamp')) {
-      context.handle(_timestampMeta,
-          timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta));
+      context.handle(
+        _timestampMeta,
+        timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta),
+      );
     } else if (isInserting) {
       context.missing(_timestampMeta);
     }
@@ -343,10 +419,16 @@ class $DbRecentSearchesTable extends DbRecentSearches
   DbRecentSearche map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DbRecentSearche(
-      query: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}query'])!,
-      timestamp: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}timestamp'])!,
+      query:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}query'],
+          )!,
+      timestamp:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.dateTime,
+            data['${effectivePrefix}timestamp'],
+          )!,
     );
   }
 
@@ -375,8 +457,10 @@ class DbRecentSearche extends DataClass implements Insertable<DbRecentSearche> {
     );
   }
 
-  factory DbRecentSearche.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory DbRecentSearche.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DbRecentSearche(
       query: serializer.fromJson<String>(json['query']),
@@ -397,6 +481,13 @@ class DbRecentSearche extends DataClass implements Insertable<DbRecentSearche> {
         query: query ?? this.query,
         timestamp: timestamp ?? this.timestamp,
       );
+  DbRecentSearche copyWithCompanion(DbRecentSearchesCompanion data) {
+    return DbRecentSearche(
+      query: data.query.present ? data.query.value : this.query,
+      timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('DbRecentSearche(')
@@ -429,8 +520,8 @@ class DbRecentSearchesCompanion extends UpdateCompanion<DbRecentSearche> {
     required String query,
     required DateTime timestamp,
     this.rowid = const Value.absent(),
-  })  : query = Value(query),
-        timestamp = Value(timestamp);
+  }) : query = Value(query),
+       timestamp = Value(timestamp);
   static Insertable<DbRecentSearche> custom({
     Expression<String>? query,
     Expression<DateTime>? timestamp,
@@ -443,8 +534,11 @@ class DbRecentSearchesCompanion extends UpdateCompanion<DbRecentSearche> {
     });
   }
 
-  DbRecentSearchesCompanion copyWith(
-      {Value<String>? query, Value<DateTime>? timestamp, Value<int>? rowid}) {
+  DbRecentSearchesCompanion copyWith({
+    Value<String>? query,
+    Value<DateTime>? timestamp,
+    Value<int>? rowid,
+  }) {
     return DbRecentSearchesCompanion(
       query: query ?? this.query,
       timestamp: timestamp ?? this.timestamp,
@@ -480,15 +574,391 @@ class DbRecentSearchesCompanion extends UpdateCompanion<DbRecentSearche> {
 
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
+  $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $DbGroceriesTable dbGroceries = $DbGroceriesTable(this);
-  late final $DbRecentSearchesTable dbRecentSearches =
-      $DbRecentSearchesTable(this);
+  late final $DbRecentSearchesTable dbRecentSearches = $DbRecentSearchesTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [dbGroceries, dbRecentSearches];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    dbGroceries,
+    dbRecentSearches,
+  ];
+}
+
+typedef $$DbGroceriesTableCreateCompanionBuilder =
+    DbGroceriesCompanion Function({
+      Value<int> id,
+      required int order,
+      required String name,
+      required bool completed,
+      Value<double?> quantity,
+    });
+typedef $$DbGroceriesTableUpdateCompanionBuilder =
+    DbGroceriesCompanion Function({
+      Value<int> id,
+      Value<int> order,
+      Value<String> name,
+      Value<bool> completed,
+      Value<double?> quantity,
+    });
+
+class $$DbGroceriesTableFilterComposer
+    extends Composer<_$AppDatabase, $DbGroceriesTable> {
+  $$DbGroceriesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get order => $composableBuilder(
+    column: $table.order,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get completed => $composableBuilder(
+    column: $table.completed,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DbGroceriesTableOrderingComposer
+    extends Composer<_$AppDatabase, $DbGroceriesTable> {
+  $$DbGroceriesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get order => $composableBuilder(
+    column: $table.order,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get completed => $composableBuilder(
+    column: $table.completed,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DbGroceriesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DbGroceriesTable> {
+  $$DbGroceriesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get order =>
+      $composableBuilder(column: $table.order, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<bool> get completed =>
+      $composableBuilder(column: $table.completed, builder: (column) => column);
+
+  GeneratedColumn<double> get quantity =>
+      $composableBuilder(column: $table.quantity, builder: (column) => column);
+}
+
+class $$DbGroceriesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DbGroceriesTable,
+          DbGrocery,
+          $$DbGroceriesTableFilterComposer,
+          $$DbGroceriesTableOrderingComposer,
+          $$DbGroceriesTableAnnotationComposer,
+          $$DbGroceriesTableCreateCompanionBuilder,
+          $$DbGroceriesTableUpdateCompanionBuilder,
+          (
+            DbGrocery,
+            BaseReferences<_$AppDatabase, $DbGroceriesTable, DbGrocery>,
+          ),
+          DbGrocery,
+          PrefetchHooks Function()
+        > {
+  $$DbGroceriesTableTableManager(_$AppDatabase db, $DbGroceriesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer:
+              () => $$DbGroceriesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer:
+              () => $$DbGroceriesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer:
+              () =>
+                  $$DbGroceriesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> order = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<bool> completed = const Value.absent(),
+                Value<double?> quantity = const Value.absent(),
+              }) => DbGroceriesCompanion(
+                id: id,
+                order: order,
+                name: name,
+                completed: completed,
+                quantity: quantity,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int order,
+                required String name,
+                required bool completed,
+                Value<double?> quantity = const Value.absent(),
+              }) => DbGroceriesCompanion.insert(
+                id: id,
+                order: order,
+                name: name,
+                completed: completed,
+                quantity: quantity,
+              ),
+          withReferenceMapper:
+              (p0) =>
+                  p0
+                      .map(
+                        (e) => (
+                          e.readTable(table),
+                          BaseReferences(db, table, e),
+                        ),
+                      )
+                      .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DbGroceriesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DbGroceriesTable,
+      DbGrocery,
+      $$DbGroceriesTableFilterComposer,
+      $$DbGroceriesTableOrderingComposer,
+      $$DbGroceriesTableAnnotationComposer,
+      $$DbGroceriesTableCreateCompanionBuilder,
+      $$DbGroceriesTableUpdateCompanionBuilder,
+      (DbGrocery, BaseReferences<_$AppDatabase, $DbGroceriesTable, DbGrocery>),
+      DbGrocery,
+      PrefetchHooks Function()
+    >;
+typedef $$DbRecentSearchesTableCreateCompanionBuilder =
+    DbRecentSearchesCompanion Function({
+      required String query,
+      required DateTime timestamp,
+      Value<int> rowid,
+    });
+typedef $$DbRecentSearchesTableUpdateCompanionBuilder =
+    DbRecentSearchesCompanion Function({
+      Value<String> query,
+      Value<DateTime> timestamp,
+      Value<int> rowid,
+    });
+
+class $$DbRecentSearchesTableFilterComposer
+    extends Composer<_$AppDatabase, $DbRecentSearchesTable> {
+  $$DbRecentSearchesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get query => $composableBuilder(
+    column: $table.query,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get timestamp => $composableBuilder(
+    column: $table.timestamp,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DbRecentSearchesTableOrderingComposer
+    extends Composer<_$AppDatabase, $DbRecentSearchesTable> {
+  $$DbRecentSearchesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get query => $composableBuilder(
+    column: $table.query,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get timestamp => $composableBuilder(
+    column: $table.timestamp,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DbRecentSearchesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DbRecentSearchesTable> {
+  $$DbRecentSearchesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get query =>
+      $composableBuilder(column: $table.query, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get timestamp =>
+      $composableBuilder(column: $table.timestamp, builder: (column) => column);
+}
+
+class $$DbRecentSearchesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DbRecentSearchesTable,
+          DbRecentSearche,
+          $$DbRecentSearchesTableFilterComposer,
+          $$DbRecentSearchesTableOrderingComposer,
+          $$DbRecentSearchesTableAnnotationComposer,
+          $$DbRecentSearchesTableCreateCompanionBuilder,
+          $$DbRecentSearchesTableUpdateCompanionBuilder,
+          (
+            DbRecentSearche,
+            BaseReferences<
+              _$AppDatabase,
+              $DbRecentSearchesTable,
+              DbRecentSearche
+            >,
+          ),
+          DbRecentSearche,
+          PrefetchHooks Function()
+        > {
+  $$DbRecentSearchesTableTableManager(
+    _$AppDatabase db,
+    $DbRecentSearchesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer:
+              () =>
+                  $$DbRecentSearchesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer:
+              () => $$DbRecentSearchesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer:
+              () => $$DbRecentSearchesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> query = const Value.absent(),
+                Value<DateTime> timestamp = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DbRecentSearchesCompanion(
+                query: query,
+                timestamp: timestamp,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String query,
+                required DateTime timestamp,
+                Value<int> rowid = const Value.absent(),
+              }) => DbRecentSearchesCompanion.insert(
+                query: query,
+                timestamp: timestamp,
+                rowid: rowid,
+              ),
+          withReferenceMapper:
+              (p0) =>
+                  p0
+                      .map(
+                        (e) => (
+                          e.readTable(table),
+                          BaseReferences(db, table, e),
+                        ),
+                      )
+                      .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DbRecentSearchesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DbRecentSearchesTable,
+      DbRecentSearche,
+      $$DbRecentSearchesTableFilterComposer,
+      $$DbRecentSearchesTableOrderingComposer,
+      $$DbRecentSearchesTableAnnotationComposer,
+      $$DbRecentSearchesTableCreateCompanionBuilder,
+      $$DbRecentSearchesTableUpdateCompanionBuilder,
+      (
+        DbRecentSearche,
+        BaseReferences<_$AppDatabase, $DbRecentSearchesTable, DbRecentSearche>,
+      ),
+      DbRecentSearche,
+      PrefetchHooks Function()
+    >;
+
+class $AppDatabaseManager {
+  final _$AppDatabase _db;
+  $AppDatabaseManager(this._db);
+  $$DbGroceriesTableTableManager get dbGroceries =>
+      $$DbGroceriesTableTableManager(_db, _db.dbGroceries);
+  $$DbRecentSearchesTableTableManager get dbRecentSearches =>
+      $$DbRecentSearchesTableTableManager(_db, _db.dbRecentSearches);
 }
 
 // **************************************************************************
@@ -508,6 +978,8 @@ final appDatabaseProvider = Provider<AppDatabase>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AppDatabaseRef = ProviderRef<AppDatabase>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -1,17 +1,23 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for French (`fr`).
 class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
-  String get generic_error => 'Une erreur s\'est produite. Veuillez réessayer plus tard.';
+  String get generic_error =>
+      'Une erreur s\'est produite. Veuillez réessayer plus tard.';
 
   @override
   String get close => 'Fermer';
 
   @override
-  String get empty_grocery_list => 'Votre liste est vide.\nAjoutez des articles en appuyant sur le bouton \"+\".';
+  String get empty_grocery_list =>
+      'Votre liste est vide.\nAjoutez des articles en appuyant sur le bouton \"+\".';
 
   @override
   String get settings_title => 'Paramètres';

@@ -1,4 +1,6 @@
+import 'package:clock/clock.dart';
 import 'package:drift/drift.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_list/src/core/clock.dart';
 import 'package:todo_list/src/core/database/database.dart';
@@ -8,25 +10,25 @@ import 'package:todo_list/src/core/models/recent_search.dart';
 part 'home_local_datasource.g.dart';
 
 @riverpod
-HomeLocalDataSource homeLocalDatasource(HomeLocalDatasourceRef ref) {
-  return HomeLocalDataSource(ref);
+HomeLocalDataSource homeLocalDatasource(Ref ref) {
+  final db = ref.watch(appDatabaseProvider);
+  final clock = ref.watch(appClockProvider);
+  return HomeLocalDataSource(db: db, clock: clock);
 }
 
 class HomeLocalDataSource {
-  const HomeLocalDataSource(this.ref);
+  const HomeLocalDataSource({required this.db, required this.clock});
 
-  final HomeLocalDatasourceRef ref;
+  final AppDatabase db;
+  final Clock clock;
 
   Stream<List<Grocery>> watchGroceries() {
-    final db = ref.read(appDatabaseProvider);
-    return (db.select(db.dbGroceries)
-          ..orderBy([(t) => OrderingTerm(expression: t.order)]))
-        .watch()
-        .map((groceries) => groceries.map((e) => e.toModel()).toList());
+    return (db.select(db.dbGroceries)..orderBy([
+      (t) => OrderingTerm(expression: t.order),
+    ])).watch().map((groceries) => groceries.map((e) => e.toModel()).toList());
   }
 
   Stream<List<RecentSearch>> watchRecentSearches(String value) {
-    final db = ref.read(appDatabaseProvider);
     return (db.select(db.dbRecentSearches)
           ..where((a) => a.query.like('$value%'))
           ..orderBy([
@@ -39,27 +41,20 @@ class HomeLocalDataSource {
   }
 
   Future<void> updateGrocery(Grocery grocery) async {
-    final db = ref.read(appDatabaseProvider);
     await db.into(db.dbGroceries).insertOnConflictUpdate(grocery.toEntity());
   }
 
   Future<void> reorderGroceries(List<Grocery> groceries) async {
-    final db = ref.read(appDatabaseProvider);
     await db.batch((b) {
-      b.replaceAll(
-        db.dbGroceries,
-        groceries.map((e) => e.toEntity()),
-      );
+      b.replaceAll(db.dbGroceries, groceries.map((e) => e.toEntity()));
     });
   }
 
   Future<int> addGrocery(Grocery grocery) {
-    final db = ref.read(appDatabaseProvider);
     return db.into(db.dbGroceries).insert(grocery.toCompanion());
   }
 
   Future<void> deleteGrocery(Grocery grocery, List<Grocery> newOrder) async {
-    final db = ref.read(appDatabaseProvider);
     await db.batch((b) {
       b
         ..delete(db.dbGroceries, grocery.toEntity())
@@ -68,9 +63,9 @@ class HomeLocalDataSource {
   }
 
   Future<void> addRecentSearch(String query) async {
-    final db = ref.read(appDatabaseProvider);
-    final clock = ref.read(appClockProvider);
-    await db.into(db.dbRecentSearches).insertOnConflictUpdate(
+    await db
+        .into(db.dbRecentSearches)
+        .insertOnConflictUpdate(
           DbRecentSearchesCompanion.insert(
             query: query,
             timestamp: clock.now(),
@@ -79,7 +74,6 @@ class HomeLocalDataSource {
   }
 
   Future<List<RecentSearch>> getRecentSearches(String value) async {
-    final db = ref.read(appDatabaseProvider);
     return (db.select(db.dbRecentSearches)
           ..where((a) => a.query.like('$value%'))
           ..orderBy([

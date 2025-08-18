@@ -1,4 +1,5 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
@@ -8,7 +9,7 @@ import 'package:todo_list/src/features/home/data/sources/home_local_datasource.d
 part 'grocery_list_controller.g.dart';
 
 @riverpod
-Stream<List<Grocery>> watchGroceries(WatchGroceriesRef ref) {
+Stream<List<Grocery>> watchGroceries(Ref ref) {
   return ref.watch(homeLocalDatasourceProvider).watchGroceries();
 }
 
@@ -85,7 +86,7 @@ class GroceryListController extends _$GroceryListController {
     for (final grocery in groceries) {
       shareBuffer.writeln('- ${grocery.name}');
     }
-    await Share.share(shareBuffer.toString());
+    await SharePlus.instance.share(ShareParams(text: shareBuffer.toString()));
   }
 
   void toggle(Grocery grocery) {

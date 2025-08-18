@@ -12,32 +12,38 @@ String _$watchGroceriesHash() => r'867c32d0f9cf7f37e85b4d23bc7be1bae6381a0c';
 @ProviderFor(watchGroceries)
 final watchGroceriesProvider =
     AutoDisposeStreamProvider<List<Grocery>>.internal(
-  watchGroceries,
-  name: r'watchGroceriesProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$watchGroceriesHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      watchGroceries,
+      name: r'watchGroceriesProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$watchGroceriesHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef WatchGroceriesRef = AutoDisposeStreamProviderRef<List<Grocery>>;
 String _$groceryListControllerHash() =>
-    r'de88d13c0f5b17ae97007ea535faf2d21d810393';
+    r'31bfb6ad0f3400ef69c4832e41b7a644a7a03421';
 
 /// See also [GroceryListController].
 @ProviderFor(GroceryListController)
 final groceryListControllerProvider = AutoDisposeAsyncNotifierProvider<
-    GroceryListController, IList<Grocery>>.internal(
+  GroceryListController,
+  IList<Grocery>
+>.internal(
   GroceryListController.new,
   name: r'groceryListControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$groceryListControllerHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$groceryListControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 typedef _$GroceryListController = AutoDisposeAsyncNotifier<IList<Grocery>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

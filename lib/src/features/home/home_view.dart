@@ -77,10 +77,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
             },
             itemCount: data.length,
             onReorder: (oldIndex, newIndex) {
-              ref.read(groceryListControllerProvider.notifier).reorder(
-                    oldIndex,
-                    newIndex,
-                  );
+              ref
+                  .read(groceryListControllerProvider.notifier)
+                  .reorder(oldIndex, newIndex);
             },
           );
         },
@@ -102,7 +101,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         return Material(
           elevation: elevation,
           color: Colors.transparent,
-          shadowColor: Colors.black.withOpacity(0.3),
+          shadowColor: Colors.black.withValues(alpha: 0.3),
           child: child,
         );
       },

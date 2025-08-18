@@ -39,21 +39,13 @@ class RouterFamily extends Family<GoRouter> {
   const RouterFamily();
 
   /// See also [router].
-  RouterProvider call({
-    required bool debugLogDiagnostics,
-  }) {
-    return RouterProvider(
-      debugLogDiagnostics: debugLogDiagnostics,
-    );
+  RouterProvider call({required bool debugLogDiagnostics}) {
+    return RouterProvider(debugLogDiagnostics: debugLogDiagnostics);
   }
 
   @override
-  RouterProvider getProviderOverride(
-    covariant RouterProvider provider,
-  ) {
-    return call(
-      debugLogDiagnostics: provider.debugLogDiagnostics,
-    );
+  RouterProvider getProviderOverride(covariant RouterProvider provider) {
+    return call(debugLogDiagnostics: provider.debugLogDiagnostics);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -74,23 +66,18 @@ class RouterFamily extends Family<GoRouter> {
 /// See also [router].
 class RouterProvider extends Provider<GoRouter> {
   /// See also [router].
-  RouterProvider({
-    required bool debugLogDiagnostics,
-  }) : this._internal(
-          (ref) => router(
-            ref as RouterRef,
-            debugLogDiagnostics: debugLogDiagnostics,
-          ),
-          from: routerProvider,
-          name: r'routerProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$routerHash,
-          dependencies: RouterFamily._dependencies,
-          allTransitiveDependencies: RouterFamily._allTransitiveDependencies,
-          debugLogDiagnostics: debugLogDiagnostics,
-        );
+  RouterProvider({required bool debugLogDiagnostics})
+    : this._internal(
+        (ref) =>
+            router(ref as RouterRef, debugLogDiagnostics: debugLogDiagnostics),
+        from: routerProvider,
+        name: r'routerProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product') ? null : _$routerHash,
+        dependencies: RouterFamily._dependencies,
+        allTransitiveDependencies: RouterFamily._allTransitiveDependencies,
+        debugLogDiagnostics: debugLogDiagnostics,
+      );
 
   RouterProvider._internal(
     super._createNotifier, {
@@ -105,9 +92,7 @@ class RouterProvider extends Provider<GoRouter> {
   final bool debugLogDiagnostics;
 
   @override
-  Override overrideWith(
-    GoRouter Function(RouterRef provider) create,
-  ) {
+  Override overrideWith(GoRouter Function(RouterRef provider) create) {
     return ProviderOverride(
       origin: this,
       override: RouterProvider._internal(
@@ -142,6 +127,8 @@ class RouterProvider extends Provider<GoRouter> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin RouterRef on ProviderRef<GoRouter> {
   /// The parameter `debugLogDiagnostics` of this provider.
   bool get debugLogDiagnostics;
@@ -154,5 +141,6 @@ class _RouterProviderElement extends ProviderElement<GoRouter> with RouterRef {
   bool get debugLogDiagnostics =>
       (origin as RouterProvider).debugLogDiagnostics;
 }
+
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

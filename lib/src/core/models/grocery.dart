@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'grocery.freezed.dart';
 
 @freezed
-class Grocery with _$Grocery {
+abstract class Grocery with _$Grocery {
   const factory Grocery({
     required int id,
     required int order,

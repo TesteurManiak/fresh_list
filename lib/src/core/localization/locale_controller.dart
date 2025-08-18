@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_list/gen/app_localizations.dart';
 import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
@@ -9,24 +10,18 @@ part 'locale_controller.g.dart';
 typedef LocalizedString = String Function(AppLocalizations strings);
 
 @Riverpod(keepAlive: true)
-Locale fallbackLocale(FallbackLocaleRef ref) {
-  return AppLocalizations.supportedLocales.first;
-}
+Locale fallbackLocale(Ref ref) => AppLocalizations.supportedLocales.first;
 
 @Riverpod(keepAlive: true)
-Locale systemLocale(SystemLocaleRef ref) {
+Locale systemLocale(Ref ref) {
   final fallback = ref.watch(fallbackLocaleProvider);
+  final locale = _resolveLocale(PlatformDispatcher.instance.locale, fallback);
 
-  ref.state = _resolveLocale(PlatformDispatcher.instance.locale, fallback);
-
-  final observer = _LocaleObserver((locales) {
-    ref.state = _resolveLocale(PlatformDispatcher.instance.locale, fallback);
-  });
-
+  final observer = _LocaleObserver((_) => ref.invalidateSelf());
   final binding = WidgetsBinding.instance..addObserver(observer);
   ref.onDispose(() => binding.removeObserver(observer));
 
-  return ref.state;
+  return locale;
 }
 
 class _LocaleObserver extends WidgetsBindingObserver {

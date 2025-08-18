@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
@@ -5,32 +6,32 @@ import 'package:todo_list/src/features/home/data/sources/home_local_datasource.d
 part 'home_repository.g.dart';
 
 @riverpod
-HomeRepository homeRepository(HomeRepositoryRef ref) {
-  return HomeRepository(ref);
+HomeRepository homeRepository(Ref ref) {
+  final localDatasource = ref.watch(homeLocalDatasourceProvider);
+  return HomeRepository(localDataSource: localDatasource);
 }
 
 class HomeRepository {
-  const HomeRepository(this.ref);
+  const HomeRepository({required this.localDataSource});
 
-  final HomeRepositoryRef ref;
+  final HomeLocalDataSource localDataSource;
 
   Future<void> reorderGroceries(List<Grocery> groceries) async {
-    await ref.read(homeLocalDatasourceProvider).reorderGroceries(groceries);
+    await localDataSource.reorderGroceries(groceries);
   }
 
   Future<void> addGrocery(Grocery grocery) async {
-    await ref.read(homeLocalDatasourceProvider).addGrocery(grocery);
-    await ref.read(homeLocalDatasourceProvider).addRecentSearch(grocery.name);
+    await localDataSource.addGrocery(grocery);
+    await localDataSource.addRecentSearch(grocery.name);
   }
 
   Future<void> updateGrocery(Grocery grocery) async {
-    await ref.read(homeLocalDatasourceProvider).updateGrocery(grocery);
-    await ref.read(homeLocalDatasourceProvider).addRecentSearch(grocery.name);
+    await localDataSource.updateGrocery(grocery);
+    await localDataSource.addRecentSearch(grocery.name);
   }
 
   Future<List<String>> getRecentSearches(String value) {
-    return ref
-        .read(homeLocalDatasourceProvider)
+    return localDataSource
         .getRecentSearches(value)
         .then((searches) => searches.map((s) => s.query).toList());
   }

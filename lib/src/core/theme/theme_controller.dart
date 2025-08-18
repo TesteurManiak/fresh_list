@@ -1,23 +1,23 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_list/src/core/extensions/theme_mode_extensions.dart';
 import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
-import 'package:todo_list/src/design_system/theme_data/theme.dart';
 
 part 'theme_controller.g.dart';
 
 @riverpod
-ThemeMode defaultThemeMode(DefaultThemeModeRef ref) => ThemeMode.system;
+ThemeMode defaultThemeMode(Ref ref) => ThemeMode.system;
 
 @riverpod
-ThemeData lightTheme(LightThemeRef ref) => AppTheme.light();
+ThemeData lightTheme(Ref ref) => ThemeData.light();
 
 @riverpod
-ThemeData darkTheme(DarkThemeRef ref) => AppTheme.dark();
+ThemeData darkTheme(Ref ref) => ThemeData.dark();
 
 @riverpod
-Brightness platformBrightness(PlatformBrightnessRef ref) {
+Brightness platformBrightness(Ref ref) {
   return PlatformDispatcher.instance.platformBrightness;
 }
 

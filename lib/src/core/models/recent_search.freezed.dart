@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,143 +10,136 @@ part of 'recent_search.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$RecentSearch {
-  String get query => throw _privateConstructorUsedError;
-  DateTime get timestamp => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
-  $RecentSearchCopyWith<RecentSearch> get copyWith =>
-      throw _privateConstructorUsedError;
+ String get query; DateTime get timestamp;
+/// Create a copy of RecentSearch
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$RecentSearchCopyWith<RecentSearch> get copyWith => _$RecentSearchCopyWithImpl<RecentSearch>(this as RecentSearch, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecentSearch&&(identical(other.query, query) || other.query == query)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,query,timestamp);
+
+@override
+String toString() {
+  return 'RecentSearch(query: $query, timestamp: $timestamp)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $RecentSearchCopyWith<$Res> {
-  factory $RecentSearchCopyWith(
-          RecentSearch value, $Res Function(RecentSearch) then) =
-      _$RecentSearchCopyWithImpl<$Res, RecentSearch>;
-  @useResult
-  $Res call({String query, DateTime timestamp});
-}
+abstract mixin class $RecentSearchCopyWith<$Res>  {
+  factory $RecentSearchCopyWith(RecentSearch value, $Res Function(RecentSearch) _then) = _$RecentSearchCopyWithImpl;
+@useResult
+$Res call({
+ String query, DateTime timestamp
+});
 
+
+
+
+}
 /// @nodoc
-class _$RecentSearchCopyWithImpl<$Res, $Val extends RecentSearch>
+class _$RecentSearchCopyWithImpl<$Res>
     implements $RecentSearchCopyWith<$Res> {
-  _$RecentSearchCopyWithImpl(this._value, this._then);
+  _$RecentSearchCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final RecentSearch _self;
+  final $Res Function(RecentSearch) _then;
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? query = null,
-    Object? timestamp = null,
-  }) {
-    return _then(_value.copyWith(
-      query: null == query
-          ? _value.query
-          : query // ignore: cast_nullable_to_non_nullable
-              as String,
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ) as $Val);
-  }
+/// Create a copy of RecentSearch
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? timestamp = null,}) {
+  return _then(_self.copyWith(
+query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
+as String,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as DateTime,
+  ));
 }
 
-/// @nodoc
-abstract class _$$RecentSearchImplCopyWith<$Res>
-    implements $RecentSearchCopyWith<$Res> {
-  factory _$$RecentSearchImplCopyWith(
-          _$RecentSearchImpl value, $Res Function(_$RecentSearchImpl) then) =
-      __$$RecentSearchImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String query, DateTime timestamp});
 }
 
-/// @nodoc
-class __$$RecentSearchImplCopyWithImpl<$Res>
-    extends _$RecentSearchCopyWithImpl<$Res, _$RecentSearchImpl>
-    implements _$$RecentSearchImplCopyWith<$Res> {
-  __$$RecentSearchImplCopyWithImpl(
-      _$RecentSearchImpl _value, $Res Function(_$RecentSearchImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? query = null,
-    Object? timestamp = null,
-  }) {
-    return _then(_$RecentSearchImpl(
-      query: null == query
-          ? _value.query
-          : query // ignore: cast_nullable_to_non_nullable
-              as String,
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
-  }
-}
 
 /// @nodoc
 
-class _$RecentSearchImpl implements _RecentSearch {
-  const _$RecentSearchImpl({required this.query, required this.timestamp});
 
-  @override
-  final String query;
-  @override
-  final DateTime timestamp;
+class _RecentSearch implements RecentSearch {
+  const _RecentSearch({required this.query, required this.timestamp});
+  
 
-  @override
-  String toString() {
-    return 'RecentSearch(query: $query, timestamp: $timestamp)';
-  }
+@override final  String query;
+@override final  DateTime timestamp;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$RecentSearchImpl &&
-            (identical(other.query, query) || other.query == query) &&
-            (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp));
-  }
+/// Create a copy of RecentSearch
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$RecentSearchCopyWith<_RecentSearch> get copyWith => __$RecentSearchCopyWithImpl<_RecentSearch>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, query, timestamp);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$RecentSearchImplCopyWith<_$RecentSearchImpl> get copyWith =>
-      __$$RecentSearchImplCopyWithImpl<_$RecentSearchImpl>(this, _$identity);
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecentSearch&&(identical(other.query, query) || other.query == query)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
 }
 
-abstract class _RecentSearch implements RecentSearch {
-  const factory _RecentSearch(
-      {required final String query,
-      required final DateTime timestamp}) = _$RecentSearchImpl;
 
-  @override
-  String get query;
-  @override
-  DateTime get timestamp;
-  @override
-  @JsonKey(ignore: true)
-  _$$RecentSearchImplCopyWith<_$RecentSearchImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,query,timestamp);
+
+@override
+String toString() {
+  return 'RecentSearch(query: $query, timestamp: $timestamp)';
 }
+
+
+}
+
+/// @nodoc
+abstract mixin class _$RecentSearchCopyWith<$Res> implements $RecentSearchCopyWith<$Res> {
+  factory _$RecentSearchCopyWith(_RecentSearch value, $Res Function(_RecentSearch) _then) = __$RecentSearchCopyWithImpl;
+@override @useResult
+$Res call({
+ String query, DateTime timestamp
+});
+
+
+
+
+}
+/// @nodoc
+class __$RecentSearchCopyWithImpl<$Res>
+    implements _$RecentSearchCopyWith<$Res> {
+  __$RecentSearchCopyWithImpl(this._self, this._then);
+
+  final _RecentSearch _self;
+  final $Res Function(_RecentSearch) _then;
+
+/// Create a copy of RecentSearch
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? query = null,Object? timestamp = null,}) {
+  return _then(_RecentSearch(
+query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
+as String,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as DateTime,
+  ));
+}
+
+
+}
+
+// dart format on

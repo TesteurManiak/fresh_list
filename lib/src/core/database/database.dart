@@ -2,6 +2,7 @@ import 'dart:io' as io;
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -43,7 +44,7 @@ class AppDatabase extends _$AppDatabase {
 }
 
 @Riverpod(keepAlive: true)
-AppDatabase appDatabase(AppDatabaseRef ref) => AppDatabase();
+AppDatabase appDatabase(Ref ref) => AppDatabase();
 
 extension DbGroceriesExt on DbGrocery {
   Grocery toModel() {
@@ -59,9 +60,6 @@ extension DbGroceriesExt on DbGrocery {
 
 extension DbRecentSearchesExt on DbRecentSearche {
   RecentSearch toModel() {
-    return RecentSearch(
-      query: query,
-      timestamp: timestamp,
-    );
+    return RecentSearch(query: query, timestamp: timestamp);
   }
 }

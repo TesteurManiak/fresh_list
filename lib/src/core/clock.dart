@@ -1,7 +1,8 @@
 import 'package:clock/clock.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'clock.g.dart';
 
 @riverpod
-Clock appClock(AppClockRef ref) => clock;
+Clock appClock(Ref ref) => clock;

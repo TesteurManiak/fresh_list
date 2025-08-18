@@ -3,8 +3,5 @@ include: package:fd_lints/flutter.yaml
 analyzer:
   errors:
     invalid_annotation_target: ignore
-  plugins:
-    - custom_lint
   exclude:
-    - "**/*.tailor.dart"
     - lib/gen/**.dart

@@ -5,10 +5,7 @@ import 'package:todo_list/src/features/home/controllers/grocery_list_controller.
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 
 class GroceryTile extends ConsumerWidget {
-  const GroceryTile(
-    this.grocery, {
-    required Key super.key,
-  });
+  const GroceryTile(this.grocery, {required Key super.key});
 
   final Grocery grocery;
 
@@ -45,7 +42,7 @@ class GroceryTile extends ConsumerWidget {
           color: colorScheme.surface,
           boxShadow: [
             BoxShadow(
-              color: colorScheme.onSurface.withOpacity(0.1),
+              color: colorScheme.onSurface.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -71,9 +68,10 @@ class GroceryTile extends ConsumerWidget {
                     child: Text(
                       grocery.name,
                       style: TextStyle(
-                        decoration: grocery.completed
-                            ? TextDecoration.lineThrough
-                            : null,
+                        decoration:
+                            grocery.completed
+                                ? TextDecoration.lineThrough
+                                : null,
                       ),
                     ),
                   ),
@@ -93,8 +91,9 @@ class GroceryTile extends ConsumerWidget {
     WidgetRef ref,
     Grocery initialValue,
   ) async {
-    final grocery =
-        await EditGroceryBottomSheet(initialValue: initialValue).show(context);
+    final grocery = await EditGroceryBottomSheet(
+      initialValue: initialValue,
+    ).show(context);
     if (grocery == null || grocery == this.grocery) return;
 
     ref.read(groceryListControllerProvider.notifier).updateGrocery(grocery);
