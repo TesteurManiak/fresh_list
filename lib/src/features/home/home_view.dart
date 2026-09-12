@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/src/core/consts.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
+import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 import 'package:todo_list/src/features/home/widgets/grocery_tile.dart';
@@ -17,14 +18,8 @@ class HomeView extends ConsumerStatefulWidget {
   ConsumerState<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends ConsumerState<HomeView> {
-  final scrollController = ScrollController();
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
+class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
+  late final scrollController = useScrollController();
 
   @override
   Widget build(BuildContext context) {

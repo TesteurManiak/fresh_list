@@ -5,8 +5,11 @@ import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/features/home/data/repositories/home_repository.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
 
-final watchGroceriesProvider = StreamProvider.autoDispose<List<Grocery>>(
-  (ref) => ref.watch(homeLocalDatasourceProvider).watchGroceries(),
+final _watchGroceriesProvider = StreamProvider.autoDispose<IList<Grocery>>(
+  (ref) => ref
+      .watch(homeLocalDatasourceProvider)
+      .watchGroceries()
+      .map((e) => e.lock),
 );
 
 final groceryListControllerProvider =
@@ -16,15 +19,7 @@ final groceryListControllerProvider =
 
 class GroceryListController extends AsyncNotifier<IList<Grocery>> {
   @override
-  Future<IList<Grocery>> build() async {
-    final initialGroceries = await ref.read(watchGroceriesProvider.future);
-
-    ref.listen(watchGroceriesProvider, (_, next) {
-      next.whenData((data) => state = AsyncData(data.lock));
-    });
-
-    return initialGroceries.lock;
-  }
+  Future<IList<Grocery>> build() => ref.watch(_watchGroceriesProvider.future);
 
   Future<void> createGrocery(Grocery grocery) async {
     final elements = state.value;
