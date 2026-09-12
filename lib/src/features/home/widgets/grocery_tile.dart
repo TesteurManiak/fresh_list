@@ -18,7 +18,7 @@ class GroceryTile extends ConsumerWidget {
 
     return Dismissible(
       key: Key('GroceryTile-${grocery.id}'),
-      dismissThresholds: const {DismissDirection.startToEnd: 0.2},
+      dismissThresholds: const {.startToEnd: 0.2},
       movementDuration: const Duration(milliseconds: 300),
       confirmDismiss: (direction) async {
         if (direction == .endToStart) return true;
@@ -33,18 +33,22 @@ class GroceryTile extends ConsumerWidget {
           );
         }
       },
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
         margin: const .symmetric(vertical: 4),
         clipBehavior: .antiAlias,
         decoration: BoxDecoration(
-          borderRadius: .circular(10),
-          color: colorScheme.surface,
+          borderRadius: .circular(16),
+          color: colorScheme.surface.withValues(
+            alpha: grocery.completed ? .8 : 1,
+          ),
           boxShadow: [
-            BoxShadow(
-              color: colorScheme.onSurface.withValues(alpha: 0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
+            if (!grocery.completed)
+              BoxShadow(
+                color: colorScheme.onSurface.withValues(alpha: 0.05),
+                blurRadius: 2,
+                offset: const Offset(0, 1),
+              ),
           ],
         ),
         child: Material(
