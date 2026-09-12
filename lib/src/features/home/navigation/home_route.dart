@@ -5,7 +5,7 @@ import 'package:todo_list/src/features/home/home_view.dart';
 part 'home_route.g.dart';
 
 @TypedGoRoute<HomeRoute>(path: HomeRoute.path)
-class HomeRoute extends GoRouteData with _$HomeRoute {
+class HomeRoute extends GoRouteData with $HomeRoute {
   const HomeRoute();
 
   static const path = '/';

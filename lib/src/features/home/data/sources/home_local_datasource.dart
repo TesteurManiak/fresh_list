@@ -1,20 +1,16 @@
 import 'package:clock/clock.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_list/src/core/clock.dart';
 import 'package:todo_list/src/core/database/database.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
 
-part 'home_local_datasource.g.dart';
-
-@riverpod
-HomeLocalDataSource homeLocalDatasource(Ref ref) {
+final homeLocalDatasourceProvider = Provider<HomeLocalDataSource>((ref) {
   final db = ref.watch(appDatabaseProvider);
   final clock = ref.watch(appClockProvider);
   return HomeLocalDataSource(db: db, clock: clock);
-}
+});
 
 class HomeLocalDataSource {
   const HomeLocalDataSource({required this.db, required this.clock});
@@ -23,9 +19,10 @@ class HomeLocalDataSource {
   final Clock clock;
 
   Stream<List<Grocery>> watchGroceries() {
-    return (db.select(db.dbGroceries)..orderBy([
-      (t) => OrderingTerm(expression: t.order),
-    ])).watch().map((groceries) => groceries.map((e) => e.toModel()).toList());
+    return (db.select(db.dbGroceries)
+          ..orderBy([(t) => OrderingTerm(expression: t.order)]))
+        .watch()
+        .map((groceries) => groceries.map((e) => e.toModel()).toList());
   }
 
   Stream<List<RecentSearch>> watchRecentSearches(String value) {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
@@ -19,19 +21,23 @@ class GroceryTile extends ConsumerWidget {
       key: Key('Dismissible-${grocery.id}'),
       dismissThresholds: const {DismissDirection.startToEnd: 0.2},
       movementDuration: const Duration(milliseconds: 300),
-      confirmDismiss: (direction) {
+      confirmDismiss: (direction) async {
         if (direction == DismissDirection.endToStart) {
-          return Future.value(true);
+          return true;
         } else if (direction == DismissDirection.startToEnd) {
-          ref.read(groceryListControllerProvider.notifier).toggle(grocery);
+          await ref
+              .read(groceryListControllerProvider.notifier)
+              .toggle(grocery);
         }
-        return Future.value(false);
+        return false;
       },
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
-          ref
-              .read(groceryListControllerProvider.notifier)
-              .deleteGrocery(grocery);
+          unawaited(
+            ref
+                .read(groceryListControllerProvider.notifier)
+                .deleteGrocery(grocery),
+          );
         }
       },
       child: Container(
@@ -58,20 +64,17 @@ class GroceryTile extends ConsumerWidget {
                 children: [
                   Checkbox(
                     value: grocery.completed,
-                    onChanged: (_) {
-                      ref
-                          .read(groceryListControllerProvider.notifier)
-                          .toggle(grocery);
-                    },
+                    onChanged: (_) => ref
+                        .read(groceryListControllerProvider.notifier)
+                        .toggle(grocery),
                   ),
                   Expanded(
                     child: Text(
                       grocery.name,
                       style: TextStyle(
-                        decoration:
-                            grocery.completed
-                                ? TextDecoration.lineThrough
-                                : null,
+                        decoration: grocery.completed
+                            ? TextDecoration.lineThrough
+                            : null,
                       ),
                     ),
                   ),
@@ -94,8 +97,10 @@ class GroceryTile extends ConsumerWidget {
     final grocery = await EditGroceryBottomSheet(
       initialValue: initialValue,
     ).show(context);
-    if (grocery == null || grocery == this.grocery) return;
+    if (grocery == null || grocery == this.grocery || !context.mounted) return;
 
-    ref.read(groceryListControllerProvider.notifier).updateGrocery(grocery);
+    unawaited(
+      ref.read(groceryListControllerProvider.notifier).updateGrocery(grocery),
+    );
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
 
@@ -37,9 +36,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
         title: const Text(Consts.appName),
         leading: IconButton(
           icon: const Icon(Icons.share),
-          onPressed: () {
-            ref.read(groceryListControllerProvider.notifier).shareList();
-          },
+          onPressed: () =>
+              ref.read(groceryListControllerProvider.notifier).shareList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -52,12 +50,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 .createGrocery(grocery);
 
             if (!scrollController.hasClients) return;
-            unawaited(
-              scrollController.animateTo(
-                scrollController.position.maxScrollExtent,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeOut,
-              ),
+
+            scrollController.animateTo(
+              scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
             );
           }
         },
@@ -76,11 +73,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
               return GroceryTile(data[i], key: Key('Reorderable-$i'));
             },
             itemCount: data.length,
-            onReorder: (oldIndex, newIndex) {
-              ref
-                  .read(groceryListControllerProvider.notifier)
-                  .reorder(oldIndex, newIndex);
-            },
+            onReorderItem: (oldIndex, newIndex) => ref
+                .read(groceryListControllerProvider.notifier)
+                .reorder(oldIndex, newIndex),
           );
         },
         error: (e, s) {

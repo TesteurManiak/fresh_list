@@ -19,7 +19,7 @@ class App extends ConsumerWidget {
       locale: ref.watch(localeControllerProvider),
       theme: ref.watch(lightThemeProvider),
       themeMode: ref.watch(themeControllerProvider),
-      routerConfig: ref.watch(routerProvider(debugLogDiagnostics: kDebugMode)),
+      routerConfig: ref.watch(routerProvider(kDebugMode)),
     );
   }
 }

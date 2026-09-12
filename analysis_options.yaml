@@ -1,7 +1,22 @@
-include: package:fd_lints/flutter.yaml
+include: package:very_good_analysis/analysis_options.yaml
+
+plugins:
+  riverpod_lint: ^3.1.9
 
 analyzer:
   errors:
     invalid_annotation_target: ignore
   exclude:
     - lib/gen/**.dart
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - macos/**
+
+linter:
+  rules:
+    public_member_api_docs: false
+    omit_local_variable_types: false
+    specify_nonobvious_property_types: false
+    async_return_with_no_await: false

@@ -121,26 +121,22 @@ class $DbGroceriesTable extends DbGroceries
   DbGrocery map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DbGrocery(
-      id:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.int,
-            data['${effectivePrefix}id'],
-          )!,
-      order:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.int,
-            data['${effectivePrefix}order'],
-          )!,
-      name:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}name'],
-          )!,
-      completed:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.bool,
-            data['${effectivePrefix}completed'],
-          )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      order: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}order'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      completed: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}completed'],
+      )!,
       quantity: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}quantity'],
@@ -186,10 +182,9 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
       order: Value(order),
       name: Value(name),
       completed: Value(completed),
-      quantity:
-          quantity == null && nullToAbsent
-              ? const Value.absent()
-              : Value(quantity),
+      quantity: quantity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(quantity),
     );
   }
 
@@ -419,16 +414,14 @@ class $DbRecentSearchesTable extends DbRecentSearches
   DbRecentSearche map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DbRecentSearche(
-      query:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}query'],
-          )!,
-      timestamp:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.dateTime,
-            data['${effectivePrefix}timestamp'],
-          )!,
+      query: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}query'],
+      )!,
+      timestamp: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}timestamp'],
+      )!,
     );
   }
 
@@ -724,13 +717,12 @@ class $$DbGroceriesTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer:
-              () => $$DbGroceriesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer:
-              () => $$DbGroceriesTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer:
-              () =>
-                  $$DbGroceriesTableAnnotationComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$DbGroceriesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DbGroceriesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DbGroceriesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
@@ -759,16 +751,18 @@ class $$DbGroceriesTableTableManager
                 completed: completed,
                 quantity: quantity,
               ),
-          withReferenceMapper:
-              (p0) =>
-                  p0
-                      .map(
-                        (e) => (
-                          e.readTable(table),
-                          BaseReferences(db, table, e),
-                        ),
-                      )
-                      .toList(),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$DbGroceriesTable, DbGrocery>(table),
+                  BaseReferences<_$AppDatabase, $DbGroceriesTable, DbGrocery>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
           prefetchHooksCallback: null,
         ),
       );
@@ -886,19 +880,12 @@ class $$DbRecentSearchesTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer:
-              () =>
-                  $$DbRecentSearchesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer:
-              () => $$DbRecentSearchesTableOrderingComposer(
-                $db: db,
-                $table: table,
-              ),
-          createComputedFieldComposer:
-              () => $$DbRecentSearchesTableAnnotationComposer(
-                $db: db,
-                $table: table,
-              ),
+          createFilteringComposer: () =>
+              $$DbRecentSearchesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DbRecentSearchesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DbRecentSearchesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<String> query = const Value.absent(),
@@ -919,16 +906,18 @@ class $$DbRecentSearchesTableTableManager
                 timestamp: timestamp,
                 rowid: rowid,
               ),
-          withReferenceMapper:
-              (p0) =>
-                  p0
-                      .map(
-                        (e) => (
-                          e.readTable(table),
-                          BaseReferences(db, table, e),
-                        ),
-                      )
-                      .toList(),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$DbRecentSearchesTable, DbRecentSearche>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $DbRecentSearchesTable,
+                    DbRecentSearche
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
           prefetchHooksCallback: null,
         ),
       );
@@ -960,26 +949,3 @@ class $AppDatabaseManager {
   $$DbRecentSearchesTableTableManager get dbRecentSearches =>
       $$DbRecentSearchesTableTableManager(_db, _db.dbRecentSearches);
 }
-
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
-
-String _$appDatabaseHash() => r'92a246abcb363d93aa5a028712241f464abc4efe';
-
-/// See also [appDatabase].
-@ProviderFor(appDatabase)
-final appDatabaseProvider = Provider<AppDatabase>.internal(
-  appDatabase,
-  name: r'appDatabaseProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$appDatabaseHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef AppDatabaseRef = ProviderRef<AppDatabase>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

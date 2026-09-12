@@ -8,10 +8,13 @@ part of 'home_route.dart';
 
 List<RouteBase> get $appRoutes => [$homeRoute];
 
-RouteBase get $homeRoute =>
-    GoRouteData.$route(path: '/', factory: _$HomeRoute._fromState);
+RouteBase get $homeRoute => GoRouteData.$route(
+  path: '/',
+  hasOverriddenOnExit: false,
+  factory: $HomeRoute._fromState,
+);
 
-mixin _$HomeRoute on GoRouteData {
+mixin $HomeRoute on GoRouteData {
   static HomeRoute _fromState(GoRouterState state) => const HomeRoute();
 
   @override

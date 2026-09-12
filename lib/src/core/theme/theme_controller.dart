@@ -1,28 +1,25 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_list/src/core/extensions/theme_mode_extensions.dart';
 import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
 
-part 'theme_controller.g.dart';
+final defaultThemeModeProvider = Provider.autoDispose<ThemeMode>(
+  (_) => .system,
+);
 
-@riverpod
-ThemeMode defaultThemeMode(Ref ref) => ThemeMode.system;
+final lightThemeProvider = Provider.autoDispose<ThemeData>((_) => .light());
+final darkThemeProvider = Provider.autoDispose<ThemeData>((_) => .dark());
 
-@riverpod
-ThemeData lightTheme(Ref ref) => ThemeData.light();
+final platformBrightnessProvider = Provider.autoDispose<Brightness>(
+  (_) => PlatformDispatcher.instance.platformBrightness,
+);
 
-@riverpod
-ThemeData darkTheme(Ref ref) => ThemeData.dark();
+final themeControllerProvider = NotifierProvider<ThemeController, ThemeMode>(
+  ThemeController.new,
+);
 
-@riverpod
-Brightness platformBrightness(Ref ref) {
-  return PlatformDispatcher.instance.platformBrightness;
-}
-
-@Riverpod(keepAlive: true)
-class ThemeController extends _$ThemeController {
+class ThemeController extends Notifier<ThemeMode> {
   static const themeKey = SharedPrefsKey.themeMode;
 
   @override
@@ -44,8 +41,9 @@ class ThemeController extends _$ThemeController {
   /// Used to toggle between light and dark theme modes.
   Future<void> toggle() {
     final platformBrightness = ref.read(platformBrightnessProvider);
-    final newMode =
-        state.isDark(platformBrightness) ? ThemeMode.light : ThemeMode.dark;
+    final newMode = state.isPlatformDark(platformBrightness)
+        ? ThemeMode.light
+        : ThemeMode.dark;
 
     return setThemeMode(newMode);
   }
@@ -60,7 +58,5 @@ class ThemeController extends _$ThemeController {
   }
 
   /// Used to reset the theme mode to the default theme mode.
-  Future<void> reset() {
-    return setThemeMode(ref.read(defaultThemeModeProvider));
-  }
+  Future<void> reset() => setThemeMode(ref.read(defaultThemeModeProvider));
 }

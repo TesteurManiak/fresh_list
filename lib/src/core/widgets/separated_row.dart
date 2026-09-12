@@ -7,15 +7,15 @@ import 'package:todo_list/src/core/extensions/iterable_extensions.dart';
 class SeparatedRow extends StatelessWidget {
   /// {@macro separated_row}
   const SeparatedRow({
-    super.key,
+    required this.separator,
+    required this.children,
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.crossAxisAlignment,
     this.textDirection,
     this.verticalDirection,
     this.textBaseline,
-    required this.separator,
-    required this.children,
+    super.key,
   });
 
   /// Defaults to [MainAxisAlignment.start].
@@ -46,9 +46,7 @@ class SeparatedRow extends StatelessWidget {
       textDirection: textDirection,
       verticalDirection: verticalDirection ?? VerticalDirection.down,
       textBaseline: textBaseline,
-      children: [
-        ...children.separatedWith(separator),
-      ],
+      children: [...children.separatedWith(separator)],
     );
   }
 }
