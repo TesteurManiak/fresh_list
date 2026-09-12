@@ -91,7 +91,7 @@ class const HomeLocalDataSource({
   }
 
   Future<int> addGrocery(Grocery grocery) {
-    return db.into(db.dbGroceries).insert(grocery.toCompanion());
+    return db.into(db.dbGroceries).insert(grocery.insert());
   }
 
   Future<void> deleteGrocery({required int id, required int order}) async {
@@ -135,7 +135,7 @@ class const HomeLocalDataSource({
 }
 
 extension on Grocery {
-  DbGroceriesCompanion toCompanion() {
+  DbGroceriesCompanion insert() {
     return DbGroceriesCompanion.insert(
       order: order,
       name: name,

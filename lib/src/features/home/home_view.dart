@@ -64,6 +64,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
         child: const Icon(Icons.add),
       ),
       body: groceriesValue.when(
+        skipLoadingOnReload: true,
         data: (data) {
           if (data.isEmpty) return _CenteredText(strings.empty_grocery_list);
 

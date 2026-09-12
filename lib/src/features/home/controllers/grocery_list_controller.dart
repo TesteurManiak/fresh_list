@@ -5,24 +5,22 @@ import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/features/home/data/repositories/home_repository.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
 
-final _watchGroceriesProvider = StreamProvider.autoDispose<IList<Grocery>>(
-  (ref) => ref.watch(homeLocalDatasourceProvider).watchGroceries(),
-);
-
 final groceryListControllerProvider =
-    AsyncNotifierProvider.autoDispose<GroceryListController, IList<Grocery>>(
+    StreamNotifierProvider.autoDispose<GroceryListController, IList<Grocery>>(
       GroceryListController.new,
     );
 
-class GroceryListController extends AsyncNotifier<IList<Grocery>> {
+class GroceryListController extends StreamNotifier<IList<Grocery>> {
   @override
-  Future<IList<Grocery>> build() => ref.watch(_watchGroceriesProvider.future);
+  Stream<IList<Grocery>> build() =>
+      ref.watch(homeLocalDatasourceProvider).watchGroceries();
 
   Future<void> createGrocery(Grocery grocery) async {
     final elements = state.value;
     if (elements == null) return;
 
     final newElement = grocery.copyWith(order: elements.length);
+    state = AsyncData(elements.add(newElement));
     await ref.read(homeRepositoryProvider).addGrocery(newElement);
   }
 
@@ -30,18 +28,43 @@ class GroceryListController extends AsyncNotifier<IList<Grocery>> {
     final elements = state.value;
     if (elements == null) return;
 
+    final updated = elements
+        .map((g) => g.id == grocery.id ? grocery : g)
+        .toIList();
+    state = AsyncData(updated);
     await ref.read(homeRepositoryProvider).updateGrocery(grocery);
   }
 
   Future<void> deleteGrocery(Grocery grocery) async {
+    final elements = state.value;
+    if (elements == null) return;
+
+    state = AsyncData(elements.removeWhere((g) => g.id == grocery.id));
+
     await ref
         .read(homeLocalDatasourceProvider)
         .deleteGrocery(id: grocery.id, order: grocery.order);
   }
 
   Future<void> reorder(int oldIndex, int newIndex) async {
-    final elementToMove = state.value?[oldIndex];
-    if (elementToMove == null) return;
+    final elements = state.value;
+    if (elements == null ||
+        oldIndex == newIndex ||
+        oldIndex < 0 ||
+        oldIndex >= elements.length ||
+        newIndex < 0 ||
+        newIndex >= elements.length) {
+      return;
+    }
+
+    final elementToMove = elements[oldIndex];
+    final list = elements.unlock;
+    final item = list.removeAt(oldIndex);
+    list.insert(newIndex, item);
+    final reordered = list.indexed
+        .map((entry) => entry.$2.copyWith(order: entry.$1))
+        .toIList();
+    state = AsyncData(reordered);
 
     await ref
         .read(homeLocalDatasourceProvider)
@@ -64,6 +87,16 @@ class GroceryListController extends AsyncNotifier<IList<Grocery>> {
   }
 
   Future<void> toggle(Grocery grocery) async {
+    final elements = state.value;
+    if (elements != null) {
+      final updated = elements
+          .map(
+            (g) => g.id == grocery.id ? g.copyWith(completed: !g.completed) : g,
+          )
+          .toIList();
+      state = AsyncData(updated);
+    }
+
     await ref
         .read(homeLocalDatasourceProvider)
         .setGroceryCompleted(grocery.id, completed: !grocery.completed);
