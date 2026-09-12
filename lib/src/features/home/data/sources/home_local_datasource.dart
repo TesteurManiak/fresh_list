@@ -7,6 +7,8 @@ import 'package:todo_list/src/core/database/database.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
 
+const kMaxRecentSearches = 4;
+
 final homeLocalDatasourceProvider = Provider<HomeLocalDataSource>((ref) {
   final db = ref.watch(appDatabaseProvider);
   final clock = ref.watch(appClockProvider);
@@ -31,7 +33,7 @@ class const HomeLocalDataSource({
             (t) =>
                 OrderingTerm(expression: t.timestamp, mode: OrderingMode.desc),
           ])
-          ..limit(4))
+          ..limit(kMaxRecentSearches))
         .watch()
         .map((searches) => searches.map((e) => e.toModel()).toIList());
   }
@@ -126,7 +128,7 @@ class const HomeLocalDataSource({
             (t) =>
                 OrderingTerm(expression: t.timestamp, mode: OrderingMode.desc),
           ])
-          ..limit(4))
+          ..limit(kMaxRecentSearches))
         .get()
         .then((searches) => searches.map((e) => e.toModel()).toList());
   }

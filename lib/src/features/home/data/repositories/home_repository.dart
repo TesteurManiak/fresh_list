@@ -15,7 +15,6 @@ class const HomeRepository({
     await localDataSource.addRecentSearch(grocery.name);
   }
 
-  @Deprecated('Use setGroceryCompleted instead')
   Future<void> updateGrocery(Grocery grocery) async {
     await localDataSource.updateGrocery(grocery);
     await localDataSource.addRecentSearch(grocery.name);

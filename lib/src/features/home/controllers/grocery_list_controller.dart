@@ -40,10 +40,9 @@ class GroceryListController extends AsyncNotifier<IList<Grocery>> {
   }
 
   Future<void> reorder(int oldIndex, int newIndex) async {
-    final elements = state.value;
-    if (elements == null) return;
+    final elementToMove = state.value?[oldIndex];
+    if (elementToMove == null) return;
 
-    final elementToMove = elements[oldIndex];
     await ref
         .read(homeLocalDatasourceProvider)
         .reorderGroceries(
