@@ -1,9 +1,9 @@
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/src/core/consts.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
@@ -29,11 +29,19 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
     return Scaffold(
       appBar: AppBar(
         title: const Text(Consts.appName),
-        leading: IconButton(
-          icon: const Icon(Icons.share),
-          onPressed: () =>
-              ref.read(groceryListControllerProvider.notifier).shareList(),
-        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: () =>
+                ref.read(groceryListControllerProvider.notifier).shareList(),
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              // Handle settings action
+            },
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: strings.add_grocery,

@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'dart:ui';
 
 extension StringExtensions on String {
   /// Converts a string to a [Color] based on its hash code.

@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/app.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/theme/theme_controller.dart';
@@ -10,6 +12,8 @@ Future<void> main() async {
 
   GoRouter.optionURLReflectsImperativeAPIs = true;
 
+  _registerFontsLicenses();
+
   final container = ProviderContainer();
   await Future.wait([
     container.read(localeControllerProvider.notifier).init(),
@@ -17,4 +21,11 @@ Future<void> main() async {
   ]);
 
   runApp(UncontrolledProviderScope(container: container, child: const App()));
+}
+
+void _registerFontsLicenses() {
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('google_fonts/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+  });
 }

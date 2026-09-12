@@ -1,5 +1,5 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/src/features/home/home_view.dart';
 
 part 'home_route.g.dart';
