@@ -34,19 +34,9 @@ class GroceryListController extends AsyncNotifier<IList<Grocery>> {
   }
 
   Future<void> deleteGrocery(Grocery grocery) async {
-    final elements = state.value;
-    if (elements == null) return;
-
-    final newList = elements.unlock..remove(grocery);
-
-    for (int i = 0; i < newList.length; i++) {
-      newList[i] = newList[i].copyWith(order: i);
-    }
-
-    state = AsyncData(newList.lock);
-    await ref.read(homeLocalDatasourceProvider).deleteGrocery(grocery, newList);
-
-    // TODO(Guillaume): add a toast message to cancel deletion.
+    await ref
+        .read(homeLocalDatasourceProvider)
+        .deleteGrocery(id: grocery.id, order: grocery.order);
   }
 
   Future<void> reorder(int oldIndex, int newIndex) async {

@@ -92,11 +92,19 @@ class const HomeLocalDataSource({
     return db.into(db.dbGroceries).insert(grocery.toCompanion());
   }
 
-  Future<void> deleteGrocery(Grocery grocery, List<Grocery> newOrder) async {
-    await db.batch((b) {
-      b
-        ..delete(db.dbGroceries, grocery.toEntity())
-        ..replaceAll(db.dbGroceries, newOrder.map((e) => e.toEntity()));
+  Future<void> deleteGrocery({required int id, required int order}) async {
+    await db.transaction(() async {
+      // Delete the specified entry
+      await (db.delete(db.dbGroceries)..where((g) => g.id.equals(id))).go();
+
+      // Shift all subsequent items down by 1 to fill the gap
+      await (db.update(
+        db.dbGroceries,
+      )..where((g) => g.order.isBiggerThanValue(order))).write(
+        DbGroceriesCompanion.custom(
+          order: db.dbGroceries.order - const Constant(1),
+        ),
+      );
     });
   }
 
