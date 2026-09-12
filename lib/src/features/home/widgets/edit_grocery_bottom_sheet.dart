@@ -8,7 +8,7 @@ import 'package:todo_list/src/features/home/data/repositories/home_repository.da
 
 class EditGroceryBottomSheet extends ConsumerWidget
     with ShowableBottomSheetMixin<Grocery> {
-  const EditGroceryBottomSheet({this.initialValue, super.key});
+  const new({this.initialValue, super.key});
 
   final Grocery? initialValue;
 
@@ -55,7 +55,7 @@ class EditGroceryBottomSheet extends ConsumerWidget
 }
 
 class _InputField extends ConsumerStatefulWidget {
-  const _InputField(this.initialValue);
+  const new(this.initialValue);
 
   final Grocery? initialValue;
 

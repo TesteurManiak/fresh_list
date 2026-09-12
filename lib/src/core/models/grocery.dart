@@ -4,7 +4,7 @@ part 'grocery.freezed.dart';
 
 @freezed
 abstract class Grocery with _$Grocery {
-  const factory Grocery({
+  const factory({
     required int id,
     required int order,
     required String name,

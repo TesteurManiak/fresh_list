@@ -6,10 +6,7 @@ import 'package:todo_list/src/features/home/data/repositories/home_repository.da
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
 
 final _watchGroceriesProvider = StreamProvider.autoDispose<IList<Grocery>>(
-  (ref) => ref
-      .watch(homeLocalDatasourceProvider)
-      .watchGroceries()
-      .map((e) => e.lock),
+  (ref) => ref.watch(homeLocalDatasourceProvider).watchGroceries(),
 );
 
 final groceryListControllerProvider =

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/gen/app_localizations.dart';
+import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
 
 typedef LocalizedString = String Function(AppLocalizations strings);
@@ -21,11 +21,8 @@ final systemLocaleProvider = Provider<Locale>((ref) {
   return locale;
 });
 
-class _LocaleObserver extends WidgetsBindingObserver {
-  _LocaleObserver(this._didChangeLocales);
-
-  final ValueChanged<List<Locale>?> _didChangeLocales;
-
+class _LocaleObserver(final ValueChanged<List<Locale>?> _didChangeLocales)
+    extends WidgetsBindingObserver {
   @override
   void didChangeLocales(List<Locale>? locales) {
     _didChangeLocales(locales);

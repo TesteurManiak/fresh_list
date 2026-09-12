@@ -12,7 +12,7 @@ import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.da
 import 'package:todo_list/src/features/home/widgets/grocery_tile.dart';
 
 class HomeView extends ConsumerStatefulWidget {
-  const HomeView({super.key});
+  const new({super.key});
 
   @override
   ConsumerState<HomeView> createState() => _HomeViewState();
@@ -101,7 +101,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
 }
 
 class _CenteredText extends StatelessWidget {
-  const _CenteredText(this.text);
+  const new(this.text);
 
   final String text;
 

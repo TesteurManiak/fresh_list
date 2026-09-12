@@ -1,5 +1,3 @@
-class Consts {
-  const Consts._();
-
+class const Consts._() {
   static const appName = 'FreshList';
 }

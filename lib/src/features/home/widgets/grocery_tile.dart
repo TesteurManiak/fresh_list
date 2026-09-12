@@ -7,7 +7,7 @@ import 'package:todo_list/src/features/home/controllers/grocery_list_controller.
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 
 class GroceryTile extends ConsumerWidget {
-  const GroceryTile(this.grocery, {required Key super.key});
+  const new(this.grocery, {required Key super.key});
 
   final Grocery grocery;
 
@@ -94,9 +94,8 @@ class GroceryTile extends ConsumerWidget {
     WidgetRef ref,
     Grocery initialValue,
   ) async {
-    final grocery = await EditGroceryBottomSheet(
-      initialValue: initialValue,
-    ).show(context);
+    final grocery = await EditGroceryBottomSheet(initialValue: initialValue)
+        .show(context);
     if (grocery == null || grocery == this.grocery || !context.mounted) return;
 
     unawaited(

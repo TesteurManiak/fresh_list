@@ -1,14 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/gen/app_localizations.dart';
+import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/consts.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/theme/theme_controller.dart';
 import 'package:todo_list/src/router/router.dart';
 
 class App extends ConsumerWidget {
-  const App({super.key});
+  const new({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

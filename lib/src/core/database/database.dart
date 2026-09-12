@@ -28,7 +28,7 @@ class DbRecentSearches extends Table {
 
 @DriftDatabase(tables: [DbGroceries, DbRecentSearches])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  new() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;

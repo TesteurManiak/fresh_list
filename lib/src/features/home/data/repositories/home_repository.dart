@@ -7,11 +7,9 @@ final homeRepositoryProvider = Provider<HomeRepository>((ref) {
   return HomeRepository(localDataSource: localDatasource);
 });
 
-class HomeRepository {
-  const HomeRepository({required this.localDataSource});
-
-  final HomeLocalDataSource localDataSource;
-
+class const HomeRepository({
+  required final HomeLocalDataSource localDataSource,
+}) {
   Future<void> reorderGroceries(List<Grocery> groceries) async {
     await localDataSource.reorderGroceries(groceries);
   }

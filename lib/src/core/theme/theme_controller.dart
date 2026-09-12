@@ -3,13 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/src/core/extensions/theme_mode_extensions.dart';
 import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
+import 'package:todo_list/src/core/theme/theme.dart';
 
 final defaultThemeModeProvider = Provider.autoDispose<ThemeMode>(
   (_) => .system,
 );
 
-final lightThemeProvider = Provider.autoDispose<ThemeData>((_) => .light());
-final darkThemeProvider = Provider.autoDispose<ThemeData>((_) => .dark());
+final lightThemeProvider = Provider.autoDispose<ThemeData>(
+  (_) => AppTheme.light(),
+);
+
+final darkThemeProvider = Provider.autoDispose<ThemeData>(
+  (_) => AppTheme.dark(),
+);
 
 final platformBrightnessProvider = Provider.autoDispose<Brightness>(
   (_) => PlatformDispatcher.instance.platformBrightness,
@@ -23,9 +29,7 @@ class ThemeController extends Notifier<ThemeMode> {
   static const themeKey = SharedPrefsKey.themeMode;
 
   @override
-  ThemeMode build() {
-    return ref.read(defaultThemeModeProvider);
-  }
+  ThemeMode build() => ref.watch(defaultThemeModeProvider);
 
   /// Initialize the theme mode.
   ///

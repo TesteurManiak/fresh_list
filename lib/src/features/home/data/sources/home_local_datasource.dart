@@ -1,5 +1,6 @@
 import 'package:clock/clock.dart';
 import 'package:drift/drift.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/src/core/clock.dart';
 import 'package:todo_list/src/core/database/database.dart';
@@ -12,20 +13,18 @@ final homeLocalDatasourceProvider = Provider<HomeLocalDataSource>((ref) {
   return HomeLocalDataSource(db: db, clock: clock);
 });
 
-class HomeLocalDataSource {
-  const HomeLocalDataSource({required this.db, required this.clock});
-
-  final AppDatabase db;
-  final Clock clock;
-
-  Stream<List<Grocery>> watchGroceries() {
+class const HomeLocalDataSource({
+  required final AppDatabase db,
+  required final Clock clock,
+}) {
+  Stream<IList<Grocery>> watchGroceries() {
     return (db.select(db.dbGroceries)
           ..orderBy([(t) => OrderingTerm(expression: t.order)]))
         .watch()
-        .map((groceries) => groceries.map((e) => e.toModel()).toList());
+        .map((groceries) => groceries.map((e) => e.toModel()).toIList());
   }
 
-  Stream<List<RecentSearch>> watchRecentSearches(String value) {
+  Stream<IList<RecentSearch>> watchRecentSearches(String value) {
     return (db.select(db.dbRecentSearches)
           ..where((a) => a.query.like('$value%'))
           ..orderBy([
@@ -34,7 +33,7 @@ class HomeLocalDataSource {
           ])
           ..limit(4))
         .watch()
-        .map((searches) => searches.map((e) => e.toModel()).toList());
+        .map((searches) => searches.map((e) => e.toModel()).toIList());
   }
 
   Future<void> updateGrocery(Grocery grocery) async {
