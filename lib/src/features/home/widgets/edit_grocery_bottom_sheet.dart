@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
@@ -8,10 +8,7 @@ import 'package:todo_list/src/features/home/data/repositories/home_repository.da
 
 class EditGroceryBottomSheet extends ConsumerWidget
     with ShowableBottomSheetMixin<Grocery> {
-  const EditGroceryBottomSheet({
-    this.initialValue,
-    super.key,
-  });
+  const EditGroceryBottomSheet({this.initialValue, super.key});
 
   final Grocery? initialValue;
 
@@ -107,13 +104,9 @@ class _InputFieldState extends ConsumerState<_InputField> {
               return;
             }
 
-            final grocery = widget.initialValue?.copyWith(name: name) ??
-                Grocery(
-                  id: 0,
-                  name: name,
-                  order: 0,
-                  completed: false,
-                );
+            final grocery =
+                widget.initialValue?.copyWith(name: name) ??
+                Grocery(id: 0, name: name, order: 0, completed: false);
             context.pop(grocery);
           },
         );

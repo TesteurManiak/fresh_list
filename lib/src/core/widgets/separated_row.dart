@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/src/core/extensions/iterable_extensions.dart';
 
 /// {@template separated_row}
