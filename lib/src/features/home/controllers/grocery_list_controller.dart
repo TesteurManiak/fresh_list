@@ -53,21 +53,14 @@ class GroceryListController extends AsyncNotifier<IList<Grocery>> {
     final elements = state.value;
     if (elements == null) return;
 
-    int nextIndex = newIndex;
-
-    final newList = elements.unlock;
-    final elemToMove = newList.removeAt(oldIndex);
-    if (nextIndex > oldIndex) nextIndex--;
-    nextIndex = nextIndex.clamp(0, newList.length);
-
-    newList.insert(nextIndex, elemToMove);
-
-    for (int i = 0; i < newList.length; i++) {
-      newList[i] = newList[i].copyWith(order: i);
-    }
-
-    state = AsyncData(newList.lock);
-    await ref.read(homeRepositoryProvider).reorderGroceries(newList);
+    final elementToMove = elements[oldIndex];
+    await ref
+        .read(homeLocalDatasourceProvider)
+        .reorderGroceries(
+          id: elementToMove.id,
+          oldIndex: oldIndex,
+          newIndex: newIndex,
+        );
   }
 
   Future<void> shareList() async {
@@ -82,15 +75,8 @@ class GroceryListController extends AsyncNotifier<IList<Grocery>> {
   }
 
   Future<void> toggle(Grocery grocery) async {
-    final elements = state.value;
-    if (elements == null) return;
-
-    final newList = elements.unlock;
-    final index = newList.indexOf(grocery);
-    final newValue = grocery.copyWith(completed: !grocery.completed);
-    newList[index] = newValue;
-
-    state = AsyncData(newList.lock);
-    await ref.read(homeRepositoryProvider).updateGrocery(newValue);
+    await ref
+        .read(homeLocalDatasourceProvider)
+        .setGroceryCompleted(grocery.id, completed: !grocery.completed);
   }
 }

@@ -40,9 +40,51 @@ class const HomeLocalDataSource({
     await db.into(db.dbGroceries).insertOnConflictUpdate(grocery.toEntity());
   }
 
-  Future<void> reorderGroceries(List<Grocery> groceries) async {
-    await db.batch((b) {
-      b.replaceAll(db.dbGroceries, groceries.map((e) => e.toEntity()));
+  Future<void> setGroceryCompleted(int id, {required bool completed}) async {
+    await (db.update(db.dbGroceries)..where((g) => g.id.equals(id))).write(
+      DbGroceriesCompanion(completed: Value(completed)),
+    );
+  }
+
+  /// Update the `order` column of each grocery in the database.
+  Future<void> reorderGroceries({
+    required int id,
+    required int oldIndex,
+    required int newIndex,
+  }) async {
+    if (oldIndex == newIndex) return;
+
+    await db.transaction(() async {
+      if (oldIndex < newIndex) {
+        // Moving down: shift intermediate items UP (position - 1)
+        await (db.update(db.dbGroceries)..where(
+              (g) =>
+                  g.order.isBiggerThanValue(oldIndex) &
+                  g.order.isSmallerThanValue(newIndex),
+            ))
+            .write(
+              DbGroceriesCompanion.custom(
+                order: db.dbGroceries.order - const Constant(1),
+              ),
+            );
+      } else {
+        // Moving up: shift intermediate items DOWN (position + 1)
+        await (db.update(db.dbGroceries)..where(
+              (g) =>
+                  g.order.isBiggerThanValue(newIndex) &
+                  g.order.isSmallerThanValue(oldIndex),
+            ))
+            .write(
+              DbGroceriesCompanion.custom(
+                order: db.dbGroceries.order + const Constant(1),
+              ),
+            );
+      }
+
+      // Set the target item to its final position
+      await (db.update(db.dbGroceries)..where((g) => g.id.equals(id))).write(
+        DbGroceriesCompanion.custom(order: Constant(newIndex)),
+      );
     });
   }
 

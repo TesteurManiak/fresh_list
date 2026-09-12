@@ -10,15 +10,12 @@ final homeRepositoryProvider = Provider<HomeRepository>((ref) {
 class const HomeRepository({
   required final HomeLocalDataSource localDataSource,
 }) {
-  Future<void> reorderGroceries(List<Grocery> groceries) async {
-    await localDataSource.reorderGroceries(groceries);
-  }
-
   Future<void> addGrocery(Grocery grocery) async {
     await localDataSource.addGrocery(grocery);
     await localDataSource.addRecentSearch(grocery.name);
   }
 
+  @Deprecated('Use setGroceryCompleted instead')
   Future<void> updateGrocery(Grocery grocery) async {
     await localDataSource.updateGrocery(grocery);
     await localDataSource.addRecentSearch(grocery.name);

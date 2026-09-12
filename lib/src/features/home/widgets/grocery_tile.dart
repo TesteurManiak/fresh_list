@@ -13,26 +13,19 @@ class GroceryTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final quantity = grocery.quantity;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
     return Dismissible(
-      key: Key('Dismissible-${grocery.id}'),
+      key: Key('GroceryTile-${grocery.id}'),
       dismissThresholds: const {DismissDirection.startToEnd: 0.2},
       movementDuration: const Duration(milliseconds: 300),
       confirmDismiss: (direction) async {
-        if (direction == DismissDirection.endToStart) {
-          return true;
-        } else if (direction == DismissDirection.startToEnd) {
-          await ref
-              .read(groceryListControllerProvider.notifier)
-              .toggle(grocery);
-        }
+        if (direction == .endToStart) return true;
         return false;
       },
       onDismissed: (direction) {
-        if (direction == DismissDirection.endToStart) {
+        if (direction == .endToStart) {
           unawaited(
             ref
                 .read(groceryListControllerProvider.notifier)
@@ -41,10 +34,10 @@ class GroceryTile extends ConsumerWidget {
         }
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4),
-        clipBehavior: Clip.antiAlias,
+        margin: const .symmetric(vertical: 4),
+        clipBehavior: .antiAlias,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: .circular(10),
           color: colorScheme.surface,
           boxShadow: [
             BoxShadow(
@@ -59,7 +52,7 @@ class GroceryTile extends ConsumerWidget {
           child: InkWell(
             onTap: () => showEditionBottomSheet(context, ref, grocery),
             child: Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const .all(12),
               child: Row(
                 children: [
                   Checkbox(
@@ -72,14 +65,12 @@ class GroceryTile extends ConsumerWidget {
                     child: Text(
                       grocery.name,
                       style: TextStyle(
-                        decoration: grocery.completed
-                            ? TextDecoration.lineThrough
-                            : null,
+                        decoration: grocery.completed ? .lineThrough : null,
                       ),
                     ),
                   ),
-                  if (quantity != null)
-                    Flexible(child: Text('$quantity', maxLines: 1)),
+                  if (grocery.quantity case final q?)
+                    Flexible(child: Text('$q', maxLines: 1)),
                 ],
               ),
             ),
