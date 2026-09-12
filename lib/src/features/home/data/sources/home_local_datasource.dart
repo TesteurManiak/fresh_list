@@ -137,7 +137,6 @@ extension on Grocery {
       order: order,
       name: name,
       completed: completed,
-      type: type.index,
       quantity: Value.absentIfNull(quantity),
     );
   }
@@ -148,7 +147,6 @@ extension on Grocery {
       order: order,
       name: name,
       completed: completed,
-      type: type.index,
       quantity: quantity,
     );
   }
