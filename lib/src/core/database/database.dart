@@ -10,6 +10,7 @@ import 'package:todo_list/src/core/models/recent_search.dart';
 
 part 'database.g.dart';
 
+@TableIndex(name: 'grocery_index', columns: {#order})
 class DbGroceries extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get order => integer()();
@@ -45,19 +46,15 @@ class AppDatabase extends _$AppDatabase {
 final appDatabaseProvider = Provider<AppDatabase>((_) => AppDatabase());
 
 extension DbGroceriesExt on DbGrocery {
-  Grocery toModel() {
-    return Grocery(
-      id: id,
-      order: order,
-      name: name,
-      completed: completed,
-      quantity: quantity,
-    );
-  }
+  Grocery toEntity() => Grocery(
+    id: id,
+    order: order,
+    name: name,
+    completed: completed,
+    quantity: quantity,
+  );
 }
 
 extension DbRecentSearchesExt on DbRecentSearche {
-  RecentSearch toModel() {
-    return RecentSearch(query: query, timestamp: timestamp);
-  }
+  RecentSearch toEntity() => RecentSearch(query: query, timestamp: timestamp);
 }

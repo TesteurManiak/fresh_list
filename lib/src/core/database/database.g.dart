@@ -572,6 +572,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $DbRecentSearchesTable dbRecentSearches = $DbRecentSearchesTable(
     this,
   );
+  late final Index groceryIndex = Index(
+    'grocery_index',
+    'CREATE INDEX grocery_index ON db_groceries ("order")',
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -579,6 +583,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     dbGroceries,
     dbRecentSearches,
+    groceryIndex,
   ];
 }
 

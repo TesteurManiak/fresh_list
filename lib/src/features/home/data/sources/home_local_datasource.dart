@@ -23,23 +23,20 @@ class const HomeLocalDataSource({
     return (db.select(db.dbGroceries)
           ..orderBy([(t) => OrderingTerm(expression: t.order)]))
         .watch()
-        .map((groceries) => groceries.map((e) => e.toModel()).toIList());
+        .map((g) => g.map((e) => e.toEntity()).toIList());
   }
 
   Stream<IList<RecentSearch>> watchRecentSearches(String value) {
     return (db.select(db.dbRecentSearches)
           ..where((a) => a.query.like('$value%'))
-          ..orderBy([
-            (t) =>
-                OrderingTerm(expression: t.timestamp, mode: OrderingMode.desc),
-          ])
+          ..orderBy([(t) => OrderingTerm(expression: t.timestamp, mode: .desc)])
           ..limit(kMaxRecentSearches))
         .watch()
-        .map((searches) => searches.map((e) => e.toModel()).toIList());
+        .map((searches) => searches.map((e) => e.toEntity()).toIList());
   }
 
   Future<void> updateGrocery(Grocery grocery) async {
-    await db.into(db.dbGroceries).insertOnConflictUpdate(grocery.toEntity());
+    await db.into(db.dbGroceries).insertOnConflictUpdate(grocery.toModel());
   }
 
   Future<void> setGroceryCompleted(int id, {required bool completed}) async {
@@ -130,7 +127,7 @@ class const HomeLocalDataSource({
           ])
           ..limit(kMaxRecentSearches))
         .get()
-        .then((searches) => searches.map((e) => e.toModel()).toList());
+        .then((searches) => searches.map((e) => e.toEntity()).toList());
   }
 }
 
@@ -140,16 +137,18 @@ extension on Grocery {
       order: order,
       name: name,
       completed: completed,
+      type: type.index,
       quantity: Value.absentIfNull(quantity),
     );
   }
 
-  DbGrocery toEntity() {
+  DbGrocery toModel() {
     return DbGrocery(
       id: id,
       order: order,
       name: name,
       completed: completed,
+      type: type.index,
       quantity: quantity,
     );
   }
