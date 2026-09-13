@@ -101,15 +101,32 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                           );
                         }
 
-                        return SliverList.builder(
-                          itemCount: data.length,
-                          itemBuilder: (context, index) {
-                            final item = data[index];
-                            return ListTile(
-                              title: Text(item.query),
-                              onTap: () => context.pop(item),
-                            );
-                          },
+                        return SliverMainAxisGroup(
+                          slivers: [
+                            SliverToBoxAdapter(
+                              child: Padding(
+                                padding: const .symmetric(horizontal: 16),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  spacing: 8,
+                                  children: [
+                                    const Icon(Icons.history),
+                                    Text(strings.frequent_suggestions),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SliverList.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                final item = data[index];
+                                return ListTile(
+                                  title: Text(item.query),
+                                  onTap: () => context.pop(item),
+                                );
+                              },
+                            ),
+                          ],
                         );
                       },
                       error: (error, stackTrace) => SliverFillRemaining(
