@@ -53,6 +53,7 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
             slivers: [
               SliverAppBar(
                 leading: const Icon(Icons.edit_note),
+                backgroundColor: Colors.transparent,
                 title: Text(
                   isEdition ? strings.edit_grocery : strings.add_grocery,
                 ),
@@ -83,6 +84,43 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                   ),
                 ),
               ),
+              if (searchController.text.trim() case final query
+                  when query.isNotEmpty)
+                Consumer(
+                  builder: (context, ref, _) {
+                    final searchValue = ref.watch(
+                      watchRecentSearchesProvider(query),
+                    );
+
+                    return searchValue.when(
+                      skipLoadingOnRefresh: true,
+                      data: (data) {
+                        if (data.isEmpty) {
+                          return const SliverToBoxAdapter(
+                            child: SizedBox.shrink(),
+                          );
+                        }
+
+                        return SliverList.builder(
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            final item = data[index];
+                            return ListTile(
+                              title: Text(item.query),
+                              onTap: () => context.pop(item),
+                            );
+                          },
+                        );
+                      },
+                      error: (error, stackTrace) => SliverFillRemaining(
+                        child: Center(child: Text('Error: $error')),
+                      ),
+                      loading: () => const SliverFillRemaining(
+                        child: Center(child: CircularProgressIndicator()),
+                      ),
+                    );
+                  },
+                ),
             ],
           ),
         );
@@ -101,38 +139,21 @@ class _InputField extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
 
-    return Autocomplete<String>(
-      initialValue: TextEditingValue(text: controller.text),
-      optionsBuilder: (textEditingValue) async {
-        final query = textEditingValue.text.trim();
-        if (query.isEmpty) return [];
+    return TextField(
+      autofocus: controller.text.isEmpty,
+      decoration: InputDecoration(
+        hintText: strings.product_name,
+        filled: true,
+        prefixIcon: const Icon(Icons.search),
+        border: OutlineInputBorder(borderRadius: .circular(12)),
+      ),
+      textCapitalization: TextCapitalization.sentences,
+      controller: controller,
+      onSubmitted: (value) {
+        final name = value.trim();
+        if (name.isEmpty) return context.pop();
 
-        final results = await ref.read(
-          watchRecentSearchesProvider(query).future,
-        );
-        return results.map((e) => e.query).toList();
-      },
-      fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
-        return TextField(
-          autofocus: controller.text.isEmpty,
-          decoration: InputDecoration(
-            hintText: strings.product_name,
-            filled: true,
-            prefixIcon: const Icon(Icons.search),
-            border: OutlineInputBorder(borderRadius: .circular(12)),
-          ),
-          textCapitalization: TextCapitalization.sentences,
-          controller: controller,
-          focusNode: focusNode,
-          onSubmitted: (value) {
-            onFieldSubmitted();
-
-            final name = value.trim();
-            if (name.isEmpty) return context.pop();
-
-            onSubmitted(name);
-          },
-        );
+        onSubmitted(name);
       },
     );
   }
