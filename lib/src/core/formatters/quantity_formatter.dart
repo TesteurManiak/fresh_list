@@ -23,7 +23,11 @@ class const QuantityFormatter(final Locale locale) {
     return '${formatter.format(kilograms)}kg';
   }
 
-  String formatLiters(int liters, {int decimalDigits = 1}) {
+  String formatLiters(int centiliters, {int decimalDigits = 1}) {
+    if (centiliters < 100) return '${centiliters}cL';
+
+    final liters = centiliters / 100;
+
     final formatter = NumberFormat.decimalPattern(locale.toString())
       ..minimumFractionDigits = 0
       ..maximumFractionDigits = decimalDigits;

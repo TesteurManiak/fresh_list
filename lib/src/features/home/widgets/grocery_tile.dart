@@ -109,8 +109,15 @@ class _GroceryCard extends ConsumerWidget {
                     child: Text(grocery.name),
                   ),
                 ),
-                if (grocery.quantity case final q? when q > 0)
+                if (grocery.quantity case final q?
+                    when q > 0 && !grocery.completed)
                   _QuantityChip(grocery),
+                if (grocery.completed)
+                  const Icon(
+                    Icons.done_all,
+                    color: Color(0xFF8A726A),
+                    size: 20,
+                  ),
               ],
             ),
           ),
