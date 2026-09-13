@@ -11,6 +11,8 @@ class const AppTheme._() {
         primary: const Color(0xFFC85A32),
         secondary: const Color(0xFFD9822B),
         tertiary: const Color(0xFFF4B393),
+        primaryContainer: const Color(0xFF9F3C16),
+        onPrimaryContainer: Colors.white,
       ),
     );
   }

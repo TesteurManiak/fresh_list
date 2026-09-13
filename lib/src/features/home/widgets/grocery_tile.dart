@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
@@ -13,17 +14,14 @@ class GroceryTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    const borderRadius = BorderRadius.all(.circular(16));
+
+    final colorScheme = ColorScheme.of(context);
 
     return Dismissible(
       key: Key('GroceryTile-${grocery.id}'),
-      dismissThresholds: const {.startToEnd: 0.2},
+      direction: DismissDirection.endToStart,
       movementDuration: const Duration(milliseconds: 300),
-      confirmDismiss: (direction) async {
-        if (direction == .endToStart) return true;
-        return false;
-      },
       onDismissed: (direction) {
         if (direction == .endToStart) {
           unawaited(
@@ -33,12 +31,13 @@ class GroceryTile extends ConsumerWidget {
           );
         }
       },
+      background: const _Background(borderRadius: borderRadius),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         margin: const .symmetric(vertical: 4),
         clipBehavior: .antiAlias,
         decoration: BoxDecoration(
-          borderRadius: .circular(16),
+          borderRadius: borderRadius,
           color: colorScheme.surface.withValues(
             alpha: grocery.completed ? .8 : 1,
           ),
@@ -54,7 +53,7 @@ class GroceryTile extends ConsumerWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () => showEditionBottomSheet(context, ref, grocery),
+            onTap: () => _showEditionBottomSheet(context, ref, grocery),
             child: Padding(
               padding: const .all(12),
               child: Row(
@@ -84,7 +83,7 @@ class GroceryTile extends ConsumerWidget {
     );
   }
 
-  Future<void> showEditionBottomSheet(
+  Future<void> _showEditionBottomSheet(
     BuildContext context,
     WidgetRef ref,
     Grocery initialValue,
@@ -95,6 +94,43 @@ class GroceryTile extends ConsumerWidget {
 
     unawaited(
       ref.read(groceryListControllerProvider.notifier).updateGrocery(grocery),
+    );
+  }
+}
+
+class _Background extends StatelessWidget {
+  const new({required this.borderRadius});
+
+  final BorderRadius borderRadius;
+
+  @override
+  Widget build(BuildContext context) {
+    const onBackgroundColor = Color(0xFFFFFBFF);
+
+    final strings = AppLocalizations.of(context);
+
+    return Container(
+      alignment: Alignment.centerRight,
+      decoration: BoxDecoration(
+        borderRadius: borderRadius,
+        color: const Color(0xFFBF542C),
+      ),
+      padding: const .symmetric(horizontal: 20),
+      child: Row(
+        mainAxisSize: .min,
+        mainAxisAlignment: .end,
+        children: [
+          const Icon(Icons.delete, color: onBackgroundColor),
+          Text(
+            strings.quick_action_delete,
+            style: const TextStyle(
+              color: onBackgroundColor,
+              fontWeight: .w600,
+              fontSize: 14,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
