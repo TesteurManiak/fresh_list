@@ -16,6 +16,9 @@ class EditGroceryBottomSheet extends ConsumerWidget
   bool get isScrollControlled => true;
 
   @override
+  bool get showDragHandle => true;
+
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
     final isEdition = initialValue != null;
