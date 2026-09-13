@@ -19,10 +19,4 @@ class const HomeRepository({
     await localDataSource.updateGrocery(grocery);
     await localDataSource.addRecentSearch(grocery.name);
   }
-
-  Future<List<String>> getRecentSearches(String value) {
-    return localDataSource
-        .getRecentSearches(value)
-        .then((searches) => searches.map((s) => s.query).toList());
-  }
 }

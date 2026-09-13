@@ -32,7 +32,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quick_action_delete => 'Delete';
 
   @override
-  String get add_grocery => 'Add grocery';
+  String get add_grocery => 'Add to the list';
 
   @override
   String get edit_grocery => 'Edit grocery';
@@ -42,4 +42,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get product_name => 'Product name';
+
+  @override
+  String get frequent_suggestions => 'Frequent suggestions';
 }

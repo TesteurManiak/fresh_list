@@ -40,7 +40,7 @@ class GroceryTile extends ConsumerWidget {
       ),
       child: AppDismissible(
         key: Key('GroceryTile-${grocery.id}'),
-        direction: DismissDirection.endToStart,
+        direction: .endToStart,
         movementDuration: _kAnimationDuration,
         onDismissed: (direction) {
           if (direction == .endToStart) {

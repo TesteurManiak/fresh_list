@@ -2,6 +2,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
+import 'package:todo_list/src/core/models/recent_search.dart';
 import 'package:todo_list/src/features/home/data/repositories/home_repository.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
 
@@ -29,7 +30,7 @@ class GroceryListController extends StreamNotifier<IList<Grocery>> {
     if (elements == null) return;
 
     final updated = elements
-        .map((g) => g.id == grocery.id ? grocery : g)
+        .map((e) => e.id == grocery.id ? grocery : e)
         .toIList();
     state = AsyncData(updated);
     await ref.read(homeRepositoryProvider).updateGrocery(grocery);
@@ -102,3 +103,9 @@ class GroceryListController extends StreamNotifier<IList<Grocery>> {
         .setGroceryCompleted(grocery.id, completed: !grocery.completed);
   }
 }
+
+final watchRecentSearchesProvider =
+    StreamProvider.family<IList<RecentSearch>, String>(
+      (ref, query) =>
+          ref.watch(homeLocalDatasourceProvider).watchRecentSearches(query),
+    );

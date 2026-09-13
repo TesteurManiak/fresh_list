@@ -143,7 +143,7 @@ abstract class AppLocalizations {
   /// No description provided for @add_grocery.
   ///
   /// In fr, this message translates to:
-  /// **'Ajouter une entrée'**
+  /// **'Ajouter à la liste'**
   String get add_grocery;
 
   /// No description provided for @edit_grocery.
@@ -163,6 +163,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Nom du produit'**
   String get product_name;
+
+  /// No description provided for @frequent_suggestions.
+  ///
+  /// In fr, this message translates to:
+  /// **'Suggestions fréquentes'**
+  String get frequent_suggestions;
 }
 
 class _AppLocalizationsDelegate

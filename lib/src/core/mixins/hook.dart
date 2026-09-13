@@ -1,15 +1,19 @@
 import 'package:flutter/widgets.dart';
 
-mixin HookMixin<T extends StatefulWidget> on State<T> {
+mixin HookMixin<TState extends StatefulWidget> on State<TState> {
   final _hooks = <ChangeNotifier>{};
 
-  ScrollController useScrollController() {
-    final controller = ScrollController();
-    _hooks.add(controller);
-    return controller;
-  }
+  TextEditingController useTextEditingController({String? text}) =>
+      willDispose(TextEditingController(text: text));
 
-  TNotifier willDispose<TNotifier extends ChangeNotifier>(TNotifier notifier) {
+  ScrollController useScrollController() => willDispose(ScrollController());
+
+  FocusNode useFocusNode() => willDispose(FocusNode());
+
+  ValueNotifier<T> useValueNotifier<T>(T value) =>
+      willDispose(ValueNotifier<T>(value));
+
+  T willDispose<T extends ChangeNotifier>(T notifier) {
     _hooks.add(notifier);
     return notifier;
   }

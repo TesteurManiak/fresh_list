@@ -7,8 +7,9 @@
     "quick_action_share": "Partager",
     "quick_action_edit": "Modifier",
     "quick_action_delete": "Supprimer",
-    "add_grocery": "Ajouter une entrée",
+    "add_grocery": "Ajouter à la liste",
     "edit_grocery": "Modifier l'entrée",
     "mark_as_bought": "Marquer comme acheté",
-    "product_name": "Nom du produit"
+    "product_name": "Nom du produit",
+    "frequent_suggestions": "Suggestions fréquentes"
 }

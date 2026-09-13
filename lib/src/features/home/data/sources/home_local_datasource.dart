@@ -87,9 +87,8 @@ class const HomeLocalDataSource({
     });
   }
 
-  Future<int> addGrocery(Grocery grocery) {
-    return db.into(db.dbGroceries).insert(grocery.insert());
-  }
+  Future<int> addGrocery(Grocery grocery) =>
+      db.into(db.dbGroceries).insert(grocery.insert());
 
   Future<void> deleteGrocery({required int id, required int order}) async {
     await db.transaction(() async {
@@ -116,18 +115,6 @@ class const HomeLocalDataSource({
             timestamp: clock.now(),
           ),
         );
-  }
-
-  Future<List<RecentSearch>> getRecentSearches(String value) async {
-    return (db.select(db.dbRecentSearches)
-          ..where((a) => a.query.like('$value%'))
-          ..orderBy([
-            (t) =>
-                OrderingTerm(expression: t.timestamp, mode: OrderingMode.desc),
-          ])
-          ..limit(kMaxRecentSearches))
-        .get()
-        .then((searches) => searches.map((e) => e.toEntity()).toList());
   }
 }
 
