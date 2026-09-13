@@ -93,16 +93,14 @@ class _InputFieldState extends ConsumerState<_InputField> {
         return TextField(
           autofocus: widget.initialValue == null,
           decoration: InputDecoration(hintText: strings.product_name),
+          textCapitalization: TextCapitalization.sentences,
           controller: controller,
           focusNode: focusNode,
           onSubmitted: (value) {
             onFieldSubmitted();
 
             final name = value.trim();
-            if (name.isEmpty) {
-              context.pop();
-              return;
-            }
+            if (name.isEmpty) return context.pop();
 
             final grocery =
                 widget.initialValue?.copyWith(name: name) ??

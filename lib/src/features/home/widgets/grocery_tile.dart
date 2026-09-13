@@ -18,63 +18,65 @@ class GroceryTile extends ConsumerWidget {
 
     final colorScheme = ColorScheme.of(context);
 
-    return Dismissible(
-      key: Key('GroceryTile-${grocery.id}'),
-      direction: DismissDirection.endToStart,
-      movementDuration: const Duration(milliseconds: 300),
-      onDismissed: (direction) {
-        if (direction == .endToStart) {
-          unawaited(
-            ref
-                .read(groceryListControllerProvider.notifier)
-                .deleteGrocery(grocery),
-          );
-        }
-      },
-      background: const _Background(borderRadius: borderRadius),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        margin: const .symmetric(vertical: 4),
-        clipBehavior: .antiAlias,
-        decoration: BoxDecoration(
-          borderRadius: borderRadius,
-          color: colorScheme.surface.withValues(
-            alpha: grocery.completed ? .8 : 1,
+    return Padding(
+      padding: const .symmetric(vertical: 4),
+      child: Dismissible(
+        key: Key('GroceryTile-${grocery.id}'),
+        direction: DismissDirection.endToStart,
+        movementDuration: const Duration(milliseconds: 300),
+        onDismissed: (direction) {
+          if (direction == .endToStart) {
+            unawaited(
+              ref
+                  .read(groceryListControllerProvider.notifier)
+                  .deleteGrocery(grocery),
+            );
+          }
+        },
+        background: const _Background(borderRadius: borderRadius),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          clipBehavior: .antiAlias,
+          decoration: BoxDecoration(
+            borderRadius: borderRadius,
+            color: colorScheme.surface.withValues(
+              alpha: grocery.completed ? .8 : 1,
+            ),
+            boxShadow: [
+              if (!grocery.completed)
+                BoxShadow(
+                  color: colorScheme.onSurface.withValues(alpha: 0.05),
+                  blurRadius: 2,
+                  offset: const Offset(0, 1),
+                ),
+            ],
           ),
-          boxShadow: [
-            if (!grocery.completed)
-              BoxShadow(
-                color: colorScheme.onSurface.withValues(alpha: 0.05),
-                blurRadius: 2,
-                offset: const Offset(0, 1),
-              ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () => _showEditionBottomSheet(context, ref, grocery),
-            child: Padding(
-              padding: const .all(12),
-              child: Row(
-                children: [
-                  Checkbox(
-                    value: grocery.completed,
-                    onChanged: (_) => ref
-                        .read(groceryListControllerProvider.notifier)
-                        .toggle(grocery),
-                  ),
-                  Expanded(
-                    child: Text(
-                      grocery.name,
-                      style: TextStyle(
-                        decoration: grocery.completed ? .lineThrough : null,
+          child: Material(
+            type: .transparency,
+            child: InkWell(
+              onTap: () => _showEditionBottomSheet(context, ref, grocery),
+              child: Padding(
+                padding: const .all(12),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: grocery.completed,
+                      onChanged: (_) => ref
+                          .read(groceryListControllerProvider.notifier)
+                          .toggle(grocery),
+                    ),
+                    Expanded(
+                      child: Text(
+                        grocery.name,
+                        style: TextStyle(
+                          decoration: grocery.completed ? .lineThrough : null,
+                        ),
                       ),
                     ),
-                  ),
-                  if (grocery.quantity case final q?)
-                    Flexible(child: Text('$q', maxLines: 1)),
-                ],
+                    if (grocery.quantity case final q?)
+                      Flexible(child: Text('$q', maxLines: 1)),
+                  ],
+                ),
               ),
             ),
           ),
