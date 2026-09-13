@@ -16,7 +16,7 @@ class DbGroceries extends Table {
   IntColumn get order => integer()();
   TextColumn get name => text()();
   BoolColumn get completed => boolean()();
-  RealColumn get quantity => real().nullable()();
+  IntColumn get quantity => integer().nullable()();
 }
 
 class DbRecentSearches extends Table {

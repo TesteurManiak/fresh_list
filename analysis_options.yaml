@@ -21,3 +21,4 @@ linter:
     specify_nonobvious_property_types: false
     async_return_with_no_await: false
     prefer_asserts_with_message: false
+    sort_unnamed_constructors_first: false

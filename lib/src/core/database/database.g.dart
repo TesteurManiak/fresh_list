@@ -58,11 +58,11 @@ class $DbGroceriesTable extends DbGroceries
     'quantity',
   );
   @override
-  late final GeneratedColumn<double> quantity = GeneratedColumn<double>(
+  late final GeneratedColumn<int> quantity = GeneratedColumn<int>(
     'quantity',
     aliasedName,
     true,
-    type: DriftSqlType.double,
+    type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
   @override
@@ -138,7 +138,7 @@ class $DbGroceriesTable extends DbGroceries
         data['${effectivePrefix}completed'],
       )!,
       quantity: attachedDatabase.typeMapping.read(
-        DriftSqlType.double,
+        DriftSqlType.int,
         data['${effectivePrefix}quantity'],
       ),
     );
@@ -155,7 +155,7 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
   final int order;
   final String name;
   final bool completed;
-  final double? quantity;
+  final int? quantity;
   const DbGrocery({
     required this.id,
     required this.order,
@@ -171,7 +171,7 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
     map['name'] = Variable<String>(name);
     map['completed'] = Variable<bool>(completed);
     if (!nullToAbsent || quantity != null) {
-      map['quantity'] = Variable<double>(quantity);
+      map['quantity'] = Variable<int>(quantity);
     }
     return map;
   }
@@ -198,7 +198,7 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
       order: serializer.fromJson<int>(json['order']),
       name: serializer.fromJson<String>(json['name']),
       completed: serializer.fromJson<bool>(json['completed']),
-      quantity: serializer.fromJson<double?>(json['quantity']),
+      quantity: serializer.fromJson<int?>(json['quantity']),
     );
   }
   @override
@@ -209,7 +209,7 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
       'order': serializer.toJson<int>(order),
       'name': serializer.toJson<String>(name),
       'completed': serializer.toJson<bool>(completed),
-      'quantity': serializer.toJson<double?>(quantity),
+      'quantity': serializer.toJson<int?>(quantity),
     };
   }
 
@@ -218,7 +218,7 @@ class DbGrocery extends DataClass implements Insertable<DbGrocery> {
     int? order,
     String? name,
     bool? completed,
-    Value<double?> quantity = const Value.absent(),
+    Value<int?> quantity = const Value.absent(),
   }) => DbGrocery(
     id: id ?? this.id,
     order: order ?? this.order,
@@ -266,7 +266,7 @@ class DbGroceriesCompanion extends UpdateCompanion<DbGrocery> {
   final Value<int> order;
   final Value<String> name;
   final Value<bool> completed;
-  final Value<double?> quantity;
+  final Value<int?> quantity;
   const DbGroceriesCompanion({
     this.id = const Value.absent(),
     this.order = const Value.absent(),
@@ -288,7 +288,7 @@ class DbGroceriesCompanion extends UpdateCompanion<DbGrocery> {
     Expression<int>? order,
     Expression<String>? name,
     Expression<bool>? completed,
-    Expression<double>? quantity,
+    Expression<int>? quantity,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -304,7 +304,7 @@ class DbGroceriesCompanion extends UpdateCompanion<DbGrocery> {
     Value<int>? order,
     Value<String>? name,
     Value<bool>? completed,
-    Value<double?>? quantity,
+    Value<int?>? quantity,
   }) {
     return DbGroceriesCompanion(
       id: id ?? this.id,
@@ -331,7 +331,7 @@ class DbGroceriesCompanion extends UpdateCompanion<DbGrocery> {
       map['completed'] = Variable<bool>(completed.value);
     }
     if (quantity.present) {
-      map['quantity'] = Variable<double>(quantity.value);
+      map['quantity'] = Variable<int>(quantity.value);
     }
     return map;
   }
@@ -593,7 +593,7 @@ typedef $$DbGroceriesTableCreateCompanionBuilder =
       required int order,
       required String name,
       required bool completed,
-      Value<double?> quantity,
+      Value<int?> quantity,
     });
 typedef $$DbGroceriesTableUpdateCompanionBuilder =
     DbGroceriesCompanion Function({
@@ -601,7 +601,7 @@ typedef $$DbGroceriesTableUpdateCompanionBuilder =
       Value<int> order,
       Value<String> name,
       Value<bool> completed,
-      Value<double?> quantity,
+      Value<int?> quantity,
     });
 
 class $$DbGroceriesTableFilterComposer
@@ -633,7 +633,7 @@ class $$DbGroceriesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<double> get quantity => $composableBuilder(
+  ColumnFilters<int> get quantity => $composableBuilder(
     column: $table.quantity,
     builder: (column) => ColumnFilters(column),
   );
@@ -668,7 +668,7 @@ class $$DbGroceriesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<double> get quantity => $composableBuilder(
+  ColumnOrderings<int> get quantity => $composableBuilder(
     column: $table.quantity,
     builder: (column) => ColumnOrderings(column),
   );
@@ -695,7 +695,7 @@ class $$DbGroceriesTableAnnotationComposer
   GeneratedColumn<bool> get completed =>
       $composableBuilder(column: $table.completed, builder: (column) => column);
 
-  GeneratedColumn<double> get quantity =>
+  GeneratedColumn<int> get quantity =>
       $composableBuilder(column: $table.quantity, builder: (column) => column);
 }
 
@@ -734,7 +734,7 @@ class $$DbGroceriesTableTableManager
                 Value<int> order = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<bool> completed = const Value.absent(),
-                Value<double?> quantity = const Value.absent(),
+                Value<int?> quantity = const Value.absent(),
               }) => DbGroceriesCompanion(
                 id: id,
                 order: order,
@@ -748,7 +748,7 @@ class $$DbGroceriesTableTableManager
                 required int order,
                 required String name,
                 required bool completed,
-                Value<double?> quantity = const Value.absent(),
+                Value<int?> quantity = const Value.absent(),
               }) => DbGroceriesCompanion.insert(
                 id: id,
                 order: order,
