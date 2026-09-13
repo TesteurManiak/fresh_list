@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
+import 'package:todo_list/src/core/widgets/dismissible.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
+
+const _kAnimationDuration = Duration(milliseconds: 300);
 
 class GroceryTile extends ConsumerWidget {
   const new(this.grocery, {required Key super.key});
@@ -18,12 +21,25 @@ class GroceryTile extends ConsumerWidget {
 
     final colorScheme = ColorScheme.of(context);
 
-    return Padding(
-      padding: const .symmetric(vertical: 4),
-      child: Dismissible(
+    return AnimatedContainer(
+      duration: _kAnimationDuration,
+      margin: const .symmetric(vertical: 4),
+      clipBehavior: .antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: borderRadius,
+        boxShadow: [
+          if (!grocery.completed)
+            BoxShadow(
+              color: colorScheme.onSurface.withValues(alpha: 0.05),
+              blurRadius: 2,
+              offset: const Offset(0, 1),
+            ),
+        ],
+      ),
+      child: AppDismissible(
         key: Key('GroceryTile-${grocery.id}'),
         direction: DismissDirection.endToStart,
-        movementDuration: const Duration(milliseconds: 300),
+        movementDuration: _kAnimationDuration,
         onDismissed: (direction) {
           if (direction == .endToStart) {
             unawaited(
@@ -34,50 +50,59 @@ class GroceryTile extends ConsumerWidget {
           }
         },
         background: const _Background(borderRadius: borderRadius),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          clipBehavior: .antiAlias,
-          decoration: BoxDecoration(
-            borderRadius: borderRadius,
-            color: colorScheme.surface.withValues(
-              alpha: grocery.completed ? .8 : 1,
-            ),
-            boxShadow: [
-              if (!grocery.completed)
-                BoxShadow(
-                  color: colorScheme.onSurface.withValues(alpha: 0.05),
-                  blurRadius: 2,
-                  offset: const Offset(0, 1),
+        child: _GroceryCard(borderRadius: borderRadius, grocery: grocery),
+      ),
+    );
+  }
+}
+
+class _GroceryCard extends ConsumerWidget {
+  const new({required this.borderRadius, required this.grocery});
+
+  final BorderRadius borderRadius;
+  final Grocery grocery;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const tileBorderRadius = BorderRadius.all(.circular(12));
+    final colorScheme = ColorScheme.of(context);
+
+    return AnimatedContainer(
+      duration: _kAnimationDuration,
+      clipBehavior: .antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: tileBorderRadius,
+        color: grocery.completed
+            ? const Color(0xFFFCF1EF)
+            : colorScheme.onPrimaryContainer,
+      ),
+      child: Material(
+        type: .transparency,
+        clipBehavior: .antiAlias,
+        child: InkWell(
+          onTap: () => _showEditionBottomSheet(context, ref, grocery),
+          borderRadius: borderRadius,
+          child: Padding(
+            padding: const .all(12),
+            child: Row(
+              children: [
+                Checkbox(
+                  value: grocery.completed,
+                  onChanged: (_) => ref
+                      .read(groceryListControllerProvider.notifier)
+                      .toggle(grocery),
                 ),
-            ],
-          ),
-          child: Material(
-            type: .transparency,
-            child: InkWell(
-              onTap: () => _showEditionBottomSheet(context, ref, grocery),
-              child: Padding(
-                padding: const .all(12),
-                child: Row(
-                  children: [
-                    Checkbox(
-                      value: grocery.completed,
-                      onChanged: (_) => ref
-                          .read(groceryListControllerProvider.notifier)
-                          .toggle(grocery),
+                Expanded(
+                  child: Text(
+                    grocery.name,
+                    style: TextStyle(
+                      decoration: grocery.completed ? .lineThrough : null,
                     ),
-                    Expanded(
-                      child: Text(
-                        grocery.name,
-                        style: TextStyle(
-                          decoration: grocery.completed ? .lineThrough : null,
-                        ),
-                      ),
-                    ),
-                    if (grocery.quantity case final q?)
-                      Flexible(child: Text('$q', maxLines: 1)),
-                  ],
+                  ),
                 ),
-              ),
+                if (grocery.quantity case final q?)
+                  Flexible(child: Text('$q', maxLines: 1)),
+              ],
             ),
           ),
         ),

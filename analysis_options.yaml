@@ -20,3 +20,4 @@ linter:
     omit_local_variable_types: false
     specify_nonobvious_property_types: false
     async_return_with_no_await: false
+    prefer_asserts_with_message: false
