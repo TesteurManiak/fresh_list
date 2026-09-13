@@ -4,6 +4,7 @@
     "close": "Close",
     "empty_grocery_list": "Your grocery list is empty.\nAdd items by clicking the \"+\" button.",
     "settings_title": "Settings",
+    "quick_action_share": "Share",
     "quick_action_edit": "Edit",
     "quick_action_delete": "Delete",
     "add_grocery": "Add grocery",

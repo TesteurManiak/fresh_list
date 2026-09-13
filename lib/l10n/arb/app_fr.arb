@@ -4,6 +4,7 @@
     "close": "Fermer",
     "empty_grocery_list": "Votre liste est vide.\nAjoutez des articles en appuyant sur le bouton \"+\".",
     "settings_title": "Paramètres",
+    "quick_action_share": "Partager",
     "quick_action_edit": "Modifier",
     "quick_action_delete": "Supprimer",
     "add_grocery": "Ajouter une entrée",

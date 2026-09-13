@@ -23,6 +23,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_title => 'Settings';
 
   @override
+  String get quick_action_share => 'Share';
+
+  @override
   String get quick_action_edit => 'Edit';
 
   @override

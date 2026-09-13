@@ -24,6 +24,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settings_title => 'Paramètres';
 
   @override
+  String get quick_action_share => 'Partager';
+
+  @override
   String get quick_action_edit => 'Modifier';
 
   @override

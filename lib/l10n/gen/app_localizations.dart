@@ -122,6 +122,12 @@ abstract class AppLocalizations {
   /// **'Paramètres'**
   String get settings_title;
 
+  /// No description provided for @quick_action_share.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partager'**
+  String get quick_action_share;
+
   /// No description provided for @quick_action_edit.
   ///
   /// In fr, this message translates to:

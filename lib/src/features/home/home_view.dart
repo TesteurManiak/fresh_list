@@ -31,12 +31,14 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
         title: const Text(Consts.appName),
         actions: [
           IconButton(
-            icon: const Icon(Icons.share),
+            tooltip: strings.quick_action_share,
+            icon: const Icon(Icons.publish),
             onPressed: () =>
                 ref.read(groceryListControllerProvider.notifier).shareList(),
           ),
           IconButton(
-            icon: const Icon(Icons.settings),
+            tooltip: strings.settings_title,
+            icon: const Icon(Icons.tune),
             onPressed: () {
               // Handle settings action
             },

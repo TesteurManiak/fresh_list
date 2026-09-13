@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/formatters/quantity_formatter.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
+import 'package:todo_list/src/core/widgets/checkbox.dart';
 import 'package:todo_list/src/core/widgets/dismissible.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
@@ -86,8 +87,9 @@ class _GroceryCard extends ConsumerWidget {
           child: Padding(
             padding: const .all(12),
             child: Row(
+              spacing: 16,
               children: [
-                Checkbox(
+                AppCheckbox(
                   value: grocery.completed,
                   onChanged: (_) => ref
                       .read(groceryListControllerProvider.notifier)
@@ -196,6 +198,8 @@ class _Background extends StatelessWidget {
               color: onBackgroundColor,
               fontWeight: .w600,
               fontSize: 14,
+              height: 18 / 14,
+              letterSpacing: 0.35,
             ),
           ),
         ],
