@@ -93,11 +93,19 @@ class _GroceryCard extends ConsumerWidget {
                       .toggle(grocery),
                 ),
                 Expanded(
-                  child: Text(
-                    grocery.name,
+                  child: AnimatedDefaultTextStyle(
+                    duration: _kAnimationDuration,
                     style: TextStyle(
                       decoration: grocery.completed ? .lineThrough : null,
+                      color: grocery.completed
+                          ? const Color(0xFF57423B)
+                          : const Color(0xFF1F1B1A),
+                      fontWeight: .w600,
+                      fontSize: 16,
+                      height: 20 / 16,
                     ),
+
+                    child: Text(grocery.name),
                   ),
                 ),
                 if (grocery.quantity case final q?)
