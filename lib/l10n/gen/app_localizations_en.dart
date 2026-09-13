@@ -45,4 +45,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get frequent_suggestions => 'Frequent suggestions';
+
+  @override
+  String get settings_theme_title => 'Theme';
+
+  @override
+  String get theme_mode_system => 'System';
+
+  @override
+  String get theme_mode_light => 'Light';
+
+  @override
+  String get theme_mode_dark => 'Dark';
+
+  @override
+  String get settings_language_title => 'Language';
+
+  @override
+  String get language_en => 'English';
+
+  @override
+  String get language_fr => 'French';
 }

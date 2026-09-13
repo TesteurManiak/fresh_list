@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,12 +14,14 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    log('Building App widget');
     return MaterialApp.router(
       title: Consts.appName,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: ref.watch(localeControllerProvider),
       theme: ref.watch(lightThemeProvider),
+      darkTheme: ref.watch(darkThemeProvider),
       themeMode: ref.watch(themeControllerProvider),
       routerConfig: ref.watch(routerProvider(kDebugMode)),
     );

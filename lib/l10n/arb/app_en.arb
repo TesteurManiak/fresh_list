@@ -11,5 +11,12 @@
     "edit_grocery": "Edit grocery",
     "mark_as_bought": "Mark as bought",
     "product_name": "Product name",
-    "frequent_suggestions": "Frequent suggestions"
+    "frequent_suggestions": "Frequent suggestions",
+    "settings_theme_title": "Theme",
+    "theme_mode_system": "System",
+    "theme_mode_light": "Light",
+    "theme_mode_dark": "Dark",
+    "settings_language_title": "Language",
+    "language_en": "English",
+    "language_fr": "French"
 }

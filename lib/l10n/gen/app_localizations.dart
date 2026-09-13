@@ -169,6 +169,48 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Suggestions fréquentes'**
   String get frequent_suggestions;
+
+  /// No description provided for @settings_theme_title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Thème'**
+  String get settings_theme_title;
+
+  /// No description provided for @theme_mode_system.
+  ///
+  /// In fr, this message translates to:
+  /// **'Système'**
+  String get theme_mode_system;
+
+  /// No description provided for @theme_mode_light.
+  ///
+  /// In fr, this message translates to:
+  /// **'Clair'**
+  String get theme_mode_light;
+
+  /// No description provided for @theme_mode_dark.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sombre'**
+  String get theme_mode_dark;
+
+  /// No description provided for @settings_language_title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Langue'**
+  String get settings_language_title;
+
+  /// No description provided for @language_en.
+  ///
+  /// In fr, this message translates to:
+  /// **'Anglais'**
+  String get language_en;
+
+  /// No description provided for @language_fr.
+  ///
+  /// In fr, this message translates to:
+  /// **'Français'**
+  String get language_fr;
 }
 
 class _AppLocalizationsDelegate

@@ -10,6 +10,7 @@ import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 import 'package:todo_list/src/features/home/widgets/grocery_tile.dart';
+import 'package:todo_list/src/features/settings/navigation/settings_route.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const new({super.key});
@@ -39,9 +40,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
           IconButton(
             tooltip: strings.settings_title,
             icon: const Icon(Icons.tune),
-            onPressed: () {
-              // Handle settings action
-            },
+            onPressed: () => const SettingsRoute().go(context),
           ),
         ],
       ),

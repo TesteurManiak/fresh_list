@@ -1,15 +1,17 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_list/src/features/home/home_view.dart';
+import 'package:todo_list/src/features/settings/navigation/settings_route.dart';
 
 part 'home_route.g.dart';
 
-@TypedGoRoute<HomeRoute>(path: HomeRoute.path)
+@TypedGoRoute<HomeRoute>(
+  path: HomeRoute.path,
+  routes: [TypedGoRoute<SettingsRoute>(path: SettingsRoute.path)],
+)
 class const HomeRoute() extends GoRouteData with $HomeRoute {
   static const path = '/';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const HomeView();
-  }
+  Widget build(BuildContext context, GoRouterState state) => const HomeView();
 }
