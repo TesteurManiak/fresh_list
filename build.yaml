@@ -1,0 +1,20 @@
+targets:
+  $default:
+    builders:
+      drift_dev:
+        enabled: false
+      drift_dev:analyzer:
+        enabled: true
+        options: &drift_options
+          data_class_to_companions: false
+          generate_manager: false
+      drift_dev:modular:
+        enabled: true
+        options: *drift_options
+        generate_for:
+          - lib/src/core/database/**.dart
+      freezed|freezed:
+        options:
+          format: false
+          map: false
+          when: false

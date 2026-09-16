@@ -5,30 +5,16 @@ import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:todo_list/src/core/database/database.drift.dart';
+import 'package:todo_list/src/core/database/groceries_table.dart';
+import 'package:todo_list/src/core/database/groceries_table.drift.dart';
+import 'package:todo_list/src/core/database/recent_searches_table.dart';
+import 'package:todo_list/src/core/database/recent_searches_table.drift.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
 
-part 'database.g.dart';
-
-@TableIndex(name: 'grocery_index', columns: {#order})
-class DbGroceries extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get order => integer()();
-  TextColumn get name => text()();
-  BoolColumn get completed => boolean()();
-  IntColumn get quantity => integer().nullable()();
-}
-
-class DbRecentSearches extends Table {
-  TextColumn get query => text()();
-  DateTimeColumn get timestamp => dateTime()();
-
-  @override
-  Set<Column<Object>>? get primaryKey => {query};
-}
-
-@DriftDatabase(tables: [DbGroceries, DbRecentSearches])
-class AppDatabase extends _$AppDatabase {
+@DriftDatabase(tables: [GroceriesTable, RecentSearchesTable])
+class AppDatabase extends $AppDatabase {
   new() : super(_openConnection());
 
   @override
@@ -45,7 +31,7 @@ class AppDatabase extends _$AppDatabase {
 
 final appDatabaseProvider = Provider<AppDatabase>((_) => AppDatabase());
 
-extension DbGroceriesExt on DbGrocery {
+extension DbGroceriesExt on GroceriesTableData {
   Grocery toEntity() => Grocery(
     id: id,
     order: order,
@@ -55,6 +41,6 @@ extension DbGroceriesExt on DbGrocery {
   );
 }
 
-extension DbRecentSearchesExt on DbRecentSearche {
+extension DbRecentSearchesExt on RecentSearchesTableData {
   RecentSearch toEntity() => RecentSearch(query: query, timestamp: timestamp);
 }
