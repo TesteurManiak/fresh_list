@@ -9,9 +9,9 @@ abstract class Grocery with _$Grocery {
 
   const factory({
     required int id,
-    required int order,
     required String name,
-    required bool completed,
+    @Default(0) int order,
+    @Default(false) bool completed,
     @Default(GroceryQuantityUnit.piece) GroceryQuantityUnit quantityUnit,
     int? quantity,
   }) = _Grocery;

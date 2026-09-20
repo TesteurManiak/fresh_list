@@ -73,12 +73,7 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                     onSubmitted: (name) {
                       final grocery =
                           widget.initialValue?.copyWith(name: name) ??
-                          Grocery(
-                            id: 0,
-                            name: name,
-                            order: 0,
-                            completed: false,
-                          );
+                          Grocery(id: 0, name: name);
                       context.pop(grocery);
                     },
                   ),
@@ -124,7 +119,9 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                                 final item = data[index];
                                 return ListTile(
                                   title: Text(item.query),
-                                  onTap: () => context.pop(item),
+                                  onTap: () => context.pop(
+                                    Grocery(id: 0, name: item.query),
+                                  ),
                                 );
                               },
                             ),

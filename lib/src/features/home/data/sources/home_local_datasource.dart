@@ -59,11 +59,12 @@ class const HomeLocalDataSource({
 
     await db.transaction(() async {
       if (oldIndex < newIndex) {
-        // Moving down: shift intermediate items UP (position - 1)
+        // Moving down: shift intermediate items UP (position - 1), including
+        // newIndex itself
         await (db.update(db.groceriesTable)..where(
               (g) =>
                   g.order.isBiggerThanValue(oldIndex) &
-                  g.order.isSmallerThanValue(newIndex),
+                  g.order.isSmallerOrEqualValue(newIndex),
             ))
             .write(
               GroceriesTableCompanion.custom(
@@ -71,10 +72,11 @@ class const HomeLocalDataSource({
               ),
             );
       } else {
-        // Moving up: shift intermediate items DOWN (position + 1)
+        // Moving up: shift intermediate items DOWN (position + 1), including
+        // newIndex itself
         await (db.update(db.groceriesTable)..where(
               (g) =>
-                  g.order.isBiggerThanValue(newIndex) &
+                  g.order.isBiggerOrEqualValue(newIndex) &
                   g.order.isSmallerThanValue(oldIndex),
             ))
             .write(
