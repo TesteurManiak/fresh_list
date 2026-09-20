@@ -70,6 +70,7 @@ class _GroceryCard extends ConsumerWidget {
     return AnimatedContainer(
       duration: _kAnimationDuration,
       clipBehavior: .antiAlias,
+      constraints: const BoxConstraints(minHeight: 70),
       decoration: BoxDecoration(
         borderRadius: tileBorderRadius,
         color: grocery.completed
@@ -109,12 +110,15 @@ class _GroceryCard extends ConsumerWidget {
                     child: Text(grocery.name),
                   ),
                 ),
-                if (grocery.completed)
-                  const Icon(
+                AnimatedOpacity(
+                  duration: _kAnimationDuration,
+                  opacity: grocery.completed ? 1.0 : 0.0,
+                  child: const Icon(
                     Icons.done_all,
                     color: Color(0xFF8A726A),
                     size: 20,
                   ),
+                ),
               ],
             ),
           ),

@@ -4,8 +4,6 @@ A Flutter application to manage your grocery list.
 
 ## TODO
 
-* Handle multiple lists
+* Native launcher icon & splash screen
+* Top progression card
 * Dark theme
-* Change language
-* Add quantity to items
-* Undo deletion
