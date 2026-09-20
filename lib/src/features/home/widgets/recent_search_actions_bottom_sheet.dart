@@ -16,18 +16,16 @@ class RecentSearchActionsBottomSheet extends ConsumerWidget
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
 
-    return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (final action in RecentSearchAction.values)
-            ListTile(
-              leading: Icon(action.icon),
-              title: Text(action.label(strings)),
-              onTap: () => Navigator.pop(context, action),
-            ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (final action in RecentSearchAction.values)
+          ListTile(
+            leading: Icon(action.icon),
+            title: Text(action.label(strings)),
+            onTap: () => Navigator.pop(context, action),
+          ),
+      ],
     );
   }
 }
