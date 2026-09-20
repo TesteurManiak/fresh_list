@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +7,7 @@ import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
+import 'package:todo_list/src/core/models/recent_search.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 
 class EditGroceryBottomSheet extends ConsumerStatefulWidget
@@ -117,11 +120,9 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                               itemCount: data.length,
                               itemBuilder: (context, index) {
                                 final item = data[index];
-                                return ListTile(
-                                  title: Text(item.query),
-                                  onTap: () => context.pop(
-                                    Grocery(id: 0, name: item.query),
-                                  ),
+                                return _SuggestionTile(
+                                  item,
+                                  isEditing: widget.initialValue != null,
                                 );
                               },
                             ),
@@ -171,6 +172,44 @@ class _InputField extends ConsumerWidget {
 
         onSubmitted(name);
       },
+    );
+  }
+}
+
+class _SuggestionTile extends ConsumerStatefulWidget {
+  const new(this.item, {required this.isEditing});
+
+  final RecentSearch item;
+  final bool isEditing;
+
+  @override
+  ConsumerState<_SuggestionTile> createState() => _SuggestionTileState();
+}
+
+class _SuggestionTileState extends ConsumerState<_SuggestionTile> {
+  bool added = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      enabled: !added,
+      title: Text(widget.item.query),
+      trailing: !added ? const Icon(Icons.add) : const Text('Added'),
+      onTap: added
+          ? null
+          : () {
+              final grocery = Grocery(id: 0, name: widget.item.query);
+              if (widget.isEditing) {
+                return context.pop(grocery);
+              }
+
+              setState(() => added = true);
+              unawaited(
+                ref
+                    .read(groceryListControllerProvider.notifier)
+                    .createGrocery(grocery),
+              );
+            },
     );
   }
 }

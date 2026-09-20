@@ -10,7 +10,7 @@ import 'package:todo_list/src/core/widgets/dismissible.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 
-const _kAnimationDuration = Duration(milliseconds: 300);
+const _kAnimationDuration = Duration(milliseconds: 200);
 
 class GroceryTile extends ConsumerWidget {
   const new(this.grocery, {required Key super.key});
@@ -41,7 +41,6 @@ class GroceryTile extends ConsumerWidget {
       child: AppDismissible(
         key: Key('GroceryTile-${grocery.id}'),
         direction: .endToStart,
-        movementDuration: _kAnimationDuration,
         onDismissed: (direction) {
           if (direction == .endToStart) {
             unawaited(
