@@ -8,6 +8,7 @@ import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
+import 'package:todo_list/src/core/widgets/tile_icon.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
 import 'package:todo_list/src/features/home/widgets/recent_search_actions_bottom_sheet.dart';
@@ -182,7 +183,7 @@ class _SuggestionTileState extends ConsumerState<_SuggestionTile> {
 
     return ListTile(
       enabled: !added,
-      leading: const Icon(Icons.history),
+      leading: const TileIcon(Icons.history),
       title: Text(widget.item.query),
       trailing: !added ? const Icon(Icons.add) : Text(strings.added),
       onLongPress: () async {

@@ -8,6 +8,7 @@ import 'package:todo_list/src/core/constants/consts.dart';
 import 'package:todo_list/src/core/extensions/iterable_extensions.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/theme/theme_controller.dart';
+import 'package:todo_list/src/core/widgets/tile_icon.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/settings/widgets/clear_all_confirmation_dialog.dart';
 
@@ -26,7 +27,7 @@ class SettingsView extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: <Widget>[
           ListTile(
-            leading: const _TileIcon(Icons.brightness_6),
+            leading: const TileIcon(Icons.brightness_6),
             title: Text(strings.settings_theme_title),
             trailing: PopupMenuButton<ThemeMode>(
               initialValue: themeMode,
@@ -47,7 +48,7 @@ class SettingsView extends ConsumerWidget {
             ),
           ),
           ListTile(
-            leading: const _TileIcon(Icons.language),
+            leading: const TileIcon(Icons.language),
             title: Text(strings.settings_language_title),
             trailing: PopupMenuButton<Locale>(
               initialValue: locale,
@@ -70,7 +71,7 @@ class SettingsView extends ConsumerWidget {
             ),
           ),
           ListTile(
-            leading: const _TileIcon(Icons.clear_all),
+            leading: const TileIcon(Icons.clear_all),
             title: Text(strings.clear_all),
             onTap: () async {
               final confirmed = await const ClearAllConfirmationDialog().show(
@@ -87,7 +88,7 @@ class SettingsView extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const _TileIcon(Icons.info),
+            leading: const TileIcon(Icons.info),
             title: Text(strings.settings_about_title),
             onTap: () => showAboutDialog(
               context: context,
@@ -97,21 +98,6 @@ class SettingsView extends ConsumerWidget {
           ),
         ].separatedWith(const SizedBox(height: 8)).toList(),
       ),
-    );
-  }
-}
-
-class _TileIcon extends StatelessWidget {
-  const new(this.icon);
-
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const .symmetric(horizontal: 6, vertical: 12),
-      decoration: const BoxDecoration(color: Color(0xFFFFDCC2), shape: .circle),
-      child: Icon(icon),
     );
   }
 }
