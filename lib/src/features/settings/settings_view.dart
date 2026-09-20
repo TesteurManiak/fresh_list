@@ -8,6 +8,7 @@ import 'package:todo_list/src/core/constants/consts.dart';
 import 'package:todo_list/src/core/extensions/iterable_extensions.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/theme/theme_controller.dart';
+import 'package:todo_list/src/core/widgets/app_icon.dart';
 import 'package:todo_list/src/core/widgets/tile_icon.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/settings/widgets/clear_all_confirmation_dialog.dart';
@@ -93,6 +94,7 @@ class SettingsView extends ConsumerWidget {
             onTap: () => showAboutDialog(
               context: context,
               applicationName: AppConstants.appName,
+              applicationIcon: const AppIcon(),
               applicationVersion: 'v$packageVersion',
             ),
           ),

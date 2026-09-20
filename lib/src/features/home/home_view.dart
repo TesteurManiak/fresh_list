@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/src/core/constants/consts.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
+import 'package:todo_list/src/core/widgets/app_icon.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 import 'package:todo_list/src/features/home/widgets/grocery_tile.dart';
@@ -29,7 +30,11 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(AppConstants.appName),
+        title: const Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 8,
+          children: [AppIcon(), Text(AppConstants.appName)],
+        ),
         actions: [
           IconButton(
             tooltip: strings.quick_action_share,
