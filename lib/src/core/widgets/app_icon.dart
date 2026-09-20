@@ -5,6 +5,6 @@ class AppIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(Icons.nature);
+    return const Icon(Icons.shopping_cart);
   }
 }
