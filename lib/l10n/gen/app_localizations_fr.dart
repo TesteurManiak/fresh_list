@@ -70,4 +70,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settings_about_title => 'À propos';
+
+  @override
+  String get added => 'Ajouté';
 }

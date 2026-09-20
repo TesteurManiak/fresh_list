@@ -191,17 +191,17 @@ class _SuggestionTileState extends ConsumerState<_SuggestionTile> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings;
+
     return ListTile(
       enabled: !added,
       title: Text(widget.item.query),
-      trailing: !added ? const Icon(Icons.add) : const Text('Added'),
+      trailing: !added ? const Icon(Icons.add) : Text(strings.added),
       onTap: added
           ? null
           : () {
               final grocery = Grocery(id: 0, name: widget.item.query);
-              if (widget.isEditing) {
-                return context.pop(grocery);
-              }
+              if (widget.isEditing) return context.pop(grocery);
 
               setState(() => added = true);
               unawaited(

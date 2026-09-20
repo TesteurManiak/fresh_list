@@ -69,4 +69,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_about_title => 'About';
+
+  @override
+  String get added => 'Added';
 }

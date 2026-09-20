@@ -217,6 +217,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'À propos'**
   String get settings_about_title;
+
+  /// No description provided for @added.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouté'**
+  String get added;
 }
 
 class _AppLocalizationsDelegate
