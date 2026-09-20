@@ -6,6 +6,9 @@ class const AppTheme._() {
     final baseTheme = ThemeData.light();
     return baseTheme.copyWith(
       scaffoldBackgroundColor: const Color(0xFFFFF8F6),
+      bottomSheetTheme: baseTheme.bottomSheetTheme.copyWith(
+        backgroundColor: const Color(0xFFFFF8F6),
+      ),
       textTheme: GoogleFonts.plusJakartaSansTextTheme(
         baseTheme.textTheme.copyWith(
           titleLarge: const TextStyle(

@@ -73,4 +73,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get added => 'Ajouté';
+
+  @override
+  String get clear_all => 'Effacer la liste';
+
+  @override
+  String get clear_all_confirmation_title => 'Effacer tous les articles ?';
+
+  @override
+  String get clear_all_confirmation_message =>
+      'Cela supprimera définitivement tous les articles de votre liste.';
+
+  @override
+  String get cancel => 'Annuler';
 }

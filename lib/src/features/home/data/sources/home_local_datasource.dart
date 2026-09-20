@@ -112,6 +112,10 @@ class const HomeLocalDataSource({
     });
   }
 
+  Future<void> clearGroceries() async {
+    await db.delete(db.groceriesTable).go();
+  }
+
   Future<void> addRecentSearch(String query) async {
     await db
         .into(db.recentSearchesTable)
@@ -121,6 +125,12 @@ class const HomeLocalDataSource({
             timestamp: clock.now(),
           ),
         );
+  }
+
+  Future<void> deleteRecentSearch(String query) async {
+    await (db.delete(
+      db.recentSearchesTable,
+    )..where((s) => s.query.equals(query))).go();
   }
 }
 

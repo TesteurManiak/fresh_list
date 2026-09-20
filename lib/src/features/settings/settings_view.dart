@@ -7,6 +7,8 @@ import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/constants/consts.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/theme/theme_controller.dart';
+import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
+import 'package:todo_list/src/features/settings/widgets/clear_all_confirmation_dialog.dart';
 
 class SettingsView extends ConsumerWidget {
   const new({super.key});
@@ -66,12 +68,29 @@ class SettingsView extends ConsumerWidget {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.clear_all),
+            title: Text(strings.clear_all),
+            onTap: () async {
+              final confirmed = await const ClearAllConfirmationDialog().show(
+                context,
+              );
+
+              if (confirmed != true || !context.mounted) return;
+
+              unawaited(
+                ref
+                    .read(groceryListControllerProvider.notifier)
+                    .clearGroceries(),
+              );
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.info),
             title: Text(strings.settings_about_title),
             onTap: () => showAboutDialog(
               context: context,
               applicationName: AppConstants.appName,
-              applicationVersion: packageVersion,
+              applicationVersion: 'v$packageVersion',
             ),
           ),
         ],

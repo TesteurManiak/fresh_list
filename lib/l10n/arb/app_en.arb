@@ -20,5 +20,9 @@
     "language_en": "English",
     "language_fr": "French",
     "settings_about_title": "About",
-    "added": "Added"
+    "added": "Added",
+    "clear_all": "Clear all",
+    "clear_all_confirmation_title": "Clear all items?",
+    "clear_all_confirmation_message": "This will permanently delete all items in your grocery list.",
+    "cancel": "Cancel"
 }

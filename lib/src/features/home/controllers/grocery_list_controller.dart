@@ -102,6 +102,11 @@ class GroceryListController extends StreamNotifier<IList<Grocery>> {
         .read(homeLocalDatasourceProvider)
         .setGroceryCompleted(grocery.id, completed: !grocery.completed);
   }
+
+  Future<void> clearGroceries() async {
+    state = const AsyncData(IListConst([]));
+    await ref.read(homeLocalDatasourceProvider).clearGroceries();
+  }
 }
 
 final watchRecentSearchesProvider =

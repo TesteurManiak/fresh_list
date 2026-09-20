@@ -223,6 +223,30 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ajouté'**
   String get added;
+
+  /// No description provided for @clear_all.
+  ///
+  /// In fr, this message translates to:
+  /// **'Effacer la liste'**
+  String get clear_all;
+
+  /// No description provided for @clear_all_confirmation_title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Effacer tous les articles ?'**
+  String get clear_all_confirmation_title;
+
+  /// No description provided for @clear_all_confirmation_message.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cela supprimera définitivement tous les articles de votre liste.'**
+  String get clear_all_confirmation_message;
+
+  /// No description provided for @cancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler'**
+  String get cancel;
 }
 
 class _AppLocalizationsDelegate

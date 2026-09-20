@@ -72,4 +72,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get added => 'Added';
+
+  @override
+  String get clear_all => 'Clear all';
+
+  @override
+  String get clear_all_confirmation_title => 'Clear all items?';
+
+  @override
+  String get clear_all_confirmation_message =>
+      'This will permanently delete all items in your grocery list.';
+
+  @override
+  String get cancel => 'Cancel';
 }

@@ -20,5 +20,9 @@
     "language_en": "Anglais",
     "language_fr": "Français",
     "settings_about_title": "À propos",
-    "added": "Ajouté"
+    "added": "Ajouté",
+    "clear_all": "Effacer la liste",
+    "clear_all_confirmation_title": "Effacer tous les articles ?",
+    "clear_all_confirmation_message": "Cela supprimera définitivement tous les articles de votre liste.",
+    "cancel": "Annuler"
 }

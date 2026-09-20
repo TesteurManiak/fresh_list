@@ -9,6 +9,8 @@ import 'package:todo_list/src/core/mixins/showable.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
+import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
+import 'package:todo_list/src/features/home/widgets/recent_search_actions_bottom_sheet.dart';
 
 class EditGroceryBottomSheet extends ConsumerStatefulWidget
     with ShowableBottomSheetMixin<Grocery> {
@@ -155,14 +157,16 @@ class _InputField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
+    final bottomSheetTheme = Theme.of(context).bottomSheetTheme;
 
     return TextField(
       autofocus: controller.text.isEmpty,
       decoration: InputDecoration(
         hintText: strings.product_name,
         filled: true,
+        fillColor: bottomSheetTheme.backgroundColor,
         prefixIcon: const Icon(Icons.search),
-        border: OutlineInputBorder(borderRadius: .circular(12)),
+        border: OutlineInputBorder(borderRadius: .circular(20)),
       ),
       textCapitalization: TextCapitalization.sentences,
       controller: controller,
@@ -197,6 +201,21 @@ class _SuggestionTileState extends ConsumerState<_SuggestionTile> {
       enabled: !added,
       title: Text(widget.item.query),
       trailing: !added ? const Icon(Icons.add) : Text(strings.added),
+      onLongPress: () async {
+        final action = await const RecentSearchActionsBottomSheet().show(
+          context,
+        );
+        if (action == null || !context.mounted) return;
+
+        switch (action) {
+          case .delete:
+            unawaited(
+              ref
+                  .read(homeLocalDatasourceProvider)
+                  .deleteRecentSearch(widget.item.query),
+            );
+        }
+      },
       onTap: added
           ? null
           : () {
