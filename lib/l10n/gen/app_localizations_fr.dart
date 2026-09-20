@@ -67,4 +67,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get language_fr => 'Français';
+
+  @override
+  String get settings_about_title => 'À propos';
 }

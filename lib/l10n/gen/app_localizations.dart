@@ -211,6 +211,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Français'**
   String get language_fr;
+
+  /// No description provided for @settings_about_title.
+  ///
+  /// In fr, this message translates to:
+  /// **'À propos'**
+  String get settings_about_title;
 }
 
 class _AppLocalizationsDelegate

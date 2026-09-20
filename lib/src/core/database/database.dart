@@ -7,11 +7,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:todo_list/src/core/database/database.drift.dart';
 import 'package:todo_list/src/core/database/groceries_table.dart';
-import 'package:todo_list/src/core/database/groceries_table.drift.dart';
 import 'package:todo_list/src/core/database/recent_searches_table.dart';
-import 'package:todo_list/src/core/database/recent_searches_table.drift.dart';
-import 'package:todo_list/src/core/models/grocery.dart';
-import 'package:todo_list/src/core/models/recent_search.dart';
 
 @DriftDatabase(tables: [GroceriesTable, RecentSearchesTable])
 class AppDatabase extends $AppDatabase {
@@ -30,17 +26,3 @@ class AppDatabase extends $AppDatabase {
 }
 
 final appDatabaseProvider = Provider<AppDatabase>((_) => AppDatabase());
-
-extension DbGroceriesExt on GroceriesTableData {
-  Grocery toEntity() => Grocery(
-    id: id,
-    order: order,
-    name: name,
-    completed: completed,
-    quantity: quantity,
-  );
-}
-
-extension DbRecentSearchesExt on RecentSearchesTableData {
-  RecentSearch toEntity() => RecentSearch(query: query, timestamp: timestamp);
-}

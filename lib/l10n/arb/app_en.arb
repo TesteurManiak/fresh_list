@@ -18,5 +18,6 @@
     "theme_mode_dark": "Dark",
     "settings_language_title": "Language",
     "language_en": "English",
-    "language_fr": "French"
+    "language_fr": "French",
+    "settings_about_title": "About"
 }

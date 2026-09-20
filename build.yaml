@@ -18,3 +18,6 @@ targets:
           format: false
           map: false
           when: false
+      build_version:
+        options:
+          output: lib/gen/version.dart

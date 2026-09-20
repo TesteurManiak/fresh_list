@@ -111,7 +111,9 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                                   spacing: 8,
                                   children: [
                                     const Icon(Icons.history),
-                                    Text(strings.frequent_suggestions),
+                                    Flexible(
+                                      child: Text(strings.frequent_suggestions),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -129,8 +131,8 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                           ],
                         );
                       },
-                      error: (error, stackTrace) => SliverFillRemaining(
-                        child: Center(child: Text('Error: $error')),
+                      error: (e, _) => SliverFillRemaining(
+                        child: Center(child: Text('Error: $e')),
                       ),
                       loading: () => const SliverFillRemaining(
                         child: Center(child: CircularProgressIndicator()),
