@@ -101,34 +101,18 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                           );
                         }
 
-                        return SliverMainAxisGroup(
-                          slivers: [
-                            SliverToBoxAdapter(
-                              child: Padding(
-                                padding: const .symmetric(horizontal: 16),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  spacing: 8,
-                                  children: [
-                                    const Icon(Icons.history),
-                                    Flexible(
-                                      child: Text(strings.frequent_suggestions),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SliverList.builder(
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                final item = data[index];
-                                return _SuggestionTile(
-                                  item,
-                                  isEditing: widget.initialValue != null,
-                                );
-                              },
-                            ),
-                          ],
+                        return SliverPadding(
+                          padding: const .symmetric(horizontal: 16),
+                          sliver: SliverList.builder(
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              final item = data[index];
+                              return _SuggestionTile(
+                                item,
+                                isEditing: widget.initialValue != null,
+                              );
+                            },
+                          ),
                         );
                       },
                       error: (e, _) => SliverFillRemaining(
@@ -165,7 +149,6 @@ class _InputField extends ConsumerWidget {
         hintText: strings.product_name,
         filled: true,
         fillColor: bottomSheetTheme.backgroundColor,
-        prefixIcon: const Icon(Icons.search),
         border: OutlineInputBorder(borderRadius: .circular(20)),
       ),
       textCapitalization: TextCapitalization.sentences,
@@ -199,6 +182,7 @@ class _SuggestionTileState extends ConsumerState<_SuggestionTile> {
 
     return ListTile(
       enabled: !added,
+      leading: const Icon(Icons.history),
       title: Text(widget.item.query),
       trailing: !added ? const Icon(Icons.add) : Text(strings.added),
       onLongPress: () async {
