@@ -8,15 +8,9 @@ class GroceriesTable extends Table {
   IntColumn get order => integer()();
   TextColumn get name => text()();
   BoolColumn get completed => boolean()();
-  IntColumn get quantity => integer().nullable()();
 }
 
 extension DbGroceriesExt on GroceriesTableData {
-  Grocery toEntity() => Grocery(
-    id: id,
-    order: order,
-    name: name,
-    completed: completed,
-    quantity: quantity,
-  );
+  Grocery toEntity() =>
+      Grocery(id: id, order: order, name: name, completed: completed);
 }

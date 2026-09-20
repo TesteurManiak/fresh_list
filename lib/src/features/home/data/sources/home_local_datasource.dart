@@ -140,7 +140,6 @@ extension on Grocery {
       order: order,
       name: name,
       completed: completed,
-      quantity: Value(quantity),
     );
   }
 
@@ -150,7 +149,6 @@ extension on Grocery {
       order: order,
       name: name,
       completed: completed,
-      quantity: quantity,
     );
   }
 }

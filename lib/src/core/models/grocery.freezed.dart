@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Grocery {
 
- int get id; String get name; int get order; bool get completed; GroceryQuantityUnit get quantityUnit; int? get quantity;
+ int get id; String get name; int get order; bool get completed;
 /// Create a copy of Grocery
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $GroceryCopyWith<Grocery> get copyWith => _$GroceryCopyWithImpl<Grocery>(this as
 @override
 bool operator ==(Object other) {
   final _this = this as Grocery;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Grocery&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.order, _this.order) || other.order == _this.order)&&(identical(other.completed, _this.completed) || other.completed == _this.completed)&&(identical(other.quantityUnit, _this.quantityUnit) || other.quantityUnit == _this.quantityUnit)&&(identical(other.quantity, _this.quantity) || other.quantity == _this.quantity));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Grocery&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.order, _this.order) || other.order == _this.order)&&(identical(other.completed, _this.completed) || other.completed == _this.completed));
 }
 
 
 @override
 int get hashCode {
   final _this = this as Grocery;
-  return Object.hash(runtimeType,_this.id,_this.name,_this.order,_this.completed,_this.quantityUnit,_this.quantity);
+  return Object.hash(runtimeType,_this.id,_this.name,_this.order,_this.completed);
 }
 
 @override
 String toString() {
   final _this = this as Grocery;
-  return 'Grocery(id: ${_this.id}, name: ${_this.name}, order: ${_this.order}, completed: ${_this.completed}, quantityUnit: ${_this.quantityUnit}, quantity: ${_this.quantity})';
+  return 'Grocery(id: ${_this.id}, name: ${_this.name}, order: ${_this.order}, completed: ${_this.completed})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $GroceryCopyWith<$Res>  {
   factory $GroceryCopyWith(Grocery value, $Res Function(Grocery) _then) = _$GroceryCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, int order, bool completed, GroceryQuantityUnit quantityUnit, int? quantity
+ int id, String name, int order, bool completed
 });
 
 
@@ -68,15 +68,13 @@ class _$GroceryCopyWithImpl<$Res>
 
 /// Create a copy of Grocery
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? order = null,Object? completed = null,Object? quantityUnit = null,Object? quantity = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? order = null,Object? completed = null,}) {
   return _then(Grocery(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as int,completed: null == completed ? _self.completed : completed // ignore: cast_nullable_to_non_nullable
-as bool,quantityUnit: null == quantityUnit ? _self.quantityUnit : quantityUnit // ignore: cast_nullable_to_non_nullable
-as GroceryQuantityUnit,quantity: freezed == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
-as int?,
+as bool,
   ));
 }
 
@@ -87,16 +85,14 @@ as int?,
 /// @nodoc
 
 
-class _Grocery extends Grocery {
-  const _Grocery({required this.id, required this.name, this.order = 0, this.completed = false, this.quantityUnit = GroceryQuantityUnit.piece, this.quantity}): super._();
+class _Grocery implements Grocery {
+  const _Grocery({required this.id, required this.name, this.order = 0, this.completed = false});
   
 
 @override final  int id;
 @override final  String name;
 @override@JsonKey() final  int order;
 @override@JsonKey() final  bool completed;
-@override@JsonKey() final  GroceryQuantityUnit quantityUnit;
-@override final  int? quantity;
 
 /// Create a copy of Grocery
 /// with the given fields replaced by the non-null parameter values.
@@ -108,18 +104,18 @@ _$GroceryCopyWith<_Grocery> get copyWith => __$GroceryCopyWithImpl<_Grocery>(thi
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Grocery&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.order, order) || other.order == order)&&(identical(other.completed, completed) || other.completed == completed)&&(identical(other.quantityUnit, quantityUnit) || other.quantityUnit == quantityUnit)&&(identical(other.quantity, quantity) || other.quantity == quantity));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Grocery&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.order, order) || other.order == order)&&(identical(other.completed, completed) || other.completed == completed));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,name,order,completed,quantityUnit,quantity);
+    return Object.hash(runtimeType,id,name,order,completed);
 }
 
 @override
 String toString() {
-    return 'Grocery(id: $id, name: $name, order: $order, completed: $completed, quantityUnit: $quantityUnit, quantity: $quantity)';
+    return 'Grocery(id: $id, name: $name, order: $order, completed: $completed)';
 }
 
 
@@ -130,7 +126,7 @@ abstract mixin class _$GroceryCopyWith<$Res> implements $GroceryCopyWith<$Res> {
   factory _$GroceryCopyWith(_Grocery value, $Res Function(_Grocery) _then) = __$GroceryCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, int order, bool completed, GroceryQuantityUnit quantityUnit, int? quantity
+ int id, String name, int order, bool completed
 });
 
 
@@ -147,15 +143,13 @@ class __$GroceryCopyWithImpl<$Res>
 
 /// Create a copy of Grocery
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? order = null,Object? completed = null,Object? quantityUnit = null,Object? quantity = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? order = null,Object? completed = null,}) {
   return _then(_Grocery(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as int,completed: null == completed ? _self.completed : completed // ignore: cast_nullable_to_non_nullable
-as bool,quantityUnit: null == quantityUnit ? _self.quantityUnit : quantityUnit // ignore: cast_nullable_to_non_nullable
-as GroceryQuantityUnit,quantity: freezed == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
-as int?,
+as bool,
   ));
 }
 

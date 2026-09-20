@@ -64,25 +64,8 @@ class $GroceriesTableTable extends i2.GroceriesTable
       'CHECK ("completed" IN (0, 1))',
     ),
   );
-  static const i0.VerificationMeta _quantityMeta = const i0.VerificationMeta(
-    'quantity',
-  );
   @override
-  late final i0.GeneratedColumn<int> quantity = i0.GeneratedColumn<int>(
-    'quantity',
-    aliasedName,
-    true,
-    type: i0.DriftSqlType.int,
-    requiredDuringInsert: false,
-  );
-  @override
-  List<i0.GeneratedColumn> get $columns => [
-    id,
-    order,
-    name,
-    completed,
-    quantity,
-  ];
+  List<i0.GeneratedColumn> get $columns => [id, order, name, completed];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -122,12 +105,6 @@ class $GroceriesTableTable extends i2.GroceriesTable
     } else if (isInserting) {
       context.missing(_completedMeta);
     }
-    if (data.containsKey('quantity')) {
-      context.handle(
-        _quantityMeta,
-        quantity.isAcceptableOrUnknown(data['quantity']!, _quantityMeta),
-      );
-    }
     return context;
   }
 
@@ -153,10 +130,6 @@ class $GroceriesTableTable extends i2.GroceriesTable
         i0.DriftSqlType.bool,
         data['${effectivePrefix}completed'],
       )!,
-      quantity: attachedDatabase.typeMapping.read(
-        i0.DriftSqlType.int,
-        data['${effectivePrefix}quantity'],
-      ),
     );
   }
 
@@ -172,13 +145,11 @@ class GroceriesTableData extends i0.DataClass
   final int order;
   final String name;
   final bool completed;
-  final int? quantity;
   const GroceriesTableData({
     required this.id,
     required this.order,
     required this.name,
     required this.completed,
-    this.quantity,
   });
   @override
   Map<String, i0.Expression> toColumns(bool nullToAbsent) {
@@ -187,9 +158,6 @@ class GroceriesTableData extends i0.DataClass
     map['order'] = i0.Variable<int>(order);
     map['name'] = i0.Variable<String>(name);
     map['completed'] = i0.Variable<bool>(completed);
-    if (!nullToAbsent || quantity != null) {
-      map['quantity'] = i0.Variable<int>(quantity);
-    }
     return map;
   }
 
@@ -203,7 +171,6 @@ class GroceriesTableData extends i0.DataClass
       order: serializer.fromJson<int>(json['order']),
       name: serializer.fromJson<String>(json['name']),
       completed: serializer.fromJson<bool>(json['completed']),
-      quantity: serializer.fromJson<int?>(json['quantity']),
     );
   }
   @override
@@ -214,7 +181,6 @@ class GroceriesTableData extends i0.DataClass
       'order': serializer.toJson<int>(order),
       'name': serializer.toJson<String>(name),
       'completed': serializer.toJson<bool>(completed),
-      'quantity': serializer.toJson<int?>(quantity),
     };
   }
 
@@ -223,13 +189,11 @@ class GroceriesTableData extends i0.DataClass
     int? order,
     String? name,
     bool? completed,
-    i0.Value<int?> quantity = const i0.Value.absent(),
   }) => i1.GroceriesTableData(
     id: id ?? this.id,
     order: order ?? this.order,
     name: name ?? this.name,
     completed: completed ?? this.completed,
-    quantity: quantity.present ? quantity.value : this.quantity,
   );
   GroceriesTableData copyWithCompanion(i1.GroceriesTableCompanion data) {
     return GroceriesTableData(
@@ -237,7 +201,6 @@ class GroceriesTableData extends i0.DataClass
       order: data.order.present ? data.order.value : this.order,
       name: data.name.present ? data.name.value : this.name,
       completed: data.completed.present ? data.completed.value : this.completed,
-      quantity: data.quantity.present ? data.quantity.value : this.quantity,
     );
   }
 
@@ -247,14 +210,13 @@ class GroceriesTableData extends i0.DataClass
           ..write('id: $id, ')
           ..write('order: $order, ')
           ..write('name: $name, ')
-          ..write('completed: $completed, ')
-          ..write('quantity: $quantity')
+          ..write('completed: $completed')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, order, name, completed, quantity);
+  int get hashCode => Object.hash(id, order, name, completed);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -262,8 +224,7 @@ class GroceriesTableData extends i0.DataClass
           other.id == this.id &&
           other.order == this.order &&
           other.name == this.name &&
-          other.completed == this.completed &&
-          other.quantity == this.quantity);
+          other.completed == this.completed);
 }
 
 class GroceriesTableCompanion
@@ -272,20 +233,17 @@ class GroceriesTableCompanion
   final i0.Value<int> order;
   final i0.Value<String> name;
   final i0.Value<bool> completed;
-  final i0.Value<int?> quantity;
   const GroceriesTableCompanion({
     this.id = const i0.Value.absent(),
     this.order = const i0.Value.absent(),
     this.name = const i0.Value.absent(),
     this.completed = const i0.Value.absent(),
-    this.quantity = const i0.Value.absent(),
   });
   GroceriesTableCompanion.insert({
     this.id = const i0.Value.absent(),
     required int order,
     required String name,
     required bool completed,
-    this.quantity = const i0.Value.absent(),
   }) : order = i0.Value(order),
        name = i0.Value(name),
        completed = i0.Value(completed);
@@ -294,14 +252,12 @@ class GroceriesTableCompanion
     i0.Expression<int>? order,
     i0.Expression<String>? name,
     i0.Expression<bool>? completed,
-    i0.Expression<int>? quantity,
   }) {
     return i0.RawValuesInsertable({
       if (id != null) 'id': id,
       if (order != null) 'order': order,
       if (name != null) 'name': name,
       if (completed != null) 'completed': completed,
-      if (quantity != null) 'quantity': quantity,
     });
   }
 
@@ -310,14 +266,12 @@ class GroceriesTableCompanion
     i0.Value<int>? order,
     i0.Value<String>? name,
     i0.Value<bool>? completed,
-    i0.Value<int?>? quantity,
   }) {
     return i1.GroceriesTableCompanion(
       id: id ?? this.id,
       order: order ?? this.order,
       name: name ?? this.name,
       completed: completed ?? this.completed,
-      quantity: quantity ?? this.quantity,
     );
   }
 
@@ -336,9 +290,6 @@ class GroceriesTableCompanion
     if (completed.present) {
       map['completed'] = i0.Variable<bool>(completed.value);
     }
-    if (quantity.present) {
-      map['quantity'] = i0.Variable<int>(quantity.value);
-    }
     return map;
   }
 
@@ -348,8 +299,7 @@ class GroceriesTableCompanion
           ..write('id: $id, ')
           ..write('order: $order, ')
           ..write('name: $name, ')
-          ..write('completed: $completed, ')
-          ..write('quantity: $quantity')
+          ..write('completed: $completed')
           ..write(')'))
         .toString();
   }

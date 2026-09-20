@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/l10n/gen/app_localizations.dart';
-import 'package:todo_list/src/core/formatters/quantity_formatter.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/widgets/checkbox.dart';
 import 'package:todo_list/src/core/widgets/dismissible.dart';
@@ -110,9 +109,6 @@ class _GroceryCard extends ConsumerWidget {
                     child: Text(grocery.name),
                   ),
                 ),
-                if (grocery.quantity case final q?
-                    when q > 0 && !grocery.completed)
-                  _QuantityChip(grocery),
                 if (grocery.completed)
                   const Icon(
                     Icons.done_all,
@@ -138,32 +134,6 @@ class _GroceryCard extends ConsumerWidget {
 
     unawaited(
       ref.read(groceryListControllerProvider.notifier).updateGrocery(grocery),
-    );
-  }
-}
-
-class const _QuantityChip(final Grocery grocery) extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final quantityFormatter = ref.watch(quantityFormatterProvider);
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF0E6E4),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Text(
-        grocery.formatQuantity(quantityFormatter),
-        style: const TextStyle(
-          color: Color(0xFF57423B),
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
-          height: 16 / 12,
-        ),
-        textAlign: TextAlign.center,
-        maxLines: 1,
-      ),
     );
   }
 }
