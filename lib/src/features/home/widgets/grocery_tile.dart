@@ -65,7 +65,7 @@ class _GroceryCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const tileBorderRadius = BorderRadius.all(.circular(12));
-    final colorScheme = ColorScheme.of(context);
+    final listTileTheme = ListTileTheme.of(context);
 
     return AnimatedContainer(
       duration: _kAnimationDuration,
@@ -74,8 +74,8 @@ class _GroceryCard extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: tileBorderRadius,
         color: grocery.completed
-            ? const Color(0xFFFCF1EF)
-            : colorScheme.onPrimaryContainer,
+            ? listTileTheme.tileColor
+            : listTileTheme.selectedTileColor,
       ),
       child: Material(
         type: .transparency,
@@ -84,7 +84,7 @@ class _GroceryCard extends ConsumerWidget {
           onTap: () => _showEditionBottomSheet(context, ref, grocery),
           borderRadius: borderRadius,
           child: Padding(
-            padding: const .all(12),
+            padding: listTileTheme.contentPadding ?? .zero,
             child: Row(
               spacing: 16,
               children: [
@@ -97,15 +97,13 @@ class _GroceryCard extends ConsumerWidget {
                 Expanded(
                   child: AnimatedDefaultTextStyle(
                     duration: _kAnimationDuration,
-                    style: TextStyle(
-                      decoration: grocery.completed ? .lineThrough : null,
-                      color: grocery.completed
-                          ? const Color(0xFF57423B)
-                          : const Color(0xFF1F1B1A),
-                      fontWeight: .w600,
-                      fontSize: 16,
-                      height: 20 / 16,
-                    ),
+                    style: (listTileTheme.titleTextStyle ?? const TextStyle())
+                        .copyWith(
+                          decoration: grocery.completed ? .lineThrough : null,
+                          color: grocery.completed
+                              ? const Color(0xFF57423B)
+                              : null,
+                        ),
 
                     child: Text(grocery.name),
                   ),

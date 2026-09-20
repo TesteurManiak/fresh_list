@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/gen/version.dart';
 import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/constants/consts.dart';
+import 'package:todo_list/src/core/extensions/iterable_extensions.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/theme/theme_controller.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
@@ -22,9 +23,10 @@ class SettingsView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(strings.settings_title)),
       body: ListView(
-        children: [
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        children: <Widget>[
           ListTile(
-            leading: const Icon(Icons.brightness_6),
+            leading: const _TileIcon(Icons.brightness_6),
             title: Text(strings.settings_theme_title),
             trailing: PopupMenuButton<ThemeMode>(
               initialValue: themeMode,
@@ -45,7 +47,7 @@ class SettingsView extends ConsumerWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.language),
+            leading: const _TileIcon(Icons.language),
             title: Text(strings.settings_language_title),
             trailing: PopupMenuButton<Locale>(
               initialValue: locale,
@@ -68,7 +70,7 @@ class SettingsView extends ConsumerWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.clear_all),
+            leading: const _TileIcon(Icons.clear_all),
             title: Text(strings.clear_all),
             onTap: () async {
               final confirmed = await const ClearAllConfirmationDialog().show(
@@ -85,7 +87,7 @@ class SettingsView extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.info),
+            leading: const _TileIcon(Icons.info),
             title: Text(strings.settings_about_title),
             onTap: () => showAboutDialog(
               context: context,
@@ -93,8 +95,23 @@ class SettingsView extends ConsumerWidget {
               applicationVersion: 'v$packageVersion',
             ),
           ),
-        ],
+        ].separatedWith(const SizedBox(height: 8)).toList(),
       ),
+    );
+  }
+}
+
+class _TileIcon extends StatelessWidget {
+  const new(this.icon);
+
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const .symmetric(horizontal: 6, vertical: 12),
+      decoration: const BoxDecoration(color: Color(0xFFFFDCC2), shape: .circle),
+      child: Icon(icon),
     );
   }
 }
