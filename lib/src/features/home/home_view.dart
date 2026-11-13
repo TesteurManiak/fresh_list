@@ -29,6 +29,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
     final strings = context.strings;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Row(
           mainAxisSize: MainAxisSize.min,

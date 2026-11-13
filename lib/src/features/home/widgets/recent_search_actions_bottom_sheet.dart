@@ -10,9 +10,6 @@ class RecentSearchActionsBottomSheet extends ConsumerWidget
   const new({super.key});
 
   @override
-  bool get showDragHandle => true;
-
-  @override
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
 

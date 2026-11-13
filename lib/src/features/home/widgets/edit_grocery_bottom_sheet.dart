@@ -20,12 +20,6 @@ class EditGroceryBottomSheet extends ConsumerStatefulWidget
   final Grocery? initialValue;
 
   @override
-  bool get isScrollControlled => true;
-
-  @override
-  bool get showDragHandle => true;
-
-  @override
   ConsumerState<EditGroceryBottomSheet> createState() =>
       _EditGroceryBottomSheetState();
 }
@@ -54,78 +48,80 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
       builder: (context, scrollController) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
-          child: CustomScrollView(
-            controller: scrollController,
-            slivers: [
-              SliverAppBar(
-                leading: const Icon(Icons.edit_note),
-                backgroundColor: Colors.transparent,
-                title: Text(
-                  isEdition ? strings.edit_grocery : strings.add_grocery,
-                ),
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    tooltip: strings.close,
-                    onPressed: context.pop,
+          child: Material(
+            child: CustomScrollView(
+              controller: scrollController,
+              slivers: [
+                SliverAppBar(
+                  leading: const Icon(Icons.edit_note),
+                  backgroundColor: Colors.transparent,
+                  title: Text(
+                    isEdition ? strings.edit_grocery : strings.add_grocery,
                   ),
-                ],
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const .all(16),
-                  child: _InputField(
-                    controller: searchController,
-                    onSubmitted: (name) {
-                      final grocery =
-                          widget.initialValue?.copyWith(name: name) ??
-                          Grocery(id: const GroceryId(0), name: name);
-                      context.pop(grocery);
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      tooltip: strings.close,
+                      onPressed: context.pop,
+                    ),
+                  ],
+                ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const .all(16),
+                    child: _InputField(
+                      controller: searchController,
+                      onSubmitted: (name) {
+                        final grocery =
+                            widget.initialValue?.copyWith(name: name) ??
+                            Grocery(id: const GroceryId(0), name: name);
+                        context.pop(grocery);
+                      },
+                    ),
+                  ),
+                ),
+                if (searchController.text.trim() case final query
+                    when query.isNotEmpty)
+                  Consumer(
+                    builder: (context, ref, _) {
+                      final searchValue = ref.watch(
+                        watchRecentSearchesProvider(query),
+                      );
+
+                      return searchValue.when(
+                        skipLoadingOnRefresh: true,
+                        data: (data) {
+                          if (data.isEmpty) {
+                            return const SliverToBoxAdapter(
+                              child: SizedBox.shrink(),
+                            );
+                          }
+
+                          return SliverPadding(
+                            padding: const .symmetric(horizontal: 16),
+                            sliver: SliverList.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                final item = data[index];
+                                return _SuggestionTile(
+                                  item,
+                                  isEditing: widget.initialValue != null,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        error: (e, _) => SliverFillRemaining(
+                          child: Center(child: Text('Error: $e')),
+                        ),
+                        loading: () => const SliverFillRemaining(
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                      );
                     },
                   ),
-                ),
-              ),
-              if (searchController.text.trim() case final query
-                  when query.isNotEmpty)
-                Consumer(
-                  builder: (context, ref, _) {
-                    final searchValue = ref.watch(
-                      watchRecentSearchesProvider(query),
-                    );
-
-                    return searchValue.when(
-                      skipLoadingOnRefresh: true,
-                      data: (data) {
-                        if (data.isEmpty) {
-                          return const SliverToBoxAdapter(
-                            child: SizedBox.shrink(),
-                          );
-                        }
-
-                        return SliverPadding(
-                          padding: const .symmetric(horizontal: 16),
-                          sliver: SliverList.builder(
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              final item = data[index];
-                              return _SuggestionTile(
-                                item,
-                                isEditing: widget.initialValue != null,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      error: (e, _) => SliverFillRemaining(
-                        child: Center(child: Text('Error: $e')),
-                      ),
-                      loading: () => const SliverFillRemaining(
-                        child: Center(child: CircularProgressIndicator()),
-                      ),
-                    );
-                  },
-                ),
-            ],
+              ],
+            ),
           ),
         );
       },
