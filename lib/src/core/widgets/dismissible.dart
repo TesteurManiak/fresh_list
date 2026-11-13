@@ -4,7 +4,7 @@
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 const Curve _kResizeTimeCurve = Interval(0.4, 1, curve: Curves.ease);
 const double _kMinFlingVelocity = 700;

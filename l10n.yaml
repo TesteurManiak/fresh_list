@@ -3,3 +3,5 @@ template-arb-file: app_fr.arb
 output-localization-file: app_localizations.dart
 output-dir: lib/l10n/gen
 nullable-getter: false
+# TODO(Guillaume): Remove once https://github.com/flutter/flutter/issues/191072 is solved
+header: "// ignore_for_file: deprecated_member_use"

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
@@ -79,7 +79,7 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                     onSubmitted: (name) {
                       final grocery =
                           widget.initialValue?.copyWith(name: name) ??
-                          Grocery(id: 0, name: name);
+                          Grocery(id: const GroceryId(0), name: name);
                       context.pop(grocery);
                     },
                   ),
@@ -204,7 +204,10 @@ class _SuggestionTileState extends ConsumerState<_SuggestionTile> {
       onTap: added
           ? null
           : () {
-              final grocery = Grocery(id: 0, name: widget.item.query);
+              final grocery = Grocery(
+                id: const GroceryId(0),
+                name: widget.item.query,
+              );
               if (widget.isEditing) return context.pop(grocery);
 
               setState(() => added = true);

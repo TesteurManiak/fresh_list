@@ -25,6 +25,7 @@ class const HomeLocalDataSource({
 }) {
   Stream<IList<Grocery>> watchGroceries() {
     return (db.select(db.groceriesTable)
+          ..where((g) => g.deletedAt.isNull())
           ..orderBy([(t) => OrderingTerm(expression: t.order)]))
         .watch()
         .map((g) => g.map((e) => e.toEntity()).toIList());
@@ -40,7 +41,10 @@ class const HomeLocalDataSource({
   }
 
   Future<void> updateGrocery(Grocery grocery) async {
-    await db.into(db.groceriesTable).insertOnConflictUpdate(grocery.toModel());
+    final now = clock.now();
+    await db
+        .into(db.groceriesTable)
+        .insertOnConflictUpdate(grocery.toModel(now));
   }
 
   Future<void> setGroceryCompleted(int id, {required bool completed}) async {
@@ -93,8 +97,10 @@ class const HomeLocalDataSource({
     });
   }
 
-  Future<int> addGrocery(Grocery grocery) =>
-      db.into(db.groceriesTable).insert(grocery.insert());
+  Future<int> addGrocery(Grocery grocery) {
+    final now = clock.now();
+    return db.into(db.groceriesTable).insert(grocery.insert(now));
+  }
 
   Future<void> deleteGrocery({required int id, required int order}) async {
     await db.transaction(() async {
@@ -135,20 +141,24 @@ class const HomeLocalDataSource({
 }
 
 extension on Grocery {
-  GroceriesTableCompanion insert() {
+  GroceriesTableCompanion insert(DateTime updatedAt) {
     return GroceriesTableCompanion.insert(
+      listId: listId,
       order: order,
       name: name,
       completed: completed,
+      updatedAt: updatedAt,
     );
   }
 
-  GroceriesTableData toModel() {
+  GroceriesTableData toModel(DateTime updatedAt) {
     return GroceriesTableData(
       id: id,
+      listId: listId,
       order: order,
       name: name,
       completed: completed,
+      updatedAt: updatedAt,
     );
   }
 }

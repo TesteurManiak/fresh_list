@@ -8,8 +8,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:todo_list/src/core/database/database.drift.dart';
 import 'package:todo_list/src/core/database/groceries_table.dart';
 import 'package:todo_list/src/core/database/recent_searches_table.dart';
+import 'package:todo_list/src/core/database/shopping_lists_table.dart';
 
-@DriftDatabase(tables: [GroceriesTable, RecentSearchesTable])
+@DriftDatabase(
+  tables: [ShoppingListsTable, GroceriesTable, RecentSearchesTable],
+)
 class AppDatabase extends $AppDatabase {
   new() : super(_openConnection());
 
