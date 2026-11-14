@@ -56,6 +56,7 @@ class AppDismissible extends StatefulWidget {
     this.onResize,
     this.onUpdate,
     this.onDismissed,
+    this.controller,
     this.direction = DismissDirection.horizontal,
     this.resizeDuration = const Duration(milliseconds: 300),
     this.dismissThresholds = const <DismissDirection, double>{},
@@ -173,8 +174,20 @@ class AppDismissible extends StatefulWidget {
   /// depending on whether the dismiss threshold is currently reached.
   final DismissUpdateCallback? onUpdate;
 
+  /// Lets the parent programmatically peek at the background to hint that the
+  /// swipe gesture exists.
+  final AppDismissibleController? controller;
+
   @override
   State<AppDismissible> createState() => _DismissibleState();
+}
+
+/// Controls an [AppDismissible] from outside its subtree.
+class AppDismissibleController {
+  Future<void> Function()? _peek;
+
+  /// Slides the child partway out, then back, without dismissing it.
+  Future<void> peek() => _peek?.call() ?? Future<void>.value();
 }
 
 enum _FlingGestureKind { none, forward, reverse }
@@ -188,6 +201,16 @@ class _DismissibleState extends State<AppDismissible>
       ..addStatusListener(_handleDismissStatusChanged)
       ..addListener(_handleDismissUpdateValueChanged);
     _updateMoveAnimation();
+    widget.controller?._peek = _peek;
+  }
+
+  @override
+  void didUpdateWidget(AppDismissible oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller?._peek = null;
+      widget.controller?._peek = _peek;
+    }
   }
 
   late final AnimationController _moveController = AnimationController(
@@ -202,6 +225,7 @@ class _DismissibleState extends State<AppDismissible>
   double _dragExtent = 0;
   bool _confirming = false;
   bool _dragUnderway = false;
+  bool _peeking = false;
   Size? _sizePriorToCollapse;
   bool _dismissThresholdReached = false;
 
@@ -213,6 +237,7 @@ class _DismissibleState extends State<AppDismissible>
 
   @override
   void dispose() {
+    widget.controller?._peek = null;
     _moveController.dispose();
     _resizeController?.dispose();
     super.dispose();
@@ -335,6 +360,40 @@ class _DismissibleState extends State<AppDismissible>
     }
   }
 
+  Future<void> _peek() async {
+    if (!mounted ||
+        _peeking ||
+        _dragUnderway ||
+        _confirming ||
+        _moveController.isAnimating) {
+      return;
+    }
+    _peeking = true;
+    final bool isRtl = Directionality.of(context) == TextDirection.rtl;
+    final bool towardsEnd = widget.direction != DismissDirection.startToEnd;
+    _dragExtent = (towardsEnd != isRtl) ? -1 : 1;
+    _updateMoveAnimation();
+
+    try {
+      await _moveController.animateTo(
+        0.25,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeOut,
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 900));
+      if (mounted && !_dragUnderway) {
+        await _moveController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    } finally {
+      _peeking = false;
+      if (mounted && !_dragUnderway) _dragExtent = 0;
+    }
+  }
+
   void _updateMoveAnimation() {
     final double end = _dragExtent.sign;
     _moveAnimation = _moveController.drive(
@@ -426,7 +485,7 @@ class _DismissibleState extends State<AppDismissible>
   }
 
   Future<void> _handleDismissStatusChanged(AnimationStatus status) async {
-    if (status.isCompleted && !_dragUnderway) {
+    if (status.isCompleted && !_dragUnderway && !_peeking) {
       await _handleMoveCompleted();
     }
     if (mounted) {

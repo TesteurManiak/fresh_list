@@ -8,7 +8,8 @@ final sharedPreferencesProvider = FutureProvider<SharedPreferences>((ref) {
 enum SharedPrefsKey {
   locale,
   themeMode,
-  dbVersion;
+  dbVersion,
+  swipeHintShown;
 
   String get key => '$_prefix$name';
 

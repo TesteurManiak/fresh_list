@@ -21,6 +21,11 @@ class const AppTheme._() {
     return base.copyWith(
       textTheme: GoogleFonts.googleSansTextTheme(base.textTheme),
       pageTransitionsTheme: _pageTransitionsTheme,
+      textSelectionTheme: TextSelectionThemeData(
+        selectionColor: base.colorScheme.primary.withValues(alpha: 0.3),
+        selectionHandleColor: base.colorScheme.primary,
+        cursorColor: base.colorScheme.primary,
+      ),
     );
   }
 

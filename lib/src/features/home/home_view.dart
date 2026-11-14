@@ -1,13 +1,16 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:material_wavy_progress_indicator/material_wavy_progress_indicator.dart';
 import 'package:todo_list/src/core/constants/consts.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
+import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/app_icon.dart';
+import 'package:todo_list/src/core/widgets/bottom_padding.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 import 'package:todo_list/src/features/home/widgets/grocery_tile.dart';
@@ -28,73 +31,90 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
     final groceriesValue = ref.watch(groceryListControllerProvider);
     final strings = context.strings;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Row(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 8,
-          children: [AppIcon(), Text(AppConstants.appName)],
+    // Hands the custom controller to the Scaffold so that tapping the iOS
+    // status bar still scrolls the list to the top.
+    return PrimaryScrollController(
+      controller: scrollController,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: const Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            children: [AppIcon(), Text(AppConstants.appName)],
+          ),
+          actions: [
+            IconButton(
+              tooltip: strings.quick_action_share,
+              icon: const Icon(Icons.publish),
+              onPressed: () =>
+                  ref.read(groceryListControllerProvider.notifier).shareList(),
+            ),
+            IconButton(
+              tooltip: strings.settings_title,
+              icon: const Icon(Icons.tune),
+              onPressed: () => const SettingsRoute().go(context),
+            ),
+          ],
         ),
-        actions: [
-          IconButton(
-            tooltip: strings.quick_action_share,
-            icon: const Icon(Icons.publish),
-            onPressed: () =>
-                ref.read(groceryListControllerProvider.notifier).shareList(),
-          ),
-          IconButton(
-            tooltip: strings.settings_title,
-            icon: const Icon(Icons.tune),
-            onPressed: () => const SettingsRoute().go(context),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: strings.add_grocery,
-        onPressed: () async {
-          final grocery = await const EditGroceryBottomSheet().show(context);
-          if (grocery != null) {
-            await ref
-                .read(groceryListControllerProvider.notifier)
-                .createGrocery(grocery);
+        floatingActionButton: FloatingActionButton(
+          tooltip: strings.add_grocery,
+          onPressed: () async {
+            unawaited(HapticsHelper.light());
+            final grocery = await const EditGroceryBottomSheet().show(context);
+            if (grocery != null) {
+              await ref
+                  .read(groceryListControllerProvider.notifier)
+                  .createGrocery(grocery);
 
-            if (!scrollController.hasClients) return;
+              if (!scrollController.hasClients) return;
 
-            scrollController.animateTo(
-              scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOut,
+              scrollController.animateTo(
+                scrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+              );
+            }
+          },
+          child: const Icon(Icons.add),
+        ),
+        body: groceriesValue.when(
+          skipLoadingOnReload: true,
+          data: (data) {
+            if (data.isEmpty) return _CenteredText(strings.empty_grocery_list);
+
+            return ReorderableListView.builder(
+              scrollController: scrollController,
+              // Clears the FAB (56dp + 16dp margin) and the system bar.
+              padding: .only(
+                left: 16,
+                right: 16,
+                bottom: BottomPadding.of(context) + 72,
+              ),
+              physics: const AlwaysScrollableScrollPhysics(),
+              proxyDecorator: proxyDecorator,
+              itemBuilder: (_, i) {
+                final g = data[i];
+                return GroceryTile(
+                  g,
+                  key: Key('Reorderable-${g.id}'),
+                  showSwipeHint: i == 0,
+                );
+              },
+              itemCount: data.length,
+              onReorderStart: (_) => unawaited(HapticsHelper.medium()),
+              onReorderEnd: (_) => unawaited(HapticsHelper.light()),
+              onReorderItem: (oldIndex, newIndex) => ref
+                  .read(groceryListControllerProvider.notifier)
+                  .reorder(oldIndex, newIndex),
             );
-          }
-        },
-        child: const Icon(Icons.add),
-      ),
-      body: groceriesValue.when(
-        skipLoadingOnReload: true,
-        data: (data) {
-          if (data.isEmpty) return _CenteredText(strings.empty_grocery_list);
-
-          return ReorderableListView.builder(
-            scrollController: scrollController,
-            padding: const .only(left: 16, right: 16, bottom: 40),
-            physics: const AlwaysScrollableScrollPhysics(),
-            proxyDecorator: proxyDecorator,
-            itemBuilder: (_, i) {
-              final g = data[i];
-              return GroceryTile(g, key: Key('Reorderable-${g.id}'));
-            },
-            itemCount: data.length,
-            onReorderItem: (oldIndex, newIndex) => ref
-                .read(groceryListControllerProvider.notifier)
-                .reorder(oldIndex, newIndex),
-          );
-        },
-        error: (e, s) {
-          log(e.toString(), error: e, stackTrace: s);
-          return _CenteredText(strings.generic_error);
-        },
-        loading: () => const Center(child: CupertinoActivityIndicator()),
+          },
+          error: (e, s) {
+            log(e.toString(), error: e, stackTrace: s);
+            return _CenteredText(strings.generic_error);
+          },
+          loading: () => const Center(child: CircularWavyProgressIndicator()),
+        ),
       ),
     );
   }

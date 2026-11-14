@@ -10,21 +10,24 @@ class AppSheet extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Padding(
-        padding: const .all(16),
-        // Dialog spec: container width is capped at 560dp on larger screens.
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 560),
-          child: Material(
-            color: colorScheme.surfaceContainerHigh,
-            clipBehavior: .antiAlias,
-            shape: RoundedRectangleBorder(
-              // M3 concentric nesting: outer radius = inner radius + padding.
-              // The stadium buttons inside are 28 (56dp tall) behind 24
-              // padding.
-              borderRadius: .circular(52),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const .all(16),
+          // Dialog spec: container width is capped at 560dp on larger screens.
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 560),
+            child: Material(
+              color: colorScheme.surfaceContainerHigh,
+              clipBehavior: .antiAlias,
+              shape: RoundedRectangleBorder(
+                // M3 concentric nesting: outer radius = inner radius + padding.
+                // The stadium buttons inside are 28 (56dp tall) behind 24
+                // padding.
+                borderRadius: .circular(52),
+              ),
+              child: Padding(padding: const .all(24), child: child),
             ),
-            child: Padding(padding: const .all(24), child: child),
           ),
         ),
       ),

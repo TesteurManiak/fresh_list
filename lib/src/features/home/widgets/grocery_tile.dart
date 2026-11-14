@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
+import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/checkbox.dart';
 import 'package:todo_list/src/core/widgets/dismissible.dart';
@@ -18,17 +19,49 @@ const _kAnimationCurve = Curves.easeOutBack;
 const _kActiveRadius = BorderRadius.all(.circular(28));
 const _kCompletedRadius = BorderRadius.all(.circular(16));
 
-class GroceryTile extends ConsumerWidget {
-  const new(this.grocery, {required Key super.key});
+class GroceryTile extends ConsumerStatefulWidget {
+  const new(this.grocery, {required Key super.key, this.showSwipeHint = false});
 
   final Grocery grocery;
 
+  /// Whether this tile should briefly reveal its swipe action the first time
+  /// the user ever sees the list.
+  final bool showSwipeHint;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GroceryTile> createState() => _GroceryTileState();
+}
+
+class _GroceryTileState extends ConsumerState<GroceryTile> {
+  final controller = AppDismissibleController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.showSwipeHint) unawaited(_runSwipeHint());
+  }
+
+  Future<void> _runSwipeHint() async {
+    final prefs = await ref.read(sharedPreferencesProvider.future);
+    final key = SharedPrefsKey.swipeHintShown.key;
+    if (prefs.getBool(key) ?? false) return;
+    await prefs.setBool(key, true);
+
+    // Let the page finish settling first.
+    await Future<void>.delayed(const Duration(milliseconds: 700));
+    if (!mounted) return;
+    await controller.peek();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final grocery = widget.grocery;
+
     return Padding(
       padding: const .symmetric(vertical: 3),
       child: AppDismissible(
         key: Key('GroceryTile-${grocery.id}'),
+        controller: controller,
         direction: .endToStart,
         onUpdate: (details) {
           if (details.reached && !details.previousReached) {

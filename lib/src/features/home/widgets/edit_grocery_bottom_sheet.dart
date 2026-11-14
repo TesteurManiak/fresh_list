@@ -45,88 +45,78 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
     final strings = context.strings;
     final isEdition = widget.initialValue != null;
 
-    return DraggableScrollableSheet(
-      initialChildSize: 1,
-      expand: false,
-      builder: (context, scrollController) {
-        return AppSheet(
-          child: CustomScrollView(
-            controller: scrollController,
-            slivers: [
-              SliverAppBar(
-                automaticallyImplyLeading: false,
-                backgroundColor: Colors.transparent,
-                title: Text(
-                  isEdition ? strings.edit_grocery : strings.add_grocery,
-                ),
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    tooltip: strings.close,
-                    onPressed: context.pop,
-                  ),
-                ],
+    return AppSheet(
+      child: CustomScrollView(
+        keyboardDismissBehavior: .onDrag,
+        slivers: [
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            title: Text(isEdition ? strings.edit_grocery : strings.add_grocery),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.close),
+                tooltip: strings.close,
+                onPressed: context.pop,
               ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const .symmetric(vertical: 16),
-                  child: _InputField(
-                    controller: searchController,
-                    onSubmitted: (name) {
-                      final appClock = ref.read(appClockProvider);
-                      final grocery =
-                          widget.initialValue?.copyWith(name: name) ??
-                          Grocery(
-                            id: const GroceryId(0),
-                            name: name,
-                            updatedAt: appClock.now(),
-                          );
-                      context.pop(grocery);
-                    },
-                  ),
-                ),
-              ),
-              if (searchController.text.trim() case final query
-                  when query.isNotEmpty)
-                Consumer(
-                  builder: (context, ref, _) {
-                    final searchValue = ref.watch(
-                      watchRecentSearchesProvider(query),
-                    );
-
-                    return searchValue.when(
-                      skipLoadingOnReload: true,
-                      data: (data) {
-                        if (data.isEmpty) {
-                          return const SliverToBoxAdapter(
-                            child: SizedBox.shrink(),
-                          );
-                        }
-
-                        return SliverList.builder(
-                          itemCount: data.length,
-                          itemBuilder: (context, index) {
-                            final item = data[index];
-                            return _SuggestionTile(
-                              item,
-                              isEditing: widget.initialValue != null,
-                            );
-                          },
-                        );
-                      },
-                      error: (e, _) => SliverFillRemaining(
-                        child: Center(child: Text(strings.generic_error)),
-                      ),
-                      loading: () => SliverFillRemaining(
-                        child: Center(child: LoadingIndicator()),
-                      ),
-                    );
-                  },
-                ),
             ],
           ),
-        );
-      },
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const .symmetric(vertical: 16),
+              child: _InputField(
+                controller: searchController,
+                onSubmitted: (name) {
+                  final appClock = ref.read(appClockProvider);
+                  final grocery =
+                      widget.initialValue?.copyWith(name: name) ??
+                      Grocery(
+                        id: const GroceryId(0),
+                        name: name,
+                        updatedAt: appClock.now(),
+                      );
+                  context.pop(grocery);
+                },
+              ),
+            ),
+          ),
+          if (searchController.text.trim() case final query
+              when query.isNotEmpty)
+            Consumer(
+              builder: (context, ref, _) {
+                final searchValue = ref.watch(
+                  watchRecentSearchesProvider(query),
+                );
+
+                return searchValue.when(
+                  skipLoadingOnReload: true,
+                  data: (data) {
+                    if (data.isEmpty) {
+                      return const SliverToBoxAdapter(child: SizedBox.shrink());
+                    }
+
+                    return SliverList.builder(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        final item = data[index];
+                        return _SuggestionTile(
+                          item,
+                          isEditing: widget.initialValue != null,
+                        );
+                      },
+                    );
+                  },
+                  error: (e, _) => SliverFillRemaining(
+                    child: Center(child: Text(strings.generic_error)),
+                  ),
+                  loading: () => SliverFillRemaining(
+                    child: Center(child: LoadingIndicator()),
+                  ),
+                );
+              },
+            ),
+        ],
+      ),
     );
   }
 }
@@ -143,7 +133,7 @@ class _InputField extends ConsumerWidget {
     final bottomSheetTheme = Theme.of(context).bottomSheetTheme;
 
     return TextField(
-      autofocus: controller.text.isEmpty,
+      autofocus: true,
       decoration: InputDecoration(
         hintText: strings.product_name,
         filled: true,

@@ -39,6 +39,8 @@ dependencies:
   intl: ^0.20.3
   material_color_utilities: ^0.13.0
   material_ui: ^1.11.0
+  material_wavy_progress_indicator:
+    path: packages/material_wavy_progress_indicator
   motor: ^1.1.0
   path: ^1.9.1
   path_provider: ^2.1.6
