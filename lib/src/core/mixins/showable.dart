@@ -1,5 +1,5 @@
+import 'package:expressive_sheet/expressive_sheet.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/src/core/widgets/expressive_sheet.dart';
 
 mixin ShowableBottomSheetMixin<T> on Widget {
   Future<T?> show(BuildContext context) {

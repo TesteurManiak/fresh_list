@@ -7,10 +7,12 @@ environment:
   sdk: ^3.13.0
   flutter: ">=3.47.0"
 
+resolution: workspace
+
 dependencies:
-  cupertino_ui: ^1.1.5
+  cupertino_ui:
   flutter:
     sdk: flutter
-  material_ui: ^1.9.0
+  material_ui:
   meta: ^1.15.0
   vector_math: ^2.1.4

@@ -1,0 +1,17 @@
+name: expressive_loading_indicator
+description: "Material 3 Expressive Loading Indicator — vendored from github.com/ksokolovskyi/material_loading_indicator"
+version: 1.0.0
+publish_to: "none"
+
+environment:
+  sdk: ">=3.13.0 <4.0.0"
+  flutter: ">=3.47.0"
+
+resolution: workspace
+
+dependencies:
+  cupertino_ui:
+  expressive_shapes:
+  flutter:
+    sdk: flutter
+  material_ui:

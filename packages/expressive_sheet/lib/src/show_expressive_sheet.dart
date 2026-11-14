@@ -20,10 +20,9 @@ Future<T?> showExpressiveSheet<T>({
   assert(debugCheckHasMediaQuery(context));
   assert(debugCheckHasMaterialLocalizations(context));
 
-  final localizations = MaterialLocalizations.of(context);
+  final MaterialLocalizations localizations = MaterialLocalizations.of(context);
 
-  return Navigator.push(
-    context,
+  return Navigator.of(context).push(
     ExpressiveSheetRoute<T>(
       builder: builder,
       barrierLabel: localizations.scrimLabel,
@@ -52,16 +51,16 @@ class ExpressiveSheetRoute<T> extends PopupRoute<T> {
   /// on the scrim.
   final String? barrierOnTapHint;
 
-  static const _enter = MaterialSpringMotion.expressiveSpatialDefault();
-  static const _exit = MaterialSpringMotion.standardSpatialFast();
+  static const Motion _enter = MaterialSpringMotion.expressiveSpatialDefault();
+  static const Motion _exit = MaterialSpringMotion.standardSpatialFast();
 
   // Resistance applied when dragging past fully open.
-  static const _overdragResistance = 100.0;
+  static const double _overdragResistance = 100;
 
   // Thresholds past which a released drag closes the sheet: fling speed in
   // sheet heights per second, or resting position as a fraction of height.
-  static const _closeVelocity = .9;
-  static const _closePosition = .5;
+  static const double _closeVelocity = 0.9;
+  static const double _closePosition = 0.5;
 
   // Release velocity in sheet heights per second (positive is downward),
   // carried from the drag into the close simulation.
@@ -154,11 +153,11 @@ class ExpressiveSheetRoute<T> extends PopupRoute<T> {
   void _dragBy(double relativeDelta) {
     if (_popped) return;
 
-    final controller = this.controller!;
+    final AnimationController controller = this.controller!;
 
     double delta = relativeDelta;
     if (controller.value > 1) {
-      final overshoot = controller.value - 1;
+      final double overshoot = controller.value - 1;
       delta *= 1 / (1 + overshoot * _overdragResistance);
     }
     controller.value -= delta;
@@ -166,14 +165,15 @@ class ExpressiveSheetRoute<T> extends PopupRoute<T> {
 
   void _endDrag(double relativeVelocity) {
     if (_popped) return;
-    final controller = this.controller!;
-    final value = controller.value;
+    final AnimationController controller = this.controller!;
+    final double value = controller.value;
 
     if (value > 1) {
       // Dragged past fully open. Settle back, damping the velocity by the
       // same resistance that was applied while dragging.
-      final overshoot = value - 1;
-      final damped = relativeVelocity / (1 + overshoot * _overdragResistance);
+      final double overshoot = value - 1;
+      final double damped =
+          relativeVelocity / (1 + overshoot * _overdragResistance);
       controller.animateWith(
         _enter.createSimulation(start: value, end: 1, velocity: -damped),
       );
@@ -181,7 +181,7 @@ class ExpressiveSheetRoute<T> extends PopupRoute<T> {
       return;
     }
 
-    final close = switch (relativeVelocity) {
+    final bool close = switch (relativeVelocity) {
       > _closeVelocity => true,
       < -_closeVelocity => false,
       _ => value < _closePosition,
@@ -204,7 +204,7 @@ class ExpressiveSheetRoute<T> extends PopupRoute<T> {
   // On iOS and macOS the route announces itself, so no label is needed.
   String _routeLabel(MaterialLocalizations localizations) {
     return switch (defaultTargetPlatform) {
-      .iOS || .macOS => '',
+      TargetPlatform.iOS || TargetPlatform.macOS => '',
       _ => localizations.dialogLabel,
     };
   }
@@ -215,11 +215,11 @@ class ExpressiveSheetRoute<T> extends PopupRoute<T> {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) {
-    final routeLabel = _routeLabel(MaterialLocalizations.of(context));
+    final String routeLabel = _routeLabel(MaterialLocalizations.of(context));
 
     return AnimatedPadding(
       // Keeps the sheet above the keyboard.
-      padding: .only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
       duration: const Duration(milliseconds: 100),
       curve: Curves.decelerate,
       child: Align(

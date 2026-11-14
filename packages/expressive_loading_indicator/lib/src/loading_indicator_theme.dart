@@ -1,7 +1,8 @@
+import 'package:expressive_loading_indicator/src/loading_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
-/// Defines the visual properties of `LoadingIndicator` widgets.
+/// Defines the visual properties of [LoadingIndicator] widgets.
 ///
 /// Used by [LoadingIndicatorTheme] to control the visual properties of
 /// loading indicators in a widget subtree.
@@ -15,11 +16,11 @@ import 'package:material_ui/material_ui.dart';
 ///    theme down its subtree.
 @immutable
 class LoadingIndicatorThemeData with Diagnosticable {
-  /// Creates the set of properties used to configure `LoadingIndicator`
+  /// Creates the set of properties used to configure [LoadingIndicator]
   /// widgets.
   const new({this.activeIndicatorColor, this.containerColor});
 
-  /// The color of the `LoadingIndicator`'s active indicator.
+  /// The color of the [LoadingIndicator]'s active indicator.
   ///
   /// If null, the active indicator color will default to:
   ///
@@ -27,7 +28,7 @@ class LoadingIndicatorThemeData with Diagnosticable {
   /// - [ColorScheme.onPrimaryContainer] for contained indicators.
   final Color? activeIndicatorColor;
 
-  /// The color of the `LoadingIndicator`'s container.
+  /// The color of the [LoadingIndicator]'s container.
   ///
   /// If null, then the ambient theme's [ColorScheme.primaryContainer]
   /// will be used to draw the container.
@@ -99,10 +100,10 @@ class LoadingIndicatorThemeData with Diagnosticable {
   }
 }
 
-/// An inherited widget that defines the configuration for `LoadingIndicator`s
+/// An inherited widget that defines the configuration for [LoadingIndicator]s
 /// in this widget's subtree.
 ///
-/// Values specified here are used for `LoadingIndicator` properties that are
+/// Values specified here are used for [LoadingIndicator] properties that are
 /// not given an explicit non-null value.
 ///
 /// {@tool snippet}
@@ -120,11 +121,11 @@ class LoadingIndicatorThemeData with Diagnosticable {
 /// ```
 /// {@end-tool}
 class LoadingIndicatorTheme extends InheritedTheme {
-  /// Creates a theme that controls the configurations for `LoadingIndicator`
+  /// Creates a theme that controls the configurations for [LoadingIndicator]
   /// widgets.
   const new({required this.data, required super.child, super.key});
 
-  /// The properties for descendant `LoadingIndicator` widgets.
+  /// The properties for descendant [LoadingIndicator] widgets.
   final LoadingIndicatorThemeData data;
 
   /// Returns the [data] from the closest [LoadingIndicatorTheme] ancestor. If

@@ -1,0 +1,17 @@
+name: expressive_sheet
+description: "A Material 3 Expressive take on the modal bottom sheet: spring physics with drag-driven dismissal."
+version: 1.0.0
+publish_to: "none"
+
+environment:
+  sdk: ">=3.13.0 <4.0.0"
+  flutter: ">=3.47.0"
+
+resolution: workspace
+
+dependencies:
+  cupertino_ui:
+  flutter:
+    sdk: flutter
+  material_ui:
+  motor:

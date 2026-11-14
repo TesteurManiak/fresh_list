@@ -1,0 +1,17 @@
+name: material_wavy_progress_indicator
+description: "Material 3 Wavy Progress Indicator — vendored from github.com/ksokolovskyi/material_wavy_progress_indicator"
+version: 1.0.0
+publish_to: "none"
+
+environment:
+  sdk: ">=3.13.0 <4.0.0"
+  flutter: ">=3.47.0"
+
+resolution: workspace
+
+dependencies:
+  cupertino_ui:
+  expressive_shapes:
+  flutter:
+    sdk: flutter
+  material_ui:
