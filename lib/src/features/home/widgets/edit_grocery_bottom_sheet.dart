@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:todo_list/src/core/clock.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
@@ -73,9 +74,14 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                     child: _InputField(
                       controller: searchController,
                       onSubmitted: (name) {
+                        final appClock = ref.read(appClockProvider);
                         final grocery =
                             widget.initialValue?.copyWith(name: name) ??
-                            Grocery(id: const GroceryId(0), name: name);
+                            Grocery(
+                              id: const GroceryId(0),
+                              name: name,
+                              updatedAt: appClock.now(),
+                            );
                         context.pop(grocery);
                       },
                     ),
@@ -204,6 +210,7 @@ class _SuggestionTileState extends ConsumerState<_SuggestionTile> {
               final grocery = Grocery(
                 id: const GroceryId(0),
                 name: widget.item.query,
+                updatedAt: ref.read(appClockProvider).now(),
               );
               if (widget.isEditing) return context.pop(grocery);
 

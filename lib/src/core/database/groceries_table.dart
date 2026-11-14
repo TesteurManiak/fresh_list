@@ -26,5 +26,6 @@ extension DbGroceriesExt on GroceriesTableData {
     order: order,
     name: name,
     completed: completed,
+    updatedAt: updatedAt,
   );
 }

@@ -8,6 +8,7 @@ import 'package:todo_list/src/core/database/groceries_table.dart';
 import 'package:todo_list/src/core/database/groceries_table.drift.dart';
 import 'package:todo_list/src/core/database/recent_searches_table.dart';
 import 'package:todo_list/src/core/database/recent_searches_table.drift.dart';
+import 'package:todo_list/src/core/extensions/date_time_extensions.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
 
@@ -40,12 +41,8 @@ class const HomeLocalDataSource({
         .map((searches) => searches.map((e) => e.toEntity()).toIList());
   }
 
-  Future<void> updateGrocery(Grocery grocery) async {
-    final now = clock.now();
-    await db
-        .into(db.groceriesTable)
-        .insertOnConflictUpdate(grocery.toModel(now));
-  }
+  Future<int> updateGrocery(Grocery grocery) =>
+      db.into(db.groceriesTable).insertOnConflictUpdate(grocery.toModel());
 
   Future<void> setGroceryCompleted(int id, {required bool completed}) async {
     await (db.update(db.groceriesTable)..where((g) => g.id.equals(id))).write(
@@ -97,10 +94,8 @@ class const HomeLocalDataSource({
     });
   }
 
-  Future<int> addGrocery(Grocery grocery) {
-    final now = clock.now();
-    return db.into(db.groceriesTable).insert(grocery.insert(now));
-  }
+  Future<int> addGrocery(Grocery grocery) =>
+      db.into(db.groceriesTable).insert(grocery.insert());
 
   Future<void> deleteGrocery({required int id, required int order}) async {
     await db.transaction(() async {
@@ -138,10 +133,27 @@ class const HomeLocalDataSource({
       db.recentSearchesTable,
     )..where((s) => s.query.equals(query))).go();
   }
+
+  Future<void> mergeRemoteItems(List<Grocery> incoming) async {
+    await db.transaction(() async {
+      for (final remote in incoming) {
+        final local = await (db.select(
+          db.groceriesTable,
+        )..where((g) => g.id.equals(remote.id))).getSingleOrNull();
+
+        // Insert if unseen, or overwrite only if the incoming edit is newer
+        if (local == null || remote.updatedAt > local.updatedAt) {
+          await db
+              .into(db.groceriesTable)
+              .insertOnConflictUpdate(remote.toModel());
+        }
+      }
+    });
+  }
 }
 
 extension on Grocery {
-  GroceriesTableCompanion insert(DateTime updatedAt) {
+  GroceriesTableCompanion insert() {
     return GroceriesTableCompanion.insert(
       listId: listId,
       order: order,
@@ -151,7 +163,7 @@ extension on Grocery {
     );
   }
 
-  GroceriesTableData toModel(DateTime updatedAt) {
+  GroceriesTableData toModel() {
     return GroceriesTableData(
       id: id,
       listId: listId,

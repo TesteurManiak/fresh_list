@@ -11,6 +11,7 @@ abstract class Grocery with _$Grocery {
   const factory({
     required GroceryId id,
     required String name,
+    required DateTime updatedAt,
     @Default(GroceryListId(0)) GroceryListId listId,
     @Default(0) int order,
     @Default(false) bool completed,
