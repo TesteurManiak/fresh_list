@@ -8,6 +8,7 @@ import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
+import 'package:todo_list/src/core/widgets/expressive_loading_indicator.dart';
 import 'package:todo_list/src/core/widgets/tile_icon.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
@@ -114,8 +115,8 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                         error: (e, _) => SliverFillRemaining(
                           child: Center(child: Text('Error: $e')),
                         ),
-                        loading: () => const SliverFillRemaining(
-                          child: Center(child: CircularProgressIndicator()),
+                        loading: () => SliverFillRemaining(
+                          child: Center(child: LoadingIndicator()),
                         ),
                       );
                     },
