@@ -50,7 +50,10 @@ class SettingsView extends StatelessWidget {
                         for (final mode in ThemeMode.values)
                           ButtonSegment(
                             value: mode,
-                            icon: Icon(mode.icon),
+                            icon: Icon(
+                              mode.icon,
+                              key: Key('theme_${mode.name}'),
+                            ),
                             tooltip: mode.label(strings),
                           ),
                       ],

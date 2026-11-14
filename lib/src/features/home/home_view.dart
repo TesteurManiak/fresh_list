@@ -51,6 +51,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
                   ref.read(groceryListControllerProvider.notifier).shareList(),
             ),
             IconButton(
+              key: const Key('settings_button'),
               tooltip: strings.settings_title,
               icon: const Icon(Icons.tune),
               onPressed: () => const SettingsRoute().go(context),
