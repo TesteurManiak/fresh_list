@@ -10,6 +10,7 @@ import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
+import 'package:todo_list/src/core/widgets/app_sheet.dart';
 import 'package:todo_list/src/core/widgets/tile_icon.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
@@ -48,87 +49,81 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
       initialChildSize: 1,
       expand: false,
       builder: (context, scrollController) {
-        return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Material(
-            child: CustomScrollView(
-              controller: scrollController,
-              slivers: [
-                SliverAppBar(
-                  leading: const Icon(Icons.edit_note),
-                  backgroundColor: Colors.transparent,
-                  title: Text(
-                    isEdition ? strings.edit_grocery : strings.add_grocery,
-                  ),
-                  actions: [
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      tooltip: strings.close,
-                      onPressed: context.pop,
-                    ),
-                  ],
+        return AppSheet(
+          child: CustomScrollView(
+            controller: scrollController,
+            slivers: [
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                backgroundColor: Colors.transparent,
+                title: Text(
+                  isEdition ? strings.edit_grocery : strings.add_grocery,
                 ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const .all(16),
-                    child: _InputField(
-                      controller: searchController,
-                      onSubmitted: (name) {
-                        final appClock = ref.read(appClockProvider);
-                        final grocery =
-                            widget.initialValue?.copyWith(name: name) ??
-                            Grocery(
-                              id: const GroceryId(0),
-                              name: name,
-                              updatedAt: appClock.now(),
-                            );
-                        context.pop(grocery);
-                      },
-                    ),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    tooltip: strings.close,
+                    onPressed: context.pop,
                   ),
-                ),
-                if (searchController.text.trim() case final query
-                    when query.isNotEmpty)
-                  Consumer(
-                    builder: (context, ref, _) {
-                      final searchValue = ref.watch(
-                        watchRecentSearchesProvider(query),
-                      );
-
-                      return searchValue.when(
-                        skipLoadingOnRefresh: true,
-                        data: (data) {
-                          if (data.isEmpty) {
-                            return const SliverToBoxAdapter(
-                              child: SizedBox.shrink(),
-                            );
-                          }
-
-                          return SliverPadding(
-                            padding: const .symmetric(horizontal: 16),
-                            sliver: SliverList.builder(
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                final item = data[index];
-                                return _SuggestionTile(
-                                  item,
-                                  isEditing: widget.initialValue != null,
-                                );
-                              },
-                            ),
+                ],
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const .symmetric(vertical: 16),
+                  child: _InputField(
+                    controller: searchController,
+                    onSubmitted: (name) {
+                      final appClock = ref.read(appClockProvider);
+                      final grocery =
+                          widget.initialValue?.copyWith(name: name) ??
+                          Grocery(
+                            id: const GroceryId(0),
+                            name: name,
+                            updatedAt: appClock.now(),
                           );
-                        },
-                        error: (e, _) => SliverFillRemaining(
-                          child: Center(child: Text('Error: $e')),
-                        ),
-                        loading: () => SliverFillRemaining(
-                          child: Center(child: LoadingIndicator()),
-                        ),
-                      );
+                      context.pop(grocery);
                     },
                   ),
-              ],
-            ),
+                ),
+              ),
+              if (searchController.text.trim() case final query
+                  when query.isNotEmpty)
+                Consumer(
+                  builder: (context, ref, _) {
+                    final searchValue = ref.watch(
+                      watchRecentSearchesProvider(query),
+                    );
+
+                    return searchValue.when(
+                      skipLoadingOnReload: true,
+                      data: (data) {
+                        if (data.isEmpty) {
+                          return const SliverToBoxAdapter(
+                            child: SizedBox.shrink(),
+                          );
+                        }
+
+                        return SliverList.builder(
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            final item = data[index];
+                            return _SuggestionTile(
+                              item,
+                              isEditing: widget.initialValue != null,
+                            );
+                          },
+                        );
+                      },
+                      error: (e, _) => SliverFillRemaining(
+                        child: Center(child: Text('Error: $e')),
+                      ),
+                      loading: () => SliverFillRemaining(
+                        child: Center(child: LoadingIndicator()),
+                      ),
+                    );
+                  },
+                ),
+            ],
           ),
         );
       },

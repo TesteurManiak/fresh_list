@@ -201,8 +201,7 @@ class ExpressiveRefreshIndicatorState extends State<ExpressiveRefreshIndicator>
         }
         _checkDragOffset();
       }
-      if (_status == RefreshIndicatorStatus.armed &&
-          notification.dragDetails == null) {
+      if (_status == .armed && notification.dragDetails == null) {
         // On iOS start the refresh when the Scrollable bounces back from the
         // overscroll (ScrollNotification indicating this don't have
         // dragDetails because the scroll activity is not directly triggered
@@ -210,29 +209,28 @@ class ExpressiveRefreshIndicatorState extends State<ExpressiveRefreshIndicator>
         _show();
       }
     } else if (notification is OverscrollNotification) {
-      if (_status == RefreshIndicatorStatus.drag ||
-          _status == RefreshIndicatorStatus.armed) {
-        if (notification.metrics.axisDirection == AxisDirection.down) {
+      if (_status == .drag || _status == .armed) {
+        if (notification.metrics.axisDirection == .down) {
           _dragOffset = _dragOffset! - notification.overscroll;
-        } else if (notification.metrics.axisDirection == AxisDirection.up) {
+        } else if (notification.metrics.axisDirection == .up) {
           _dragOffset = _dragOffset! + notification.overscroll;
         }
         _checkDragOffset();
       }
     } else if (notification is ScrollEndNotification) {
       switch (_status) {
-        case RefreshIndicatorStatus.armed:
+        case .armed:
           if (_fraction.value < 1.0) {
-            unawaited(_dismiss(RefreshIndicatorStatus.canceled));
+            unawaited(_dismiss(.canceled));
           } else {
             _show();
           }
-        case RefreshIndicatorStatus.drag:
-          unawaited(_dismiss(RefreshIndicatorStatus.canceled));
-        case RefreshIndicatorStatus.canceled:
-        case RefreshIndicatorStatus.done:
-        case RefreshIndicatorStatus.refresh:
-        case RefreshIndicatorStatus.snap:
+        case .drag:
+          unawaited(_dismiss(.canceled));
+        case .canceled:
+        case .done:
+        case .refresh:
+        case .snap:
         case null:
           // do nothing
           break;
