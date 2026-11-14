@@ -11,8 +11,6 @@ import 'package:todo_list/src/core/theme/theme_controller.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/app_icon.dart';
 import 'package:todo_list/src/core/widgets/bottom_padding.dart';
-import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
-import 'package:todo_list/src/features/settings/widgets/clear_all_confirmation_dialog.dart';
 import 'package:todo_list/src/features/settings/widgets/menu_section.dart';
 import 'package:todo_list/src/features/settings/widgets/menu_tile.dart';
 
@@ -27,7 +25,7 @@ class SettingsView extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(title: Text(strings.settings_title)),
+      appBar: AppBar(),
       body: ListView(
         padding: .fromLTRB(16, 8, 16, BottomPadding.of(context)),
         children: <Widget>[
@@ -54,7 +52,7 @@ class SettingsView extends ConsumerWidget {
                           ButtonSegment(
                             value: mode,
                             icon: Icon(mode.icon),
-                            label: Text(mode.label(strings)),
+                            tooltip: mode.label(strings),
                           ),
                       ],
                       onSelectionChanged: (selection) {
@@ -91,27 +89,6 @@ class SettingsView extends ConsumerWidget {
                       )
                       .toList(),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 32),
-          MenuSection(
-            children: [
-              MenuTile(
-                icon: Icons.clear_all,
-                title: strings.clear_all,
-                onTap: () async {
-                  final confirmed = await const ClearAllConfirmationDialog()
-                      .show(context);
-
-                  if (confirmed != true || !context.mounted) return;
-
-                  unawaited(
-                    ref
-                        .read(groceryListControllerProvider.notifier)
-                        .clearGroceries(),
-                  );
-                },
               ),
             ],
           ),
