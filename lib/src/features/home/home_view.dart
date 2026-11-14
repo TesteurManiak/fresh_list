@@ -77,7 +77,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
 
           return ReorderableListView.builder(
             scrollController: scrollController,
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 40),
+            padding: const .only(left: 16, right: 16, bottom: 40),
             physics: const AlwaysScrollableScrollPhysics(),
             proxyDecorator: proxyDecorator,
             itemBuilder: (_, i) {
@@ -126,7 +126,7 @@ class _CenteredText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const .all(16),
         child: Text(
           text,
           style: Theme.of(context).textTheme.titleLarge,

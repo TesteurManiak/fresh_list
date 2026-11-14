@@ -4,12 +4,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
+import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/checkbox.dart';
 import 'package:todo_list/src/core/widgets/dismissible.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 
-const _kAnimationDuration = Duration(milliseconds: 200);
+const _kAnimationDuration = Duration(milliseconds: 300);
+const _kAnimationCurve = Curves.easeOutBack;
+
+// Expressive shape morph: active tiles are fully rounded, completed ones
+// settle into a tighter shape.
+const _kActiveRadius = BorderRadius.all(.circular(28));
+const _kCompletedRadius = BorderRadius.all(.circular(16));
 
 class GroceryTile extends ConsumerWidget {
   const new(this.grocery, {required Key super.key});
@@ -18,30 +25,19 @@ class GroceryTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const borderRadius = BorderRadius.all(.circular(16));
-
-    final colorScheme = ColorScheme.of(context);
-
-    return AnimatedContainer(
-      duration: _kAnimationDuration,
-      margin: const .symmetric(vertical: 4),
-      clipBehavior: .antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: borderRadius,
-        boxShadow: [
-          if (!grocery.completed)
-            BoxShadow(
-              color: colorScheme.onSurface.withValues(alpha: 0.05),
-              blurRadius: 2,
-              offset: const Offset(0, 1),
-            ),
-        ],
-      ),
+    return Padding(
+      padding: const .symmetric(vertical: 3),
       child: AppDismissible(
         key: Key('GroceryTile-${grocery.id}'),
         direction: .endToStart,
+        onUpdate: (details) {
+          if (details.reached && !details.previousReached) {
+            unawaited(HapticsHelper.medium());
+          }
+        },
         onDismissed: (direction) {
           if (direction == .endToStart) {
+            unawaited(HapticsHelper.heavy());
             unawaited(
               ref
                   .read(groceryListControllerProvider.notifier)
@@ -49,71 +45,83 @@ class GroceryTile extends ConsumerWidget {
             );
           }
         },
-        background: const _Background(borderRadius: borderRadius),
-        child: _GroceryCard(borderRadius: borderRadius, grocery: grocery),
+        background: const _Background(borderRadius: _kActiveRadius),
+        child: _GroceryCard(grocery: grocery),
       ),
     );
   }
 }
 
 class _GroceryCard extends ConsumerWidget {
-  const new({required this.borderRadius, required this.grocery});
+  const new({required this.grocery});
 
-  final BorderRadius borderRadius;
   final Grocery grocery;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const tileBorderRadius = BorderRadius.all(.circular(12));
-    final listTileTheme = ListTileTheme.of(context);
+    final colorScheme = ColorScheme.of(context);
+    final textTheme = TextTheme.of(context);
+    final completed = grocery.completed;
+    final borderRadius = completed ? _kCompletedRadius : _kActiveRadius;
 
     return AnimatedContainer(
       duration: _kAnimationDuration,
+      curve: _kAnimationCurve,
       clipBehavior: .antiAlias,
-      constraints: const BoxConstraints(minHeight: 70),
+      constraints: const BoxConstraints(minHeight: 72),
       decoration: BoxDecoration(
-        borderRadius: tileBorderRadius,
-        color: grocery.completed
-            ? listTileTheme.tileColor
-            : listTileTheme.selectedTileColor,
+        borderRadius: borderRadius,
+        color: completed
+            ? colorScheme.surfaceContainerLow
+            : colorScheme.surfaceContainerHigh,
       ),
       child: Material(
         type: .transparency,
-        clipBehavior: .antiAlias,
         child: InkWell(
-          onTap: () => _showEditionBottomSheet(context, ref, grocery),
+          onTap: () {
+            unawaited(HapticsHelper.light());
+            unawaited(_showEditionBottomSheet(context, ref, grocery));
+          },
           borderRadius: borderRadius,
           child: Padding(
-            padding: listTileTheme.contentPadding ?? .zero,
+            padding: const .symmetric(horizontal: 20, vertical: 12),
             child: Row(
               spacing: 16,
               children: [
                 AppCheckbox(
-                  value: grocery.completed,
-                  onChanged: (_) => ref
-                      .read(groceryListControllerProvider.notifier)
-                      .toggle(grocery),
+                  value: completed,
+                  onChanged: (_) {
+                    unawaited(
+                      completed
+                          ? HapticsHelper.light()
+                          : HapticsHelper.success(),
+                    );
+                    unawaited(
+                      ref
+                          .read(groceryListControllerProvider.notifier)
+                          .toggle(grocery),
+                    );
+                  },
                 ),
                 Expanded(
                   child: AnimatedDefaultTextStyle(
                     duration: _kAnimationDuration,
-                    style: (listTileTheme.titleTextStyle ?? const TextStyle())
-                        .copyWith(
-                          decoration: grocery.completed ? .lineThrough : null,
-                          color: grocery.completed
-                              ? const Color(0xFF57423B)
-                              : null,
-                        ),
-
+                    style: textTheme.titleMedium!.copyWith(
+                      decoration: completed ? .lineThrough : null,
+                      color: completed
+                          ? colorScheme.onSurfaceVariant
+                          : colorScheme.onSurface,
+                    ),
                     child: Text(grocery.name),
                   ),
                 ),
-                AnimatedOpacity(
+                AnimatedScale(
                   duration: _kAnimationDuration,
-                  opacity: grocery.completed ? 1.0 : 0.0,
-                  child: const Icon(
+                  curve: _kAnimationCurve,
+                  scale: completed ? 1.0 : 0.0,
+                  child: Icon(
                     Icons.done_all,
-                    color: Color(0xFF8A726A),
+                    color: colorScheme.primary,
                     size: 20,
                   ),
                 ),
@@ -147,30 +155,27 @@ class _Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const onBackgroundColor = Color(0xFFFFFBFF);
-
     final strings = AppLocalizations.of(context);
+    final colorScheme = ColorScheme.of(context);
+    final textTheme = TextTheme.of(context);
 
     return Container(
       alignment: Alignment.centerRight,
       decoration: BoxDecoration(
         borderRadius: borderRadius,
-        color: const Color(0xFFBF542C),
+        color: colorScheme.errorContainer,
       ),
-      padding: const .symmetric(horizontal: 20),
+      padding: const .symmetric(horizontal: 24),
       child: Row(
         mainAxisSize: .min,
         mainAxisAlignment: .end,
+        spacing: 8,
         children: [
-          const Icon(Icons.delete, color: onBackgroundColor),
+          Icon(Icons.delete_rounded, color: colorScheme.onErrorContainer),
           Text(
             strings.quick_action_delete,
-            style: const TextStyle(
-              color: onBackgroundColor,
-              fontWeight: .w600,
-              fontSize: 14,
-              height: 18 / 14,
-              letterSpacing: 0.35,
+            style: textTheme.labelLarge?.copyWith(
+              color: colorScheme.onErrorContainer,
             ),
           ),
         ],

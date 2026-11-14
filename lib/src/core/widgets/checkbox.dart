@@ -43,13 +43,15 @@ class _AppCheckboxState extends State<AppCheckbox> {
           width: widget.size,
           height: widget.size,
           decoration: BoxDecoration(
-            color: widget.value
-                ? colorScheme.primaryContainer
-                : const Color(0xFFF6ECEA),
+            color: widget.value ? colorScheme.primary : Colors.transparent,
+            border: Border.all(
+              color: widget.value ? colorScheme.primary : colorScheme.outline,
+              width: 2,
+            ),
             borderRadius: BorderRadius.circular(8),
           ),
           child: widget.value
-              ? const Icon(Icons.check, size: 12, color: Colors.white)
+              ? Icon(Icons.check, size: 18, color: colorScheme.onPrimary)
               : null,
         ),
       ),
