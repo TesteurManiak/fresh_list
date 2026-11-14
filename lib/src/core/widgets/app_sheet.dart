@@ -24,7 +24,7 @@ class AppSheet extends StatelessWidget {
               // padding.
               borderRadius: .circular(52),
             ),
-            child: child,
+            child: Padding(padding: const .all(24), child: child),
           ),
         ),
       ),

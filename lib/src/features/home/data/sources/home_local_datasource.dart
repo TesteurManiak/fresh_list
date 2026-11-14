@@ -12,7 +12,7 @@ import 'package:todo_list/src/core/extensions/date_time_extensions.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
 
-const kMaxRecentSearches = 4;
+const kMaxRecentSearches = 2;
 
 final homeLocalDatasourceProvider = Provider<HomeLocalDataSource>((ref) {
   final db = ref.watch(appDatabaseProvider);

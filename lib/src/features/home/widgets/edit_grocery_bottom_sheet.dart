@@ -54,7 +54,7 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
             controller: scrollController,
             slivers: [
               SliverAppBar(
-                leading: const Icon(Icons.edit_note),
+                automaticallyImplyLeading: false,
                 backgroundColor: Colors.transparent,
                 title: Text(
                   isEdition ? strings.edit_grocery : strings.add_grocery,
@@ -69,7 +69,7 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
               ),
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const .all(16),
+                  padding: const .symmetric(vertical: 16),
                   child: _InputField(
                     controller: searchController,
                     onSubmitted: (name) {
@@ -95,7 +95,7 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                     );
 
                     return searchValue.when(
-                      skipLoadingOnRefresh: true,
+                      skipLoadingOnReload: true,
                       data: (data) {
                         if (data.isEmpty) {
                           return const SliverToBoxAdapter(
@@ -103,18 +103,15 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                           );
                         }
 
-                        return SliverPadding(
-                          padding: const .symmetric(horizontal: 16),
-                          sliver: SliverList.builder(
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              final item = data[index];
-                              return _SuggestionTile(
-                                item,
-                                isEditing: widget.initialValue != null,
-                              );
-                            },
-                          ),
+                        return SliverList.builder(
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            final item = data[index];
+                            return _SuggestionTile(
+                              item,
+                              isEditing: widget.initialValue != null,
+                            );
+                          },
                         );
                       },
                       error: (e, _) => SliverFillRemaining(
