@@ -171,6 +171,12 @@ abstract class AppLocalizations {
   /// **'Suggestions fréquentes'**
   String get frequent_suggestions;
 
+  /// No description provided for @settings_preferences_title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Préférences'**
+  String get settings_preferences_title;
+
   /// No description provided for @settings_theme_title.
   ///
   /// In fr, this message translates to:

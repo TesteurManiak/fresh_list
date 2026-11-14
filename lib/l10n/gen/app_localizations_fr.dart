@@ -50,6 +50,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get frequent_suggestions => 'Suggestions fréquentes';
 
   @override
+  String get settings_preferences_title => 'Préférences';
+
+  @override
   String get settings_theme_title => 'Thème';
 
   @override

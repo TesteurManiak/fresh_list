@@ -30,8 +30,7 @@ class SettingsView extends ConsumerWidget {
         padding: .fromLTRB(16, 8, 16, BottomPadding.of(context)),
         children: <Widget>[
           MenuSection(
-            // TODO(Guillaume): localize
-            label: 'Preferences',
+            label: strings.settings_preferences_title,
             children: [
               MenuTile(
                 icon: Icons.brightness_6_outlined,

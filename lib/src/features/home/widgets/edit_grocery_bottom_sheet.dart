@@ -115,7 +115,7 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                         );
                       },
                       error: (e, _) => SliverFillRemaining(
-                        child: Center(child: Text('Error: $e')),
+                        child: Center(child: Text(strings.generic_error)),
                       ),
                       loading: () => SliverFillRemaining(
                         child: Center(child: LoadingIndicator()),
