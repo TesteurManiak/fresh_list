@@ -9,6 +9,7 @@ import 'package:todo_list/src/core/extensions/iterable_extensions.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/theme/theme_controller.dart';
 import 'package:todo_list/src/core/widgets/app_icon.dart';
+import 'package:todo_list/src/core/widgets/bottom_padding.dart';
 import 'package:todo_list/src/core/widgets/tile_icon.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/settings/widgets/clear_all_confirmation_dialog.dart';
@@ -25,7 +26,7 @@ class SettingsView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(strings.settings_title)),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: .fromLTRB(16, 8, 16, BottomPadding.of(context)),
         children: <Widget>[
           ListTile(
             leading: const TileIcon(Icons.brightness_6),
