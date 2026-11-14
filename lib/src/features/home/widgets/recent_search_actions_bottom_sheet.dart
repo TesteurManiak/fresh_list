@@ -4,6 +4,7 @@ import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
+import 'package:todo_list/src/core/widgets/app_sheet.dart';
 
 class RecentSearchActionsBottomSheet extends ConsumerWidget
     with ShowableBottomSheetMixin<RecentSearchAction> {
@@ -13,16 +14,18 @@ class RecentSearchActionsBottomSheet extends ConsumerWidget
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        for (final action in RecentSearchAction.values)
-          ListTile(
-            leading: Icon(action.icon),
-            title: Text(action.label(strings)),
-            onTap: () => Navigator.pop(context, action),
-          ),
-      ],
+    return AppSheet(
+      child: Column(
+        mainAxisSize: .min,
+        children: [
+          for (final action in RecentSearchAction.values)
+            ListTile(
+              leading: Icon(action.icon),
+              title: Text(action.label(strings)),
+              onTap: () => Navigator.pop(context, action),
+            ),
+        ],
+      ),
     );
   }
 }
