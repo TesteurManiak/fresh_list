@@ -11,16 +11,16 @@ import 'package:todo_list/src/core/theme/theme_controller.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/app_icon.dart';
 import 'package:todo_list/src/core/widgets/bottom_padding.dart';
+import 'package:todo_list/src/features/settings/widgets/language_sheet.dart';
 import 'package:todo_list/src/features/settings/widgets/menu_section.dart';
 import 'package:todo_list/src/features/settings/widgets/menu_tile.dart';
 
-class SettingsView extends ConsumerWidget {
+class SettingsView extends StatelessWidget {
   const new({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final strings = AppLocalizations.of(context);
-    final locale = ref.watch(localeControllerProvider);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -66,28 +66,26 @@ class SettingsView extends ConsumerWidget {
                   },
                 ),
               ),
-              MenuTile(
-                icon: Icons.language,
-                title: strings.settings_language_title,
-                trailing: PopupMenuButton<Locale>(
-                  initialValue: locale,
-                  onSelected: (newLocale) {
-                    unawaited(
-                      ref
-                          .read(localeControllerProvider.notifier)
-                          .setLocale(newLocale),
-                    );
-                  },
-                  child: Text(locale.label(strings)),
-                  itemBuilder: (context) => AppLocalizations.supportedLocales
-                      .map(
-                        (supportedLocale) => PopupMenuItem<Locale>(
-                          value: supportedLocale,
-                          child: Text(supportedLocale.label(strings)),
-                        ),
-                      )
-                      .toList(),
-                ),
+              Consumer(
+                builder: (context, ref, _) {
+                  final locale = ref.watch(localeControllerProvider);
+                  return MenuTile(
+                    icon: Icons.language,
+                    title: strings.settings_language_title,
+                    trailing: Text(locale.label(strings)),
+                    onTap: () async {
+                      final newLocale = await const LanguageSheet().show(
+                        context,
+                      );
+                      if (newLocale == null || newLocale == locale) return;
+                      unawaited(
+                        ref
+                            .read(localeControllerProvider.notifier)
+                            .setLocale(newLocale),
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),
@@ -124,12 +122,5 @@ extension on ThemeMode {
     .system => strings.theme_mode_system,
     .light => strings.theme_mode_light,
     .dark => strings.theme_mode_dark,
-  };
-}
-
-extension on Locale {
-  String label(AppLocalizations strings) => switch (languageCode) {
-    'fr' => strings.language_fr,
-    _ => strings.language_en,
   };
 }
