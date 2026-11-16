@@ -1,6 +1,5 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
 import 'package:todo_list/src/features/home/data/repositories/home_repository.dart';
@@ -74,17 +73,6 @@ class GroceryListController extends StreamNotifier<IList<Grocery>> {
           oldIndex: oldIndex,
           newIndex: newIndex,
         );
-  }
-
-  Future<void> shareList() async {
-    final groceries = state.value;
-    if (groceries == null || groceries.isEmpty) return;
-
-    final shareBuffer = StringBuffer();
-    for (final grocery in groceries) {
-      shareBuffer.writeln('- ${grocery.name}');
-    }
-    await SharePlus.instance.share(ShareParams(text: shareBuffer.toString()));
   }
 
   Future<void> toggle(Grocery grocery) async {

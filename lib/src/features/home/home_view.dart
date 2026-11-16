@@ -11,6 +11,7 @@ import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/app_icon.dart';
 import 'package:todo_list/src/core/widgets/bottom_padding.dart';
+import 'package:todo_list/src/core/widgets/coming_soon_snack.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 import 'package:todo_list/src/features/home/widgets/grocery_tile.dart';
@@ -47,8 +48,10 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
             IconButton(
               tooltip: strings.quick_action_share,
               icon: const Icon(Icons.publish),
-              onPressed: () =>
-                  ref.read(groceryListControllerProvider.notifier).shareList(),
+              onPressed: () {
+                // TODO(Guillaume): implement sharing
+                const ComingSoonSnack().show(context);
+              },
             ),
             IconButton(
               key: const Key('settings_button'),

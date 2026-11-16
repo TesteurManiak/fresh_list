@@ -26,6 +26,8 @@ dependencies:
     path: packages/expressive_shapes
   expressive_sheet:
     path: packages/expressive_sheet
+  expressive_snack:
+    path: packages/expressive_snack
   fast_immutable_collections: ^12.0.0
   flutter:
     sdk: flutter
@@ -43,10 +45,13 @@ dependencies:
   material_wavy_progress_indicator:
     path: packages/material_wavy_progress_indicator
   motor: ^1.1.0
+  native_nearby_connections:
+    git:
+      url: https://github.com/TesteurManiak/native_nearby_connections/
+      ref: cd23b387259fcacf043f6f9597188ef6471f089d
   path: ^1.9.1
   path_provider: ^2.1.6
   permission_handler: ^13.0.2
-  share_plus: ^13.3.1
   shared_preferences: ^2.5.6
   sqlite3_flutter_libs: ^0.6.0+eol
   vector_math: ^2.4.4

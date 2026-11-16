@@ -1,7 +1,4 @@
-import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_localizations/flutter_localizations.dart'
-    show GlobalWidgetsLocalizations;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/l10n/gen/app_localizations.dart';
@@ -20,9 +17,7 @@ class App extends ConsumerWidget {
       title: AppConstants.appName,
       localizationsDelegates: const [
         AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
       locale: ref.watch(localeControllerProvider),
