@@ -53,6 +53,7 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
             title: Text(isEdition ? strings.edit_grocery : strings.add_grocery),
+            centerTitle: false,
             actions: [
               IconButton(
                 icon: const Icon(Icons.close),

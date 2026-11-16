@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +15,8 @@ import 'package:todo_list/src/core/widgets/error_page.dart';
 import 'package:todo_list/src/core/widgets/launch_failure_app.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final binding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: binding);
 
   GoRouter.optionURLReflectsImperativeAPIs = true;
 
@@ -34,7 +36,8 @@ Future<void> main() async {
     // Failure app, running without riverpod scope
     // ignore: riverpod_lint/missing_provider_scope
     runApp(const LaunchFailureApp());
-    return;
+  } finally {
+    FlutterNativeSplash.remove();
   }
 }
 
