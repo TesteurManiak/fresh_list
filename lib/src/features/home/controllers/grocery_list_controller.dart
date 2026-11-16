@@ -1,5 +1,6 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_list/src/core/extensions/riverpod_extensions.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
 import 'package:todo_list/src/features/home/data/repositories/home_repository.dart';
@@ -98,7 +99,7 @@ class GroceryListController extends StreamNotifier<IList<Grocery>> {
 }
 
 final watchRecentSearchesProvider =
-    StreamProvider.family<IList<RecentSearch>, String>(
-      (ref, query) =>
-          ref.watch(homeLocalDatasourceProvider).watchRecentSearches(query),
-    );
+    StreamProvider.family<IList<RecentSearch>, String>((ref, query) async* {
+      await ref.debounce(const Duration(milliseconds: 500));
+      yield* ref.watch(homeLocalDatasourceProvider).watchRecentSearches(query);
+    });
