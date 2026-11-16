@@ -12,60 +12,43 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
-  String get generic_error =>
-      'Une erreur s\'est produite. Veuillez réessayer plus tard.';
+  String get add_grocery => 'Ajouter à la liste';
+
+  @override
+  String get added => 'Ajouté';
+
+  @override
+  String get cancel => 'Annuler';
+
+  @override
+  String get clear_all => 'Effacer la liste';
+
+  @override
+  String get clear_all_confirmation_message =>
+      'Cela supprimera définitivement tous les articles de votre liste.';
+
+  @override
+  String get clear_all_confirmation_title => 'Effacer tous les articles ?';
 
   @override
   String get close => 'Fermer';
+
+  @override
+  String get coming_soon => 'Bientôt disponible !';
+
+  @override
+  String get edit_grocery => 'Modifier l\'entrée';
 
   @override
   String get empty_grocery_list =>
       'Votre liste est vide.\nAjoutez des articles en appuyant sur le bouton \"+\".';
 
   @override
-  String get settings_title => 'Paramètres';
-
-  @override
-  String get quick_action_share => 'Partager';
-
-  @override
-  String get quick_action_edit => 'Modifier';
-
-  @override
-  String get quick_action_delete => 'Supprimer';
-
-  @override
-  String get add_grocery => 'Ajouter à la liste';
-
-  @override
-  String get edit_grocery => 'Modifier l\'entrée';
-
-  @override
-  String get mark_as_bought => 'Marquer comme acheté';
-
-  @override
-  String get product_name => 'Nom du produit';
-
-  @override
   String get frequent_suggestions => 'Suggestions fréquentes';
 
   @override
-  String get settings_preferences_title => 'Préférences';
-
-  @override
-  String get settings_theme_title => 'Thème';
-
-  @override
-  String get theme_mode_system => 'Système';
-
-  @override
-  String get theme_mode_light => 'Clair';
-
-  @override
-  String get theme_mode_dark => 'Sombre';
-
-  @override
-  String get settings_language_title => 'Langue';
+  String get generic_error =>
+      'Une erreur s\'est produite. Veuillez réessayer plus tard.';
 
   @override
   String get language_en => 'Anglais';
@@ -74,30 +57,47 @@ class AppLocalizationsFr extends AppLocalizations {
   String get language_fr => 'Français';
 
   @override
+  String get mark_as_bought => 'Marquer comme acheté';
+
+  @override
+  String get product_name => 'Nom du produit';
+
+  @override
+  String get quick_action_delete => 'Supprimer';
+
+  @override
+  String get quick_action_edit => 'Modifier';
+
+  @override
+  String get quick_action_share => 'Partager';
+
+  @override
   String get settings_about_title => 'À propos';
 
   @override
-  String get added => 'Ajouté';
+  String get settings_language_title => 'Langue';
 
   @override
-  String get clear_all => 'Effacer la liste';
+  String get settings_preferences_title => 'Préférences';
 
   @override
-  String get clear_all_confirmation_title => 'Effacer tous les articles ?';
-
-  @override
-  String get clear_all_confirmation_message =>
-      'Cela supprimera définitivement tous les articles de votre liste.';
-
-  @override
-  String get cancel => 'Annuler';
-
-  @override
-  String get coming_soon => 'Bientôt disponible !';
+  String get settings_report_issue => 'Signaler un problème';
 
   @override
   String get settings_support_title => 'Assistance';
 
   @override
-  String get settings_report_issue => 'Signaler un problème';
+  String get settings_theme_title => 'Thème';
+
+  @override
+  String get settings_title => 'Paramètres';
+
+  @override
+  String get theme_mode_dark => 'Sombre';
+
+  @override
+  String get theme_mode_light => 'Clair';
+
+  @override
+  String get theme_mode_system => 'Système';
 }

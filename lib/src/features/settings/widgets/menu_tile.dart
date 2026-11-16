@@ -29,8 +29,8 @@ class MenuTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme cs = Theme.of(context).colorScheme;
-    final TextTheme tt = Theme.of(context).textTheme;
+    final ColorScheme cs = ColorScheme.of(context);
+    final TextTheme tt = TextTheme.of(context);
 
     final Color titleColor = foreground ?? cs.onSurface;
     final Color accessoryColor = foreground ?? cs.onSurfaceVariant;

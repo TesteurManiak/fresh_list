@@ -25,7 +25,7 @@ class _AppErrorPageState extends State<AppErrorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = ColorScheme.of(context);
 
     return Directionality(
       textDirection: .ltr,
@@ -94,8 +94,8 @@ class _FullView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = ColorScheme.of(context);
+    final textTheme = TextTheme.of(context);
 
     final padding = MediaQuery.maybePaddingOf(context);
 
@@ -195,7 +195,7 @@ class _Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = ColorScheme.of(context);
     return Container(
       width: size,
       height: size,
@@ -230,7 +230,7 @@ class _DebugText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = ColorScheme.of(context);
 
     return Text(
       text,

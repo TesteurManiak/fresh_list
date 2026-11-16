@@ -226,8 +226,8 @@ class _Pill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme cs = Theme.of(context).colorScheme;
-    final TextTheme tt = Theme.of(context).textTheme;
+    final ColorScheme cs = ColorScheme.of(context);
+    final TextTheme tt = TextTheme.of(context);
     final IconData? icon = snack.icon;
     final bool ltr = Directionality.of(context) == TextDirection.ltr;
 

@@ -99,11 +99,41 @@ abstract class AppLocalizations {
     Locale('fr'),
   ];
 
-  /// No description provided for @generic_error.
+  /// No description provided for @add_grocery.
   ///
   /// In fr, this message translates to:
-  /// **'Une erreur s\'est produite. Veuillez réessayer plus tard.'**
-  String get generic_error;
+  /// **'Ajouter à la liste'**
+  String get add_grocery;
+
+  /// No description provided for @added.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouté'**
+  String get added;
+
+  /// No description provided for @cancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler'**
+  String get cancel;
+
+  /// No description provided for @clear_all.
+  ///
+  /// In fr, this message translates to:
+  /// **'Effacer la liste'**
+  String get clear_all;
+
+  /// No description provided for @clear_all_confirmation_message.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cela supprimera définitivement tous les articles de votre liste.'**
+  String get clear_all_confirmation_message;
+
+  /// No description provided for @clear_all_confirmation_title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Effacer tous les articles ?'**
+  String get clear_all_confirmation_title;
 
   /// No description provided for @close.
   ///
@@ -111,41 +141,11 @@ abstract class AppLocalizations {
   /// **'Fermer'**
   String get close;
 
-  /// No description provided for @empty_grocery_list.
+  /// No description provided for @coming_soon.
   ///
   /// In fr, this message translates to:
-  /// **'Votre liste est vide.\nAjoutez des articles en appuyant sur le bouton \"+\".'**
-  String get empty_grocery_list;
-
-  /// No description provided for @settings_title.
-  ///
-  /// In fr, this message translates to:
-  /// **'Paramètres'**
-  String get settings_title;
-
-  /// No description provided for @quick_action_share.
-  ///
-  /// In fr, this message translates to:
-  /// **'Partager'**
-  String get quick_action_share;
-
-  /// No description provided for @quick_action_edit.
-  ///
-  /// In fr, this message translates to:
-  /// **'Modifier'**
-  String get quick_action_edit;
-
-  /// No description provided for @quick_action_delete.
-  ///
-  /// In fr, this message translates to:
-  /// **'Supprimer'**
-  String get quick_action_delete;
-
-  /// No description provided for @add_grocery.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter à la liste'**
-  String get add_grocery;
+  /// **'Bientôt disponible !'**
+  String get coming_soon;
 
   /// No description provided for @edit_grocery.
   ///
@@ -153,17 +153,11 @@ abstract class AppLocalizations {
   /// **'Modifier l\'entrée'**
   String get edit_grocery;
 
-  /// No description provided for @mark_as_bought.
+  /// No description provided for @empty_grocery_list.
   ///
   /// In fr, this message translates to:
-  /// **'Marquer comme acheté'**
-  String get mark_as_bought;
-
-  /// No description provided for @product_name.
-  ///
-  /// In fr, this message translates to:
-  /// **'Nom du produit'**
-  String get product_name;
+  /// **'Votre liste est vide.\nAjoutez des articles en appuyant sur le bouton \"+\".'**
+  String get empty_grocery_list;
 
   /// No description provided for @frequent_suggestions.
   ///
@@ -171,41 +165,11 @@ abstract class AppLocalizations {
   /// **'Suggestions fréquentes'**
   String get frequent_suggestions;
 
-  /// No description provided for @settings_preferences_title.
+  /// No description provided for @generic_error.
   ///
   /// In fr, this message translates to:
-  /// **'Préférences'**
-  String get settings_preferences_title;
-
-  /// No description provided for @settings_theme_title.
-  ///
-  /// In fr, this message translates to:
-  /// **'Thème'**
-  String get settings_theme_title;
-
-  /// No description provided for @theme_mode_system.
-  ///
-  /// In fr, this message translates to:
-  /// **'Système'**
-  String get theme_mode_system;
-
-  /// No description provided for @theme_mode_light.
-  ///
-  /// In fr, this message translates to:
-  /// **'Clair'**
-  String get theme_mode_light;
-
-  /// No description provided for @theme_mode_dark.
-  ///
-  /// In fr, this message translates to:
-  /// **'Sombre'**
-  String get theme_mode_dark;
-
-  /// No description provided for @settings_language_title.
-  ///
-  /// In fr, this message translates to:
-  /// **'Langue'**
-  String get settings_language_title;
+  /// **'Une erreur s\'est produite. Veuillez réessayer plus tard.'**
+  String get generic_error;
 
   /// No description provided for @language_en.
   ///
@@ -219,47 +183,59 @@ abstract class AppLocalizations {
   /// **'Français'**
   String get language_fr;
 
+  /// No description provided for @mark_as_bought.
+  ///
+  /// In fr, this message translates to:
+  /// **'Marquer comme acheté'**
+  String get mark_as_bought;
+
+  /// No description provided for @product_name.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom du produit'**
+  String get product_name;
+
+  /// No description provided for @quick_action_delete.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer'**
+  String get quick_action_delete;
+
+  /// No description provided for @quick_action_edit.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier'**
+  String get quick_action_edit;
+
+  /// No description provided for @quick_action_share.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partager'**
+  String get quick_action_share;
+
   /// No description provided for @settings_about_title.
   ///
   /// In fr, this message translates to:
   /// **'À propos'**
   String get settings_about_title;
 
-  /// No description provided for @added.
+  /// No description provided for @settings_language_title.
   ///
   /// In fr, this message translates to:
-  /// **'Ajouté'**
-  String get added;
+  /// **'Langue'**
+  String get settings_language_title;
 
-  /// No description provided for @clear_all.
+  /// No description provided for @settings_preferences_title.
   ///
   /// In fr, this message translates to:
-  /// **'Effacer la liste'**
-  String get clear_all;
+  /// **'Préférences'**
+  String get settings_preferences_title;
 
-  /// No description provided for @clear_all_confirmation_title.
+  /// No description provided for @settings_report_issue.
   ///
   /// In fr, this message translates to:
-  /// **'Effacer tous les articles ?'**
-  String get clear_all_confirmation_title;
-
-  /// No description provided for @clear_all_confirmation_message.
-  ///
-  /// In fr, this message translates to:
-  /// **'Cela supprimera définitivement tous les articles de votre liste.'**
-  String get clear_all_confirmation_message;
-
-  /// No description provided for @cancel.
-  ///
-  /// In fr, this message translates to:
-  /// **'Annuler'**
-  String get cancel;
-
-  /// No description provided for @coming_soon.
-  ///
-  /// In fr, this message translates to:
-  /// **'Bientôt disponible !'**
-  String get coming_soon;
+  /// **'Signaler un problème'**
+  String get settings_report_issue;
 
   /// No description provided for @settings_support_title.
   ///
@@ -267,11 +243,35 @@ abstract class AppLocalizations {
   /// **'Assistance'**
   String get settings_support_title;
 
-  /// No description provided for @settings_report_issue.
+  /// No description provided for @settings_theme_title.
   ///
   /// In fr, this message translates to:
-  /// **'Signaler un problème'**
-  String get settings_report_issue;
+  /// **'Thème'**
+  String get settings_theme_title;
+
+  /// No description provided for @settings_title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paramètres'**
+  String get settings_title;
+
+  /// No description provided for @theme_mode_dark.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sombre'**
+  String get theme_mode_dark;
+
+  /// No description provided for @theme_mode_light.
+  ///
+  /// In fr, this message translates to:
+  /// **'Clair'**
+  String get theme_mode_light;
+
+  /// No description provided for @theme_mode_system.
+  ///
+  /// In fr, this message translates to:
+  /// **'Système'**
+  String get theme_mode_system;
 }
 
 class _AppLocalizationsDelegate

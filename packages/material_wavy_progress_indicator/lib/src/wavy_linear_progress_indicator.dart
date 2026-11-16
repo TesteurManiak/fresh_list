@@ -449,7 +449,7 @@ class _WavyLinearProgressIndicatorDeterminateDefaults
 
   final BuildContext context;
 
-  late final _colorScheme = Theme.of(context).colorScheme;
+  late final _colorScheme = ColorScheme.of(context);
 
   @override
   Color get color => _colorScheme.primary;

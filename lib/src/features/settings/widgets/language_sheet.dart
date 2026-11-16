@@ -14,7 +14,7 @@ class LanguageSheet extends ConsumerWidget
   Widget build(BuildContext context, WidgetRef ref) {
     const supportedLocales = AppLocalizations.supportedLocales;
     final currentLocale = ref.watch(localeControllerProvider);
-    final colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = ColorScheme.of(context);
 
     return AppSheet(
       child: ListView.separated(
@@ -67,8 +67,8 @@ class _LocaleTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = AppLocalizations.of(context);
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = ColorScheme.of(context);
+    final textTheme = TextTheme.of(context);
 
     return InkWell(
       onTap: () => Navigator.maybePop(context, locale),
