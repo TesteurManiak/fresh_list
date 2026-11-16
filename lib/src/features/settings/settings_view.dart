@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
@@ -11,14 +12,19 @@ import 'package:todo_list/src/core/theme/theme_controller.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/app_icon.dart';
 import 'package:todo_list/src/core/widgets/bottom_padding.dart';
-import 'package:todo_list/src/core/widgets/coming_soon_snack.dart';
 import 'package:todo_list/src/features/settings/widgets/language_sheet.dart';
 import 'package:todo_list/src/features/settings/widgets/menu_section.dart';
 import 'package:todo_list/src/features/settings/widgets/menu_tile.dart';
+import 'package:todo_list/src/features/settings/widgets/no_mail_app_snack.dart';
 
-class SettingsView extends StatelessWidget {
+class SettingsView extends StatefulWidget {
   const new({super.key});
 
+  @override
+  State<SettingsView> createState() => _SettingsViewState();
+}
+
+class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     final strings = AppLocalizations.of(context);
@@ -100,10 +106,7 @@ class SettingsView extends StatelessWidget {
               MenuTile(
                 icon: Icons.alternate_email_outlined,
                 title: strings.settings_report_issue,
-                onTap: () {
-                  // TODO(Guillaume): Implement issue reporting
-                  const ComingSoonSnack().show(context);
-                },
+                onTap: () => contactSupport(strings),
               ),
             ],
           ),
@@ -126,6 +129,22 @@ class SettingsView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> contactSupport(AppLocalizations strings) async {
+    try {
+      await FlutterEmailSender.send(
+        const Email(
+          recipients: [AppConstants.supportEmail],
+          // TODO(Guillaume): localize
+          subject: 'Something wrong with FreshList',
+        ),
+      );
+    } on FlutterEmailSenderNotAvailableException {
+      if (!mounted) return;
+
+      const NoMailAppSnack().show(context);
+    }
   }
 }
 
