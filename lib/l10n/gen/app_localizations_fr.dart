@@ -91,4 +91,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get cancel => 'Annuler';
+
+  @override
+  String get coming_soon => 'Bientôt disponible !';
+
+  @override
+  String get settings_support_title => 'Assistance';
+
+  @override
+  String get settings_report_issue => 'Signaler un problème';
 }

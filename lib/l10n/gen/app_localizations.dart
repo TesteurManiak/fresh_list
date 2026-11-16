@@ -254,6 +254,24 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Annuler'**
   String get cancel;
+
+  /// No description provided for @coming_soon.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bientôt disponible !'**
+  String get coming_soon;
+
+  /// No description provided for @settings_support_title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Assistance'**
+  String get settings_support_title;
+
+  /// No description provided for @settings_report_issue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Signaler un problème'**
+  String get settings_report_issue;
 }
 
 class _AppLocalizationsDelegate

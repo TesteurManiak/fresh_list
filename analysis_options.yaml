@@ -5,6 +5,7 @@ plugins:
 
 analyzer:
   errors:
+    avoid_setters_without_getters: ignore
     invalid_annotation_target: ignore
   exclude:
     - lib/gen/**.dart

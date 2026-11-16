@@ -90,4 +90,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String get coming_soon => 'Coming soon — stay tuned!';
+
+  @override
+  String get settings_support_title => 'Support';
+
+  @override
+  String get settings_report_issue => 'Report an issue';
 }

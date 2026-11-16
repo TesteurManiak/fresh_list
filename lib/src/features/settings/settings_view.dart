@@ -11,6 +11,7 @@ import 'package:todo_list/src/core/theme/theme_controller.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/app_icon.dart';
 import 'package:todo_list/src/core/widgets/bottom_padding.dart';
+import 'package:todo_list/src/core/widgets/coming_soon_snack.dart';
 import 'package:todo_list/src/features/settings/widgets/language_sheet.dart';
 import 'package:todo_list/src/features/settings/widgets/menu_section.dart';
 import 'package:todo_list/src/features/settings/widgets/menu_tile.dart';
@@ -88,6 +89,20 @@ class SettingsView extends StatelessWidget {
                       );
                     },
                   );
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 32),
+          MenuSection(
+            label: strings.settings_support_title,
+            children: [
+              MenuTile(
+                icon: Icons.alternate_email_outlined,
+                title: strings.settings_report_issue,
+                onTap: () {
+                  // TODO(Guillaume): Implement issue reporting
+                  const ComingSoonSnack().show(context);
                 },
               ),
             ],
