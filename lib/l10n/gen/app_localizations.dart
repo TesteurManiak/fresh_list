@@ -189,6 +189,42 @@ abstract class AppLocalizations {
   /// **'Marquer comme acheté'**
   String get mark_as_bought;
 
+  /// No description provided for @nearby_advertise.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trouver des appareils'**
+  String get nearby_advertise;
+
+  /// No description provided for @nearby_discover.
+  ///
+  /// In fr, this message translates to:
+  /// **'Être détectable'**
+  String get nearby_discover;
+
+  /// Nombre d'articles dans la liste de courses partagée.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{# article} one{# article} other{# articles}}'**
+  String nearby_item_count(int count);
+
+  /// No description provided for @nearby_my_list.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ma liste'**
+  String get nearby_my_list;
+
+  /// No description provided for @nearby_share_active.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partage à proximité actif'**
+  String get nearby_share_active;
+
+  /// No description provided for @nearby_share_grocery_list.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partager la liste de courses'**
+  String get nearby_share_grocery_list;
+
   /// No description provided for @product_name.
   ///
   /// In fr, this message translates to:
@@ -254,6 +290,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Paramètres'**
   String get settings_title;
+
+  /// No description provided for @support_email_subject.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un problème avec FreshList'**
+  String get support_email_subject;
 
   /// No description provided for @theme_mode_dark.
   ///

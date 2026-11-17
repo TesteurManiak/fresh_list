@@ -36,8 +36,7 @@ class _NearbySharingBottomSheetState
           const SliverSpacing(4),
           SliverToBoxAdapter(
             child: Text(
-              // TODO(Guillaume): localize
-              'Share Grocery List',
+              AppLocalizations.of(context).nearby_share_grocery_list,
               style: textTheme.headlineMedium?.copyWith(
                 color: colorScheme.onSurface,
                 fontWeight: .w700,
@@ -90,8 +89,9 @@ class _SliverStatusTag extends StatelessWidget {
                     ),
                   ),
                 ),
-                // TODO(Guillaume): localize
-                const TextSpan(text: 'Nearby Share Active'),
+                TextSpan(
+                  text: AppLocalizations.of(context).nearby_share_active,
+                ),
               ],
             ),
             style: textTheme.labelMedium?.copyWith(
@@ -117,10 +117,8 @@ class _SliverSharedListCard extends ConsumerWidget {
     return SliverToBoxAdapter(
       child: _Card(
         avatar: const _Avatar(child: Icon(Icons.shopping_cart_outlined)),
-        // TODO(Guillaume): localize
-        title: 'My list',
-        // TODO(Guillaume): localize with pluralization
-        subtitle: '$itemCount items',
+        title: AppLocalizations.of(context).nearby_my_list,
+        subtitle: AppLocalizations.of(context).nearby_item_count(itemCount),
       ),
     );
   }
@@ -253,9 +251,8 @@ enum _DiscoveryMode(final LocalizedString label, final IconData icon) {
   advertise(_advertise, Icons.radar),
   discover(_discover, Icons.wifi_tethering);
 
-  // TODO(Guillaume): localize
-  static String _advertise(AppLocalizations strings) => 'Find Devices';
+  static String _advertise(AppLocalizations strings) =>
+      strings.nearby_advertise;
 
-  // TODO(Guillaume): localize
-  static String _discover(AppLocalizations strings) => 'Be Discoverable';
+  static String _discover(AppLocalizations strings) => strings.nearby_discover;
 }

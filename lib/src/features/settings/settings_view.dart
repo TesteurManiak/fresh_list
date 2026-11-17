@@ -134,10 +134,9 @@ class _SettingsViewState extends State<SettingsView> {
   Future<void> contactSupport(AppLocalizations strings) async {
     try {
       await FlutterEmailSender.send(
-        const Email(
+        Email(
           recipients: [AppConstants.supportEmail],
-          // TODO(Guillaume): localize
-          subject: 'Something wrong with FreshList',
+          subject: strings.support_email_subject,
         ),
       );
     } on FlutterEmailSenderNotAvailableException {

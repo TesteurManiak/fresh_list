@@ -60,6 +60,33 @@ class AppLocalizationsFr extends AppLocalizations {
   String get mark_as_bought => 'Marquer comme acheté';
 
   @override
+  String get nearby_advertise => 'Trouver des appareils';
+
+  @override
+  String get nearby_discover => 'Être détectable';
+
+  @override
+  String nearby_item_count(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# articles',
+      one: '# article',
+      zero: '# article',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nearby_my_list => 'Ma liste';
+
+  @override
+  String get nearby_share_active => 'Partage à proximité actif';
+
+  @override
+  String get nearby_share_grocery_list => 'Partager la liste de courses';
+
+  @override
   String get product_name => 'Nom du produit';
 
   @override
@@ -91,6 +118,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settings_title => 'Paramètres';
+
+  @override
+  String get support_email_subject => 'Un problème avec FreshList';
 
   @override
   String get theme_mode_dark => 'Sombre';

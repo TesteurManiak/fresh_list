@@ -15,6 +15,20 @@
     "language_en": "English",
     "language_fr": "French",
     "mark_as_bought": "Mark as bought",
+    "nearby_advertise": "Find Devices",
+    "nearby_discover": "Be Discoverable",
+    "nearby_item_count": "{count, plural, =0{# items} one{# item} other{# items}}",
+    "@nearby_item_count": {
+        "description": "Number of items in the shared grocery list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "nearby_my_list": "My list",
+    "nearby_share_active": "Nearby Share Active",
+    "nearby_share_grocery_list": "Share Grocery List",
     "product_name": "Product name",
     "quick_action_delete": "Delete",
     "quick_action_edit": "Edit",
@@ -26,6 +40,7 @@
     "settings_support_title": "Support",
     "settings_theme_title": "Theme",
     "settings_title": "Settings",
+    "support_email_subject": "Something wrong with FreshList",
     "theme_mode_dark": "Dark",
     "theme_mode_light": "Light",
     "theme_mode_system": "System"

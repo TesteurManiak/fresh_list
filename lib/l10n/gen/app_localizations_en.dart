@@ -59,6 +59,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mark_as_bought => 'Mark as bought';
 
   @override
+  String get nearby_advertise => 'Find Devices';
+
+  @override
+  String get nearby_discover => 'Be Discoverable';
+
+  @override
+  String nearby_item_count(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# items',
+      one: '# item',
+      zero: '# items',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nearby_my_list => 'My list';
+
+  @override
+  String get nearby_share_active => 'Nearby Share Active';
+
+  @override
+  String get nearby_share_grocery_list => 'Share Grocery List';
+
+  @override
   String get product_name => 'Product name';
 
   @override
@@ -90,6 +117,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_title => 'Settings';
+
+  @override
+  String get support_email_subject => 'Something wrong with FreshList';
 
   @override
   String get theme_mode_dark => 'Dark';
