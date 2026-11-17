@@ -1,6 +1,10 @@
-# FreshList
+<p align="center">
+  <img src="docs/icon.png" alt="FreshList app icon" width="128">
+</p>
 
-A Flutter application to manage your grocery list.
+<h1 align="center">FreshList</h1>
+
+<p align="center">A Flutter application to manage your grocery list.</p>
 
 ## Screenshots
 
