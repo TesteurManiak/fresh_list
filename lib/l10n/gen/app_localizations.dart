@@ -204,7 +204,7 @@ abstract class AppLocalizations {
   /// Nombre d'articles dans la liste de courses partagée.
   ///
   /// In fr, this message translates to:
-  /// **'{count, plural, =0{# article} one{# article} other{# articles}}'**
+  /// **'{count, plural, =0{0 article} one{1 article} other{{count} articles}}'**
   String nearby_item_count(int count);
 
   /// No description provided for @nearby_my_list.

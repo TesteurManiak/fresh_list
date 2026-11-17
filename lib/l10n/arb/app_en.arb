@@ -17,7 +17,7 @@
     "mark_as_bought": "Mark as bought",
     "nearby_advertise": "Find Devices",
     "nearby_discover": "Be Discoverable",
-    "nearby_item_count": "{count, plural, =0{# items} one{# item} other{# items}}",
+    "nearby_item_count": "{count, plural, =0{0 item} one{1 item} other{{count} items}}",
     "@nearby_item_count": {
         "description": "Number of items in the shared grocery list.",
         "placeholders": {

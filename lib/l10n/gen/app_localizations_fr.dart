@@ -70,9 +70,9 @@ class AppLocalizationsFr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# articles',
-      one: '# article',
-      zero: '# article',
+      other: '$count articles',
+      one: '1 article',
+      zero: '0 article',
     );
     return '$_temp0';
   }
