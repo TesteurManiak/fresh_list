@@ -12,9 +12,9 @@ const _kServiceId = 'com.example.todo_list';
 
 final nearbyConnectionsProvider = Provider((_) => NativeNearbyConnections());
 
-final nearbySharingControllerProvider = NotifierProvider.family
-    .autoDispose<NearbySharingController, NearbySharingState, String>(
-      NearbySharingController.new,
+final nearbySharingControllerProvider =
+    NotifierProvider.autoDispose<NearbySharingController, NearbySharingState>(
+      () => NearbySharingController('My Device'),
     );
 
 class NearbySharingController extends Notifier<NearbySharingState>
@@ -79,6 +79,8 @@ class NearbySharingController extends Notifier<NearbySharingState>
   }
 
   Future<void> stop() async {
+    if (!state.isAdvertising && !state.isDiscovering) return;
+
     await Future.wait([
       ref.read(nearbyConnectionsProvider).stopAdvertising(),
       ref.read(nearbyConnectionsProvider).stopDiscovery(),

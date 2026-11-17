@@ -1,10 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:material_wavy_progress_indicator/material_wavy_progress_indicator.dart';
 import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
+import 'package:todo_list/src/core/sharing/nearby_connections.dart';
 import 'package:todo_list/src/core/widgets/app_sheet.dart';
 import 'package:todo_list/src/core/widgets/sliver_spacing.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
@@ -21,8 +23,8 @@ class NearbySharingBottomSheet extends ConsumerStatefulWidget
 class _NearbySharingBottomSheetState
     extends ConsumerState<NearbySharingBottomSheet>
     with HookMixin {
-  late final selectedModeNotifier = useValueNotifier(_DiscoveryMode.advertise)
-    ..addListener(() => setState(() {}));
+  late final selectedModeNotifier = useValueNotifier(_DiscoveryMode.advertise);
+  late final isLoadingNotifier = useValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +52,24 @@ class _NearbySharingBottomSheetState
           const SliverSpacing(16),
           _SliverSharedListCard(),
           const SliverSpacing(16),
-          _SliverDiscoveryModeSelector(
-            selectedMode: selectedModeNotifier.value,
-            onSelectionChanged: (value) => selectedModeNotifier.value = value,
+          ValueListenableBuilder(
+            valueListenable: selectedModeNotifier,
+            builder: (_, selectedMode, _) {
+              return _SliverDiscoveryModeSelector(
+                selectedMode: selectedMode,
+                onSelectionChanged: (v) => selectedModeNotifier.value = v,
+              );
+            },
           ),
           const SliverSpacing(16),
+          _SliverNearbyPeerList(),
+          const SliverSpacing(16),
+          SliverToBoxAdapter(
+            child: TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Dismiss'),
+            ),
+          ),
         ],
       ),
     );
@@ -118,7 +133,7 @@ class _SliverSharedListCard extends ConsumerWidget {
 
     return SliverToBoxAdapter(
       child: _Card(
-        avatar: const _Avatar(child: Icon(Icons.shopping_cart_outlined)),
+        leading: const _Avatar(child: Icon(Icons.shopping_cart_outlined)),
         title: strings.nearby_my_list,
         subtitle: strings.nearby_item_count(itemCount),
       ),
@@ -127,14 +142,9 @@ class _SliverSharedListCard extends ConsumerWidget {
 }
 
 class _Card extends StatelessWidget {
-  const new({
-    required this.avatar,
-    required this.title,
-    this.subtitle,
-    this.trailing,
-  });
+  const new({required this.title, this.subtitle, this.leading, this.trailing});
 
-  final Widget avatar;
+  final Widget? leading;
   final Widget? trailing;
   final String title;
   final String? subtitle;
@@ -153,7 +163,7 @@ class _Card extends StatelessWidget {
         child: Row(
           spacing: 8,
           children: [
-            avatar,
+            ?leading,
             Expanded(
               child: Column(
                 crossAxisAlignment: .start,
@@ -256,4 +266,82 @@ enum _DiscoveryMode(final LocalizedString label, final IconData icon) {
       strings.nearby_advertise;
 
   static String _discover(AppLocalizations strings) => strings.nearby_discover;
+}
+
+class _SliverNearbyPeerList extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final screenHeight = MediaQuery.sizeOf(context).height;
+    final peers = ref.watch(
+      nearbySharingControllerProvider.select((s) => s.peers),
+    );
+    final showLoading = ref.watch(
+      nearbySharingControllerProvider.select((s) => s.showLoading),
+    );
+
+    return SliverMainAxisGroup(
+      slivers: [
+        _SliverNearbySharingHeader(),
+        const SliverSpacing(4),
+        if (showLoading)
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: screenHeight * 0.25,
+              child: const UnconstrainedBox(
+                child: CircularWavyProgressIndicator(),
+              ),
+            ),
+          )
+        else
+          SliverList.separated(
+            itemCount: peers.length,
+            separatorBuilder: (_, _) => const SizedBox(height: 4),
+            itemBuilder: (_, index) {
+              final entry = peers.entries.elementAt(index);
+              return _NearbyPeerTile(endpointId: entry.key, peer: entry.value);
+            },
+          ),
+      ],
+    );
+  }
+}
+
+class _SliverNearbySharingHeader extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final peersCount = ref.watch(
+      nearbySharingControllerProvider.select((s) => s.peers.length),
+    );
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const .symmetric(horizontal: 4),
+        child: Row(
+          children: [
+            Expanded(child: Text('NEARBY DEVICES ($peersCount)')),
+            // TODO(Guillaume): Add re-scan button here
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NearbyPeerTile extends StatelessWidget {
+  const new({required this.endpointId, required this.peer});
+
+  final String endpointId;
+  final Peer peer;
+
+  @override
+  Widget build(BuildContext context) {
+    return _Card(
+      leading: _Avatar(child: Text(peer.name[0])),
+      title: peer.name,
+      trailing: FilledButton(onPressed: () {}, child: const Text('Connect')),
+    );
+  }
+}
+
+extension on NearbySharingState {
+  bool get showLoading => isAdvertising || isDiscovering || peers.isEmpty;
 }
