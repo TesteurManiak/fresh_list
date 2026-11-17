@@ -514,13 +514,14 @@ class _NearbyPeerTile extends ConsumerWidget {
     return _Card(
       leading: _Avatar(child: Text(peer.name[0])),
       title: peer.name,
-      trailing: FilledButton(
+      trailing: IconButton.filled(
+        tooltip: strings.nearby_connect,
         onPressed: peer.state == .found
             ? () => ref
                   .read(nearbySharingControllerProvider.notifier)
                   .requestConnection(endpointId)
             : null,
-        child: Text(strings.nearby_connect),
+        icon: const Icon(Icons.link_rounded),
       ),
     );
   }
