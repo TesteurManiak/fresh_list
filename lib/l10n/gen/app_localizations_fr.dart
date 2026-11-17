@@ -63,6 +63,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get nearby_advertise => 'Trouver des appareils';
 
   @override
+  String get nearby_connect => 'Connecter';
+
+  @override
+  String get nearby_connected => 'Connecté';
+
+  @override
+  String get nearby_connection_failed => 'Échec de connexion';
+
+  @override
+  String get nearby_connecting => 'Connexion';
+
+  @override
+  String nearby_devices(int count) {
+    return 'Appareils à proximité ($count)';
+  }
+
+  @override
   String get nearby_discover => 'Être détectable';
 
   @override
@@ -81,10 +98,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get nearby_my_list => 'Ma liste';
 
   @override
+  String get nearby_retry => 'Redémarrer le partage à proximité';
+
+  @override
+  String get nearby_retry_connection => 'Réessayer';
+
+  @override
   String get nearby_share_active => 'Partage à proximité actif';
 
   @override
+  String get nearby_share_inactive => 'Partage à proximité inactif';
+
+  @override
   String get nearby_share_grocery_list => 'Partager la liste de courses';
+
+  @override
+  String get nearby_transfer_unavailable =>
+      'Le transfert de liste n\'est pas encore disponible.';
 
   @override
   String get product_name => 'Nom du produit';

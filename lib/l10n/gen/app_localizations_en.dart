@@ -62,6 +62,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nearby_advertise => 'Find Devices';
 
   @override
+  String get nearby_connect => 'Connect';
+
+  @override
+  String get nearby_connected => 'Connected';
+
+  @override
+  String get nearby_connection_failed => 'Connection failed';
+
+  @override
+  String get nearby_connecting => 'Connecting';
+
+  @override
+  String nearby_devices(int count) {
+    return 'Nearby devices ($count)';
+  }
+
+  @override
   String get nearby_discover => 'Be Discoverable';
 
   @override
@@ -80,10 +97,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nearby_my_list => 'My list';
 
   @override
+  String get nearby_retry => 'Restart nearby sharing';
+
+  @override
+  String get nearby_retry_connection => 'Retry';
+
+  @override
   String get nearby_share_active => 'Nearby Share Active';
 
   @override
+  String get nearby_share_inactive => 'Nearby Share Inactive';
+
+  @override
   String get nearby_share_grocery_list => 'Share Grocery List';
+
+  @override
+  String get nearby_transfer_unavailable =>
+      'List transfer is not available yet.';
 
   @override
   String get product_name => 'Product name';

@@ -16,6 +16,18 @@
     "language_fr": "French",
     "mark_as_bought": "Mark as bought",
     "nearby_advertise": "Find Devices",
+    "nearby_connect": "Connect",
+    "nearby_connected": "Connected",
+    "nearby_connection_failed": "Connection failed",
+    "nearby_connecting": "Connecting",
+    "nearby_devices": "Nearby devices ({count})",
+    "@nearby_devices": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "nearby_discover": "Be Discoverable",
     "nearby_item_count": "{count, plural, =0{0 item} one{1 item} other{{count} items}}",
     "@nearby_item_count": {
@@ -27,8 +39,12 @@
         }
     },
     "nearby_my_list": "My list",
+    "nearby_retry": "Restart nearby sharing",
+    "nearby_retry_connection": "Retry",
     "nearby_share_active": "Nearby Share Active",
+    "nearby_share_inactive": "Nearby Share Inactive",
     "nearby_share_grocery_list": "Share Grocery List",
+    "nearby_transfer_unavailable": "List transfer is not available yet.",
     "product_name": "Product name",
     "quick_action_delete": "Delete",
     "quick_action_edit": "Edit",

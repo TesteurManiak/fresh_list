@@ -195,6 +195,36 @@ abstract class AppLocalizations {
   /// **'Trouver des appareils'**
   String get nearby_advertise;
 
+  /// No description provided for @nearby_connect.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connecter'**
+  String get nearby_connect;
+
+  /// No description provided for @nearby_connected.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connecté'**
+  String get nearby_connected;
+
+  /// No description provided for @nearby_connection_failed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de connexion'**
+  String get nearby_connection_failed;
+
+  /// No description provided for @nearby_connecting.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion'**
+  String get nearby_connecting;
+
+  /// No description provided for @nearby_devices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Appareils à proximité ({count})'**
+  String nearby_devices(int count);
+
   /// No description provided for @nearby_discover.
   ///
   /// In fr, this message translates to:
@@ -213,17 +243,41 @@ abstract class AppLocalizations {
   /// **'Ma liste'**
   String get nearby_my_list;
 
+  /// No description provided for @nearby_retry.
+  ///
+  /// In fr, this message translates to:
+  /// **'Redémarrer le partage à proximité'**
+  String get nearby_retry;
+
+  /// No description provided for @nearby_retry_connection.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réessayer'**
+  String get nearby_retry_connection;
+
   /// No description provided for @nearby_share_active.
   ///
   /// In fr, this message translates to:
   /// **'Partage à proximité actif'**
   String get nearby_share_active;
 
+  /// No description provided for @nearby_share_inactive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partage à proximité inactif'**
+  String get nearby_share_inactive;
+
   /// No description provided for @nearby_share_grocery_list.
   ///
   /// In fr, this message translates to:
   /// **'Partager la liste de courses'**
   String get nearby_share_grocery_list;
+
+  /// No description provided for @nearby_transfer_unavailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le transfert de liste n\'est pas encore disponible.'**
+  String get nearby_transfer_unavailable;
 
   /// No description provided for @product_name.
   ///
