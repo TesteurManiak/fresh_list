@@ -86,3 +86,21 @@ flutter_native_splash:
     icon_background_color_dark: "#15130C"
     # image: assets/splash/android-12-light.png
     # image_dark: assets/splash/android-12-dark.png
+
+flutter_launcher_icons:
+  # Shared fallback icon
+  image_path: "assets/icons/png/icon_preview.png"
+
+  android: true
+  min_sdk_android: 21
+  adaptive_icon_background: "#1B2E1E"
+  adaptive_icon_foreground: "assets/icons/png/ic_launcher_foreground.png"
+  adaptive_icon_foreground_inset: 0
+  adaptive_icon_monochrome: "assets/icons/png/ic_launcher_monochrome.png"
+
+  ios: true
+  image_path_ios: "assets/icons/png/icon_preview.png"
+  remove_alpha_ios: true
+  background_color_ios: "#1B2E1E"
+  image_path_ios_dark_transparent: "assets/icons/png/ic_launcher_foreground.png"
+  image_path_ios_tinted_grayscale: "assets/icons/png/ios_tinted.png"

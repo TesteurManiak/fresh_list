@@ -28,4 +28,3 @@ flutter drive \
   - Delete slider
   - List
   - Add/Edit entry sheet
-* Sharing with [Nearby Connections](https://developers.google.com/nearby/connections/overview)
