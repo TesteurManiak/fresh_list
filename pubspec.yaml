@@ -75,17 +75,18 @@ flutter:
     - google_fonts/
 
 flutter_native_splash:
-  color: "#FFF9EB"
-  color_dark: "#15130C"
-  # image: assets/splash/splash-light.png
-  # image_dark: assets/splash/splash-dark.png
+  color: "#1B2E1E"
+  image: "assets/icons/png/ic_launcher_foreground.png"
+  color_dark: "#121F14"
+  image_dark: "assets/icons/png/ic_launcher_foreground.png"
+
   android_12:
-    color: "#FFF9EB"
-    color_dark: "#15130C"
-    icon_background_color: "#FFF9EB"
-    icon_background_color_dark: "#15130C"
-    # image: assets/splash/android-12-light.png
-    # image_dark: assets/splash/android-12-dark.png
+    color: "#1B2E1E"
+    image: "assets/icons/png/ic_launcher_foreground.png"
+    icon_background_color: "#1B2E1E"
+    color_dark: "#121F14"
+    image_dark: "assets/icons/png/ic_launcher_foreground.png"
+    icon_background_color_dark: "#121F14"
 
 flutter_launcher_icons:
   # Shared fallback icon
