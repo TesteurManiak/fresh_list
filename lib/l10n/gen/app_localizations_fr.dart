@@ -104,6 +104,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get nearby_retry_connection => 'Réessayer';
 
   @override
+  String get nearby_searching => 'Recherche d\'appareils à proximité…';
+
+  @override
   String get nearby_share_active => 'Partage à proximité actif';
 
   @override

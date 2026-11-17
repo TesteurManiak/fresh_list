@@ -255,6 +255,12 @@ abstract class AppLocalizations {
   /// **'Réessayer'**
   String get nearby_retry_connection;
 
+  /// No description provided for @nearby_searching.
+  ///
+  /// In fr, this message translates to:
+  /// **'Recherche d\'appareils à proximité…'**
+  String get nearby_searching;
+
   /// No description provided for @nearby_share_active.
   ///
   /// In fr, this message translates to:

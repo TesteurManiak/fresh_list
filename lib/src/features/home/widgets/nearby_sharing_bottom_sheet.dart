@@ -28,6 +28,7 @@ class _NearbySharingBottomSheetState
     extends ConsumerState<NearbySharingBottomSheet>
     with HookMixin {
   late final selectedModeNotifier = useValueNotifier(_DiscoveryMode.advertise);
+  late final isStartingNotifier = useValueNotifier(false);
 
   @override
   void initState() {
@@ -37,6 +38,7 @@ class _NearbySharingBottomSheetState
 
   Future<void> _start(_DiscoveryMode mode) async {
     final controller = ref.read(nearbySharingControllerProvider.notifier);
+    isStartingNotifier.value = true;
     try {
       await controller.stop();
       await switch (mode) {
@@ -52,6 +54,8 @@ class _NearbySharingBottomSheetState
       );
       if (!mounted) return;
       ErrorSnack('$e').show(context);
+    } finally {
+      if (mounted) isStartingNotifier.value = false;
     }
   }
 
@@ -81,20 +85,31 @@ class _NearbySharingBottomSheetState
           const SliverSpacing(16),
           _SliverSharedListCard(),
           const SliverSpacing(16),
-          ValueListenableBuilder(
-            valueListenable: selectedModeNotifier,
-            builder: (_, selectedMode, _) {
+          ListenableBuilder(
+            listenable: Listenable.merge([
+              selectedModeNotifier,
+              isStartingNotifier,
+            ]),
+            builder: (_, _) {
               return _SliverDiscoveryModeSelector(
-                selectedMode: selectedMode,
-                onSelectionChanged: (v) {
-                  selectedModeNotifier.value = v;
-                  _start(v);
-                },
+                selectedMode: selectedModeNotifier.value,
+                // Disabled until the current mode finished starting.
+                onSelectionChanged: isStartingNotifier.value
+                    ? null
+                    : (v) {
+                        selectedModeNotifier.value = v;
+                        _start(v);
+                      },
               );
             },
           ),
           const SliverSpacing(16),
-          _SliverNearbyPeerList(),
+          ValueListenableBuilder(
+            valueListenable: isStartingNotifier,
+            builder: (_, isStarting, _) {
+              return _SliverNearbyPeerList(isStarting: isStarting);
+            },
+          ),
           const SliverSpacing(16),
           SliverToBoxAdapter(
             child: TextButton(
@@ -279,10 +294,10 @@ class _Avatar extends StatelessWidget {
 }
 
 class _SliverDiscoveryModeSelector extends StatelessWidget {
-  const new({required this.selectedMode, required this.onSelectionChanged});
+  const new({required this.selectedMode, this.onSelectionChanged});
 
   final _DiscoveryMode selectedMode;
-  final ValueChanged<_DiscoveryMode> onSelectionChanged;
+  final ValueChanged<_DiscoveryMode>? onSelectionChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +306,10 @@ class _SliverDiscoveryModeSelector extends StatelessWidget {
     return SliverToBoxAdapter(
       child: SegmentedButton<_DiscoveryMode>(
         selected: {selectedMode},
-        onSelectionChanged: (value) => onSelectionChanged(value.first),
+        onSelectionChanged: switch (onSelectionChanged) {
+          final onChanged? => (value) => onChanged(value.first),
+          null => null,
+        },
         segments: [
           for (final mode in _DiscoveryMode.values)
             ButtonSegment(
@@ -316,27 +334,30 @@ enum _DiscoveryMode(final LocalizedString label, final IconData icon) {
 }
 
 class _SliverNearbyPeerList extends ConsumerWidget {
+  const new({required this.isStarting});
+
+  final bool isStarting;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenHeight = MediaQuery.sizeOf(context).height;
     final peers = ref.watch(
       nearbySharingControllerProvider.select((s) => s.peers),
     );
-    final showLoading = ref.watch(
-      nearbySharingControllerProvider.select((s) => s.showLoading),
-    );
 
     return SliverMainAxisGroup(
       slivers: [
         _SliverNearbySharingHeader(),
         const SliverSpacing(4),
-        if (showLoading)
+        if (isStarting || peers.isEmpty)
           SliverToBoxAdapter(
             child: SizedBox(
               height: screenHeight * 0.25,
-              child: const UnconstrainedBox(
-                child: CircularWavyProgressIndicator(),
-              ),
+              child: isStarting
+                  ? const UnconstrainedBox(
+                      child: CircularWavyProgressIndicator(),
+                    )
+                  : const _SearchingIndicator(),
             ),
           )
         else
@@ -349,6 +370,110 @@ class _SliverNearbyPeerList extends ConsumerWidget {
             },
           ),
       ],
+    );
+  }
+}
+
+class _SearchingIndicator extends StatelessWidget {
+  const new();
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = TextTheme.of(context);
+    final colorScheme = ColorScheme.of(context);
+
+    return Column(
+      mainAxisAlignment: .center,
+      spacing: 16,
+      children: [
+        const _PulsingRadar(),
+        Text(
+          context.strings.nearby_searching,
+          style: textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+            fontWeight: .w500,
+          ),
+          textAlign: .center,
+        ),
+      ],
+    );
+  }
+}
+
+class _PulsingRadar extends StatefulWidget {
+  const new();
+
+  @override
+  State<_PulsingRadar> createState() => _PulsingRadarState();
+}
+
+class _PulsingRadarState extends State<_PulsingRadar>
+    with SingleTickerProviderStateMixin {
+  static const _dimension = 96.0;
+  static const _iconDimension = 48.0;
+  static const _ringCount = 3;
+
+  late final _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 2),
+  );
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Respect the system "reduce motion" setting.
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _controller.stop();
+    } else if (!_controller.isAnimating) {
+      _controller.repeat();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = ColorScheme.of(context);
+
+    return SizedBox.square(
+      dimension: _dimension,
+      child: Stack(
+        alignment: .center,
+        children: [
+          // Staggered rings expanding from the icon and fading out.
+          for (var i = 0; i < _ringCount; i++)
+            AnimatedBuilder(
+              animation: _controller,
+              builder: (_, _) {
+                final t = (_controller.value + i / _ringCount) % 1;
+                return Opacity(
+                  opacity: 1 - t,
+                  child: Container(
+                    width: _iconDimension + (_dimension - _iconDimension) * t,
+                    height: _iconDimension + (_dimension - _iconDimension) * t,
+                    decoration: ShapeDecoration(
+                      color: colorScheme.primaryContainer.withValues(alpha: .5),
+                      shape: const CircleBorder(),
+                    ),
+                  ),
+                );
+              },
+            ),
+          Container(
+            width: _iconDimension,
+            height: _iconDimension,
+            decoration: ShapeDecoration(
+              color: colorScheme.primaryContainer,
+              shape: const CircleBorder(),
+            ),
+            child: Icon(Icons.radar, color: colorScheme.onPrimaryContainer),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -399,9 +524,4 @@ class _NearbyPeerTile extends ConsumerWidget {
       ),
     );
   }
-}
-
-extension on NearbySharingState {
-  // Spinner while searching with nobody found yet.
-  bool get showLoading => peers.isEmpty;
 }

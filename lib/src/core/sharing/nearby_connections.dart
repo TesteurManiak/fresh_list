@@ -79,8 +79,8 @@ class NearbySharingController extends Notifier<NearbySharingState>
   }
 
   Future<void> stop() async {
-    if (!state.isAdvertising && !state.isDiscovering) return;
-
+    // No early return on idle state: after a hot restart the native session
+    // may still be running while this state says idle.
     await Future.wait([
       ref.read(nearbyConnectionsProvider).stopAdvertising(),
       ref.read(nearbyConnectionsProvider).stopDiscovery(),

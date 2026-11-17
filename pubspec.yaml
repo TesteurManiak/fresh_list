@@ -49,7 +49,7 @@ dependencies:
   native_nearby_connections:
     git:
       url: https://github.com/TesteurManiak/native_nearby_connections/
-      ref: 4adab7542a506793475335082ab5b4a06504b1d7
+      ref: 489c1bccd120a4c19ced38e8f3e5fc188bef22ae
   path: ^1.9.1
   path_provider: ^2.1.6
   permission_handler: ^13.0.2
