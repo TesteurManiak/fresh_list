@@ -50,7 +50,9 @@ class NearbySharingController extends Notifier<NearbySharingState>
   Future<void> start() async {
     state = state.copyWith(isAdvertising: true, isDiscovering: true);
     try {
-      await _requestPermission();
+      await ref
+          .read(permissionManagerProvider)
+          .requestNearbySharingPermission();
       final deviceName = await ref.read(deviceNameProvider.future);
       final nearby = ref.read(nearbyConnectionsProvider);
 
@@ -85,9 +87,6 @@ class NearbySharingController extends Notifier<NearbySharingState>
       peers: state.peers.clear(),
     );
   }
-
-  Future<void> _requestPermission() =>
-      ref.read(permissionManagerProvider).requestNearbySharingPermission();
 
   Future<void> requestConnection(String endpointId) async {
     final peer = state.peers[endpointId];
