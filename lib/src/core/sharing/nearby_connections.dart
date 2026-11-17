@@ -193,7 +193,7 @@ class NearbySharingController extends Notifier<NearbySharingState>
     state = state.copyWith(
       peers: state.peers.add(id, Peer(name: info.name ?? id, state: .found)),
     );
-    requestConnection(id);
+    // Pairing is manual: the user taps the peer to call requestConnection.
   }
 
   @override

@@ -70,8 +70,6 @@ class _NearbySharingBottomSheetState
       child: CustomScrollView(
         shrinkWrap: true,
         slivers: [
-          const _SliverStatusTag(),
-          const SliverSpacing(4),
           SliverToBoxAdapter(
             child: Text(
               strings.nearby_share_grocery_list,
@@ -122,53 +120,6 @@ class _NearbySharingBottomSheetState
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _SliverStatusTag extends StatelessWidget {
-  const new();
-
-  @override
-  Widget build(BuildContext context) {
-    final strings = context.strings;
-    final textTheme = TextTheme.of(context);
-    final colorScheme = ColorScheme.of(context);
-
-    return SliverToBoxAdapter(
-      child: UnconstrainedBox(
-        child: Container(
-          padding: const .symmetric(horizontal: 14, vertical: 2),
-          decoration: ShapeDecoration(
-            color: colorScheme.secondaryContainer,
-            shape: const StadiumBorder(),
-          ),
-          child: Text.rich(
-            TextSpan(
-              children: [
-                WidgetSpan(
-                  alignment: .middle,
-                  child: Padding(
-                    padding: const .only(right: 6),
-                    child: Icon(
-                      Icons.sensors_rounded,
-                      color: colorScheme.onSecondaryContainer,
-                      size: 16,
-                    ),
-                  ),
-                ),
-                TextSpan(text: strings.nearby_share_active),
-              ],
-            ),
-            style: textTheme.labelMedium?.copyWith(
-              color: colorScheme.onSecondaryContainer,
-              fontWeight: .w600,
-              letterSpacing: .2,
-            ),
-            textAlign: .center,
-          ),
-        ),
       ),
     );
   }
