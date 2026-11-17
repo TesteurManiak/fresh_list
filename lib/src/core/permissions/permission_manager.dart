@@ -6,13 +6,20 @@ import 'package:permission_handler/permission_handler.dart';
 final permissionManagerProvider = Provider((_) => const PermissionManager());
 
 class const PermissionManager() {
-  Future<bool> _requestPermission(List<Permission> permissions) {
-    return permissions.request().then(
-      (statuses) => statuses.values.every((status) => status.isGranted),
+  Future<void> _requestPermission(List<Permission> permissions) async {
+    final statuses = await permissions.request();
+    final denied = <Permission, PermissionStatus>{
+      for (final entry in statuses.entries)
+        if (entry.value.isDenied) entry.key: entry.value,
+    };
+    if (denied.isEmpty) return;
+
+    throw PermissionDeniedException(
+      denied.entries.map((e) => '${e.key}: ${e.value}').toList(),
     );
   }
 
-  Future<bool> requestNearbySharingPermission() {
+  Future<void> requestNearbySharingPermission() {
     return switch (Platform.operatingSystem) {
       'android' => _requestPermission([
         Permission.bluetoothScan,
@@ -34,4 +41,11 @@ class const PermissionManager() {
       ),
     };
   }
+}
+
+class const PermissionDeniedException(final List<String> deniedPermissions)
+    implements Exception {
+  @override
+  String toString() =>
+      'PermissionDeniedException: ${deniedPermissions.join(', ')}';
 }

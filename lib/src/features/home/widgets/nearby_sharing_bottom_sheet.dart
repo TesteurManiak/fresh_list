@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
@@ -11,6 +13,7 @@ import 'package:todo_list/src/core/sharing/nearby_connections.dart';
 import 'package:todo_list/src/core/widgets/app_sheet.dart';
 import 'package:todo_list/src/core/widgets/sliver_spacing.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
+import 'package:todo_list/src/features/home/widgets/error_snack.dart';
 
 class NearbySharingBottomSheet extends ConsumerStatefulWidget
     with ShowableBottomSheetMixin<void> {
@@ -40,9 +43,15 @@ class _NearbySharingBottomSheetState
         .advertise => controller.advertise(),
         .discover => controller.discover(),
       };
-    } catch (e) {
+    } catch (e, s) {
+      log(
+        'Error while starting nearby sharing',
+        error: e,
+        stackTrace: s,
+        name: 'NearbySharingBottomSheet',
+      );
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
+      ErrorSnack('$e').show(context);
     }
   }
 

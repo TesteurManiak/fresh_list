@@ -94,13 +94,8 @@ class NearbySharingController extends Notifier<NearbySharingState>
     );
   }
 
-  Future<void> _requestPermission() async {
-    final permissionManager = ref.read(permissionManagerProvider);
-    final granted = await permissionManager.requestNearbySharingPermission();
-    if (!granted) {
-      throw Exception('Nearby sharing permission not granted');
-    }
-  }
+  Future<void> _requestPermission() =>
+      ref.read(permissionManagerProvider).requestNearbySharingPermission();
 
   Future<void> requestConnection(String endpointId) async {
     final peer = state.peers[endpointId];

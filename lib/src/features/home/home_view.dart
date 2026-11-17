@@ -8,13 +8,11 @@ import 'package:material_wavy_progress_indicator/material_wavy_progress_indicato
 import 'package:todo_list/src/core/constants/consts.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
-import 'package:todo_list/src/core/permissions/permission_manager.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/app_icon.dart';
 import 'package:todo_list/src/core/widgets/bottom_padding.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
-import 'package:todo_list/src/features/home/widgets/error_snack.dart';
 import 'package:todo_list/src/features/home/widgets/grocery_tile.dart';
 import 'package:todo_list/src/features/home/widgets/nearby_sharing_bottom_sheet.dart';
 import 'package:todo_list/src/features/settings/navigation/settings_route.dart';
@@ -50,19 +48,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
             IconButton(
               tooltip: strings.quick_action_share,
               icon: const Icon(Icons.offline_share_rounded),
-              onPressed: () async {
-                final permissionGranted = await ref
-                    .read(permissionManagerProvider)
-                    .requestNearbySharingPermission();
-
-                if (!context.mounted) return;
-
-                if (!permissionGranted) {
-                  return ErrorSnack('Permission denied').show(context);
-                }
-
-                unawaited(const NearbySharingBottomSheet().show(context));
-              },
+              onPressed: () => const NearbySharingBottomSheet().show(context),
             ),
             IconButton(
               key: const Key('settings_button'),
