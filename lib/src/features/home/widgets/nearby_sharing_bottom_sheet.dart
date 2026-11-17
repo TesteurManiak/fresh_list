@@ -1,5 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:todo_list/l10n/gen/app_localizations.dart';
+import 'package:todo_list/src/core/localization/locale_controller.dart';
+import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
 import 'package:todo_list/src/core/widgets/app_sheet.dart';
 import 'package:todo_list/src/core/widgets/sliver_spacing.dart';
@@ -15,7 +18,11 @@ class NearbySharingBottomSheet extends ConsumerStatefulWidget
 }
 
 class _NearbySharingBottomSheetState
-    extends ConsumerState<NearbySharingBottomSheet> {
+    extends ConsumerState<NearbySharingBottomSheet>
+    with HookMixin {
+  late final selectedModeNotifier = useValueNotifier(_DiscoveryMode.advertise)
+    ..addListener(() => setState(() {}));
+
   @override
   Widget build(BuildContext context) {
     final textTheme = TextTheme.of(context);
@@ -39,20 +46,13 @@ class _NearbySharingBottomSheetState
               textAlign: .center,
             ),
           ),
-          const SliverSpacing(4),
-          SliverToBoxAdapter(
-            child: Text(
-              // TODO(Guillaume): localize
-              'Android Nearby Connections P2P Sync',
-              style: textTheme.bodyMedium?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-                fontWeight: .w400,
-              ),
-              textAlign: .center,
-            ),
-          ),
           const SliverSpacing(16),
           _SliverSharedListCard(),
+          const SliverSpacing(16),
+          _SliverDiscoveryModeSelector(
+            selectedMode: selectedModeNotifier.value,
+            onSelectionChanged: (value) => selectedModeNotifier.value = value,
+          ),
           const SliverSpacing(16),
         ],
       ),
@@ -219,4 +219,43 @@ class _Avatar extends StatelessWidget {
       ),
     );
   }
+}
+
+class _SliverDiscoveryModeSelector extends StatelessWidget {
+  const new({required this.selectedMode, required this.onSelectionChanged});
+
+  final _DiscoveryMode selectedMode;
+  final ValueChanged<_DiscoveryMode> onSelectionChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final strings = AppLocalizations.of(context);
+
+    return SliverToBoxAdapter(
+      child: SegmentedButton<_DiscoveryMode>(
+        selected: {selectedMode},
+        onSelectionChanged: (newSelection) =>
+            onSelectionChanged(newSelection.first),
+        segments: [
+          for (final mode in _DiscoveryMode.values)
+            ButtonSegment(
+              value: mode,
+              label: Text(mode.label(strings)),
+              icon: Icon(mode.icon),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+enum _DiscoveryMode(final LocalizedString label, final IconData icon) {
+  advertise(_advertise, Icons.radar),
+  discover(_discover, Icons.wifi_tethering);
+
+  // TODO(Guillaume): localize
+  static String _advertise(AppLocalizations strings) => 'Find Devices';
+
+  // TODO(Guillaume): localize
+  static String _discover(AppLocalizations strings) => 'Be Discoverable';
 }

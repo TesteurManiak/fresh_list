@@ -26,5 +26,6 @@ flutter drive \
 * Native launcher icon & splash screen
 * Improve Material 3 Expressive UI
   - Delete slider
-  - Grocery list UI
+  - List
+  - Add/Edit entry sheet
 * Sharing with [Nearby Connections](https://developers.google.com/nearby/connections/overview)
