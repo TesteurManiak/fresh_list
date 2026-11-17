@@ -635,11 +635,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: cd23b387259fcacf043f6f9597188ef6471f089d
-      resolved-ref: cd23b387259fcacf043f6f9597188ef6471f089d
+      ref: "4adab7542a506793475335082ab5b4a06504b1d7"
+      resolved-ref: "4adab7542a506793475335082ab5b4a06504b1d7"
       url: "https://github.com/TesteurManiak/native_nearby_connections/"
     source: git
-    version: "0.0.1"
+    version: "1.0.0"
   native_toolchain_c:
     dependency: transitive
     description:

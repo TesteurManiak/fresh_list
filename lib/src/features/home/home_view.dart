@@ -47,7 +47,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
           actions: [
             IconButton(
               tooltip: strings.quick_action_share,
-              icon: const Icon(Icons.publish),
+              icon: const Icon(Icons.offline_share_rounded),
               onPressed: () {
                 // TODO(Guillaume): implement sharing
                 const ComingSoonSnack().show(context);
@@ -106,8 +106,8 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
                 );
               },
               itemCount: data.length,
-              onReorderStart: (_) => unawaited(HapticsHelper.medium()),
-              onReorderEnd: (_) => unawaited(HapticsHelper.light()),
+              onReorderStart: (_) => HapticsHelper.medium(),
+              onReorderEnd: (_) => HapticsHelper.light(),
               onReorderItem: (oldIndex, newIndex) => ref
                   .read(groceryListControllerProvider.notifier)
                   .reorder(oldIndex, newIndex),
