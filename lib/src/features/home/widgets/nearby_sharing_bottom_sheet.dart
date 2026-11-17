@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
@@ -117,7 +118,7 @@ class _NearbySharingBottomSheetState
                 textStyle: textTheme.labelLarge?.copyWith(fontWeight: .w600),
               ),
               onPressed: () => Navigator.pop(context),
-              child: const Text('Dismiss'),
+              child: Text(strings.dismiss),
             ),
           ),
         ],
@@ -511,18 +512,32 @@ class _NearbyPeerTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
+    final colorScheme = ColorScheme.of(context);
+
     return _Card(
       leading: _Avatar(child: Text(peer.name[0])),
       title: peer.name,
-      trailing: IconButton.filled(
-        tooltip: strings.nearby_connect,
-        onPressed: peer.state == .found
-            ? () => ref
-                  .read(nearbySharingControllerProvider.notifier)
-                  .requestConnection(endpointId)
-            : null,
-        icon: const Icon(Icons.link_rounded),
-      ),
+      trailing: switch (peer.state) {
+        .found => Icon(
+          Icons.link_rounded,
+          color: colorScheme.onSurfaceVariant,
+          semanticLabel: strings.nearby_connect,
+        ),
+        .connecting => SizedBox.square(
+          dimension: 24,
+          child: LoadingIndicator(semanticsLabel: strings.nearby_connecting),
+        ),
+        .connected => Icon(
+          Icons.check_circle_rounded,
+          color: colorScheme.primary,
+          semanticLabel: strings.nearby_connected,
+        ),
+      },
+      onTap: peer.state == .found
+          ? () => ref
+                .read(nearbySharingControllerProvider.notifier)
+                .requestConnection(endpointId)
+          : null,
     );
   }
 }

@@ -37,6 +37,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get coming_soon => 'Coming soon — stay tuned!';
 
   @override
+  String get dismiss => 'Dismiss';
+
+  @override
   String get edit_grocery => 'Edit grocery';
 
   @override

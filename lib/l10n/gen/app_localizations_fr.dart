@@ -37,6 +37,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get coming_soon => 'Bientôt disponible !';
 
   @override
+  String get dismiss => 'Fermer';
+
+  @override
   String get edit_grocery => 'Modifier l\'entrée';
 
   @override

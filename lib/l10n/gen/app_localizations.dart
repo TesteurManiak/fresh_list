@@ -147,6 +147,12 @@ abstract class AppLocalizations {
   /// **'Bientôt disponible !'**
   String get coming_soon;
 
+  /// No description provided for @dismiss.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermer'**
+  String get dismiss;
+
   /// No description provided for @edit_grocery.
   ///
   /// In fr, this message translates to:
