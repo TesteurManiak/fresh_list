@@ -1,8 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
-
-import 'package:device_info_plus/device_info_plus.dart';
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +8,7 @@ import 'package:native_nearby_connections/native_nearby_connections.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/permissions/permission_manager.dart';
 import 'package:todo_list/src/core/sharing/shared_grocery_list.dart';
+import 'package:todo_list/src/core/utils/device_info.dart';
 
 part 'nearby_connections.freezed.dart';
 
@@ -24,28 +22,13 @@ final nearbySharingControllerProvider =
     );
 
 /// Name other devices see for this one.
-final deviceNameProvider = FutureProvider<String>((_) async {
-  final deviceInfo = DeviceInfoPlugin();
-  switch (Platform.operatingSystem) {
-    case 'android':
-      final info = await deviceInfo.androidInfo;
-      return info.name.isNotEmpty ? info.name : info.model;
-    case 'ios':
-      final info = await deviceInfo.iosInfo;
-      // Without Apple's user-assigned-device-name entitlement, iOS 16+ only
-      // returns the generic model ("iPhone"): the model name tells devices
-      // apart better.
-      return info.name != info.model ? info.name : info.modelName;
-    case final platform:
-      throw UnsupportedError('Unsupported platform: $platform');
-  }
+final deviceNameProvider = FutureProvider<String>((ref) {
+  final deviceInfoService = ref.watch(deviceInfoServiceProvider);
+  return deviceInfoService.getDeviceName();
 });
 
 class NearbySharingController extends Notifier<NearbySharingState>
     implements NearbyFlutterApi {
-  /// Resolved by [start], before anything is advertised or requested.
-  String _localName = '';
-
   @override
   NearbySharingState build() {
     final nearby = ref.watch(nearbyConnectionsProvider)..setListener(this);
@@ -68,12 +51,13 @@ class NearbySharingController extends Notifier<NearbySharingState>
     state = state.copyWith(isAdvertising: true, isDiscovering: true);
     try {
       await _requestPermission();
-      _localName = await ref.read(deviceNameProvider.future);
+      final deviceName = await ref.read(deviceNameProvider.future);
       final nearby = ref.read(nearbyConnectionsProvider);
+
       await Future.wait([
-        nearby.startAdvertising(_localName, _kServiceId, .cluster),
+        nearby.startAdvertising(deviceName, _kServiceId, .cluster),
         nearby.startDiscovery(_kServiceId, .cluster),
-      ]);
+      ], eagerError: true);
     } catch (e, s) {
       log(
         'Error while starting nearby sharing',
@@ -111,9 +95,10 @@ class NearbySharingController extends Notifier<NearbySharingState>
 
     _setPeerState(endpointId, .connecting);
     try {
+      final deviceName = await ref.read(deviceNameProvider.future);
       await ref
           .read(nearbyConnectionsProvider)
-          .requestConnection(_localName, endpointId);
+          .requestConnection(deviceName, endpointId);
       // `connected` is set by onConnectionResult.
     } catch (e, s) {
       log(

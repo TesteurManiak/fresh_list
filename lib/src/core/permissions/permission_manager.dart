@@ -1,12 +1,19 @@
 import 'dart:io';
 
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:todo_list/src/core/exceptions/unsupported_platform_error.dart';
+import 'package:todo_list/src/core/utils/device_info.dart';
 
-final permissionManagerProvider = Provider((_) => const PermissionManager());
+final permissionManagerProvider = Provider(
+  (ref) => PermissionManager(
+    deviceInfoService: ref.watch(deviceInfoServiceProvider),
+  ),
+);
 
-class const PermissionManager() {
+class const PermissionManager({
+  required final DeviceInfoService deviceInfoService,
+}) {
   Future<void> _requestPermission(List<Permission> permissions) async {
     final statuses = await permissions.request();
     // Nearby refuses to start unless every permission is granted, so
@@ -26,16 +33,14 @@ class const PermissionManager() {
     return switch (Platform.operatingSystem) {
       'android' => _requestAndroidNearbySharingPermission(),
       'ios' => _requestIosNearbySharingPermission(),
-      final platform => throw UnsupportedError(
-        'Unsupported platform: $platform',
-      ),
+      final platform => throw UnsupportedPlatformError(platform),
     };
   }
 
   /// Matches the Nearby Connections manifest:
   /// https://developers.google.com/nearby/connections/android/get-started
   Future<void> _requestAndroidNearbySharingPermission() async {
-    final sdkInt = (await DeviceInfoPlugin().androidInfo).version.sdkInt;
+    final sdkInt = await deviceInfoService.getAndroidSdkInt();
     return _requestPermission([
       // Reported granted by permission_handler below Android 12 (API 31)
       // and, for nearbyWifiDevices, below Android 13 (API 33).
