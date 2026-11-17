@@ -102,25 +102,34 @@ class NearbySharingController extends Notifier<NearbySharingState>
     }
   }
 
-  Future<void> _requestConnection(String endpointId) async {
+  Future<void> requestConnection(String endpointId) async {
     final peer = state.peers[endpointId];
     if (peer == null || peer.state != .found) return;
 
+    _setPeerState(endpointId, .connecting);
+    try {
+      await ref
+          .read(nearbyConnectionsProvider)
+          .requestConnection(localEndpointName, endpointId);
+      // `connected` is set by onConnectionResult.
+    } catch (e, s) {
+      log(
+        'Error while requesting connection',
+        error: e,
+        stackTrace: s,
+        name: 'NearbySharingController',
+      );
+      // Back to found so it can be retried.
+      _setPeerState(endpointId, .found);
+    }
+  }
+
+  void _setPeerState(String endpointId, PeerState peerState) {
+    if (!state.peers.containsKey(endpointId)) return;
     state = state.copyWith(
       peers: state.peers.update(
         endpointId,
-        (val) => val.copyWith(state: .connecting),
-      ),
-    );
-
-    await ref
-        .read(nearbyConnectionsProvider)
-        .requestConnection(localEndpointName, endpointId);
-
-    state = state.copyWith(
-      peers: state.peers.update(
-        endpointId,
-        (val) => val.copyWith(state: .connected),
+        (val) => val.copyWith(state: peerState),
       ),
     );
   }
@@ -183,11 +192,13 @@ class NearbySharingController extends Notifier<NearbySharingState>
   void onEndpointFound(EndpointInfo info) {
     final id = info.endpointId;
 
-    // Ignore if the endpoint ID is null, peers are not available, or the peer
-    // is already known.
+    // Ignore if the endpoint ID is null or the peer is already known.
     if (id == null || state.peers.containsKey(id)) return;
 
-    _requestConnection(id);
+    state = state.copyWith(
+      peers: state.peers.add(id, Peer(name: info.name ?? id, state: .found)),
+    );
+    requestConnection(id);
   }
 
   @override

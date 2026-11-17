@@ -27,6 +27,26 @@ class _NearbySharingBottomSheetState
   late final selectedModeNotifier = useValueNotifier(_DiscoveryMode.advertise);
 
   @override
+  void initState() {
+    super.initState();
+    _start(selectedModeNotifier.value);
+  }
+
+  Future<void> _start(_DiscoveryMode mode) async {
+    final controller = ref.read(nearbySharingControllerProvider.notifier);
+    try {
+      await controller.stop();
+      await switch (mode) {
+        .advertise => controller.advertise(),
+        .discover => controller.discover(),
+      };
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final strings = context.strings;
     final textTheme = TextTheme.of(context);
@@ -57,7 +77,10 @@ class _NearbySharingBottomSheetState
             builder: (_, selectedMode, _) {
               return _SliverDiscoveryModeSelector(
                 selectedMode: selectedMode,
-                onSelectionChanged: (v) => selectedModeNotifier.value = v,
+                onSelectionChanged: (v) {
+                  selectedModeNotifier.value = v;
+                  _start(v);
+                },
               );
             },
           ),
@@ -345,22 +368,24 @@ class _SliverNearbySharingHeader extends ConsumerWidget {
   }
 }
 
-class _NearbyPeerTile extends StatelessWidget {
+class _NearbyPeerTile extends ConsumerWidget {
   const new({required this.endpointId, required this.peer});
 
   final String endpointId;
   final Peer peer;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
     return _Card(
       leading: _Avatar(child: Text(peer.name[0])),
       title: peer.name,
       trailing: FilledButton(
-        onPressed: () {
-          // TODO(Guillaume): Implement
-        },
+        onPressed: peer.state == .found
+            ? () => ref
+                  .read(nearbySharingControllerProvider.notifier)
+                  .requestConnection(endpointId)
+            : null,
         child: Text(strings.nearby_connect),
       ),
     );
@@ -368,5 +393,6 @@ class _NearbyPeerTile extends StatelessWidget {
 }
 
 extension on NearbySharingState {
-  bool get showLoading => isAdvertising || isDiscovering || peers.isEmpty;
+  // Spinner while searching with nobody found yet.
+  bool get showLoading => peers.isEmpty;
 }

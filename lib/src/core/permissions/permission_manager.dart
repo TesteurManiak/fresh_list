@@ -23,7 +23,12 @@ class const PermissionManager() {
         /// Location is only declared up to Android 12.
         // Permission.location,
       ]),
-      'ios' => _requestPermission([Permission.bluetooth]),
+      // Local network prompts by itself on first Bonjour use; location lets
+      // Nearby join a peer's Wi-Fi hotspot.
+      'ios' => _requestPermission([
+        Permission.bluetooth,
+        Permission.locationWhenInUse,
+      ]),
       final platform => throw UnsupportedError(
         'Unsupported platform: $platform',
       ),
