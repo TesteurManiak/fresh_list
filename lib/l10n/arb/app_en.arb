@@ -43,8 +43,6 @@
     "nearby_retry": "Restart nearby sharing",
     "nearby_retry_connection": "Retry",
     "nearby_searching": "Looking for nearby devices…",
-    "nearby_share_active": "Nearby Share Active",
-    "nearby_share_inactive": "Nearby Share Inactive",
     "nearby_share_grocery_list": "Share Grocery List",
     "nearby_transfer_unavailable": "List transfer is not available yet.",
     "product_name": "Product name",

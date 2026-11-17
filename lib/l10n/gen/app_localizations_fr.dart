@@ -110,12 +110,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get nearby_searching => 'Recherche d\'appareils à proximité…';
 
   @override
-  String get nearby_share_active => 'Partage à proximité actif';
-
-  @override
-  String get nearby_share_inactive => 'Partage à proximité inactif';
-
-  @override
   String get nearby_share_grocery_list => 'Partager la liste de courses';
 
   @override

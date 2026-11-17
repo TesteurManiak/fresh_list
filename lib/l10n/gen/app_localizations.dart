@@ -267,18 +267,6 @@ abstract class AppLocalizations {
   /// **'Recherche d\'appareils à proximité…'**
   String get nearby_searching;
 
-  /// No description provided for @nearby_share_active.
-  ///
-  /// In fr, this message translates to:
-  /// **'Partage à proximité actif'**
-  String get nearby_share_active;
-
-  /// No description provided for @nearby_share_inactive.
-  ///
-  /// In fr, this message translates to:
-  /// **'Partage à proximité inactif'**
-  String get nearby_share_inactive;
-
   /// No description provided for @nearby_share_grocery_list.
   ///
   /// In fr, this message translates to:

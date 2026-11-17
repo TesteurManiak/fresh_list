@@ -109,12 +109,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nearby_searching => 'Looking for nearby devices…';
 
   @override
-  String get nearby_share_active => 'Nearby Share Active';
-
-  @override
-  String get nearby_share_inactive => 'Nearby Share Inactive';
-
-  @override
   String get nearby_share_grocery_list => 'Share Grocery List';
 
   @override
