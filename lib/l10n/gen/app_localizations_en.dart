@@ -37,6 +37,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get coming_soon => 'Coming soon — stay tuned!';
 
   @override
+  String get dismiss => 'Dismiss';
+
+  @override
   String get edit_grocery => 'Edit grocery';
 
   @override
@@ -57,6 +60,94 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mark_as_bought => 'Mark as bought';
+
+  @override
+  String get nearby_add => 'Add';
+
+  @override
+  String get nearby_connect => 'Connect';
+
+  @override
+  String get nearby_connected => 'Connected';
+
+  @override
+  String get nearby_connecting => 'Connecting';
+
+  @override
+  String get nearby_connection_failed => 'Connection failed';
+
+  @override
+  String nearby_devices(int count) {
+    return 'Nearby devices ($count)';
+  }
+
+  @override
+  String nearby_item_count(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+      zero: '0 item',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nearby_items_added(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items added',
+      one: '1 item added',
+      zero: 'No new items added',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nearby_list_received_message(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Add $count items to your list?',
+      one: 'Add 1 item to your list?',
+      zero: 'The shared list is empty.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nearby_list_received_title(String name) {
+    return '$name shared a list';
+  }
+
+  @override
+  String nearby_list_sent(String name) {
+    return 'List sent to $name';
+  }
+
+  @override
+  String get nearby_my_list => 'My list';
+
+  @override
+  String get nearby_retry => 'Restart nearby sharing';
+
+  @override
+  String get nearby_retry_connection => 'Retry';
+
+  @override
+  String get nearby_searching => 'Looking for nearby devices…';
+
+  @override
+  String get nearby_send_list => 'Send list';
+
+  @override
+  String get nearby_share_grocery_list => 'Share Grocery List';
+
+  @override
+  String get nearby_transfer_unavailable =>
+      'List transfer is not available yet.';
 
   @override
   String get product_name => 'Product name';
@@ -90,6 +181,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_title => 'Settings';
+
+  @override
+  String get support_email_subject => 'Something wrong with FreshList';
 
   @override
   String get theme_mode_dark => 'Dark';

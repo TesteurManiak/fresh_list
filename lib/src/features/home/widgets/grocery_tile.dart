@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/l10n/gen/app_localizations.dart';
+import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
@@ -38,10 +38,10 @@ class _GroceryTileState extends ConsumerState<GroceryTile> {
   @override
   void initState() {
     super.initState();
-    if (widget.showSwipeHint) unawaited(_runSwipeHint());
+    if (widget.showSwipeHint) runSwipeHint();
   }
 
-  Future<void> _runSwipeHint() async {
+  Future<void> runSwipeHint() async {
     final prefs = await ref.read(sharedPreferencesProvider.future);
     final key = SharedPrefsKey.swipeHintShown.key;
     if (prefs.getBool(key) ?? false) return;
@@ -65,17 +65,15 @@ class _GroceryTileState extends ConsumerState<GroceryTile> {
         direction: .endToStart,
         onUpdate: (details) {
           if (details.reached && !details.previousReached) {
-            unawaited(HapticsHelper.medium());
+            HapticsHelper.medium();
           }
         },
         onDismissed: (direction) {
           if (direction == .endToStart) {
-            unawaited(HapticsHelper.heavy());
-            unawaited(
-              ref
-                  .read(groceryListControllerProvider.notifier)
-                  .deleteGrocery(grocery),
-            );
+            HapticsHelper.heavy();
+            ref
+                .read(groceryListControllerProvider.notifier)
+                .deleteGrocery(grocery);
           }
         },
         background: const _Background(borderRadius: _kActiveRadius),
@@ -112,8 +110,8 @@ class _GroceryCard extends ConsumerWidget {
         type: .transparency,
         child: InkWell(
           onTap: () {
-            unawaited(HapticsHelper.light());
-            unawaited(_showEditionBottomSheet(context, ref, grocery));
+            HapticsHelper.light();
+            _showEditionBottomSheet(context, ref, grocery);
           },
           borderRadius: borderRadius,
           child: Padding(
@@ -188,7 +186,7 @@ class _Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final strings = AppLocalizations.of(context);
+    final strings = context.strings;
     final colorScheme = ColorScheme.of(context);
     final textTheme = TextTheme.of(context);
 

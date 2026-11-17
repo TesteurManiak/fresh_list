@@ -147,6 +147,12 @@ abstract class AppLocalizations {
   /// **'Bientôt disponible !'**
   String get coming_soon;
 
+  /// No description provided for @dismiss.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermer'**
+  String get dismiss;
+
   /// No description provided for @edit_grocery.
   ///
   /// In fr, this message translates to:
@@ -188,6 +194,114 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Marquer comme acheté'**
   String get mark_as_bought;
+
+  /// No description provided for @nearby_add.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter'**
+  String get nearby_add;
+
+  /// No description provided for @nearby_connect.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connecter'**
+  String get nearby_connect;
+
+  /// No description provided for @nearby_connected.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connecté'**
+  String get nearby_connected;
+
+  /// No description provided for @nearby_connecting.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion'**
+  String get nearby_connecting;
+
+  /// No description provided for @nearby_connection_failed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de connexion'**
+  String get nearby_connection_failed;
+
+  /// No description provided for @nearby_devices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Appareils à proximité ({count})'**
+  String nearby_devices(int count);
+
+  /// Nombre d'articles dans la liste de courses partagée.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{0 article} one{1 article} other{{count} articles}}'**
+  String nearby_item_count(int count);
+
+  /// No description provided for @nearby_items_added.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{Aucun nouvel article ajouté} one{1 article ajouté} other{{count} articles ajoutés}}'**
+  String nearby_items_added(int count);
+
+  /// No description provided for @nearby_list_received_message.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{La liste partagée est vide.} one{Ajouter 1 article à votre liste ?} other{Ajouter {count} articles à votre liste ?}}'**
+  String nearby_list_received_message(int count);
+
+  /// No description provided for @nearby_list_received_title.
+  ///
+  /// In fr, this message translates to:
+  /// **'{name} a partagé une liste'**
+  String nearby_list_received_title(String name);
+
+  /// No description provided for @nearby_list_sent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Liste envoyée à {name}'**
+  String nearby_list_sent(String name);
+
+  /// No description provided for @nearby_my_list.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ma liste'**
+  String get nearby_my_list;
+
+  /// No description provided for @nearby_retry.
+  ///
+  /// In fr, this message translates to:
+  /// **'Redémarrer le partage à proximité'**
+  String get nearby_retry;
+
+  /// No description provided for @nearby_retry_connection.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réessayer'**
+  String get nearby_retry_connection;
+
+  /// No description provided for @nearby_searching.
+  ///
+  /// In fr, this message translates to:
+  /// **'Recherche d\'appareils à proximité…'**
+  String get nearby_searching;
+
+  /// No description provided for @nearby_send_list.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer la liste'**
+  String get nearby_send_list;
+
+  /// No description provided for @nearby_share_grocery_list.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partager la liste de courses'**
+  String get nearby_share_grocery_list;
+
+  /// No description provided for @nearby_transfer_unavailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le transfert de liste n\'est pas encore disponible.'**
+  String get nearby_transfer_unavailable;
 
   /// No description provided for @product_name.
   ///
@@ -254,6 +368,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Paramètres'**
   String get settings_title;
+
+  /// No description provided for @support_email_subject.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un problème avec FreshList'**
+  String get support_email_subject;
 
   /// No description provided for @theme_mode_dark.
   ///

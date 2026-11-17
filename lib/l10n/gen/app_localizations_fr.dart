@@ -37,6 +37,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get coming_soon => 'Bientôt disponible !';
 
   @override
+  String get dismiss => 'Fermer';
+
+  @override
   String get edit_grocery => 'Modifier l\'entrée';
 
   @override
@@ -58,6 +61,94 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get mark_as_bought => 'Marquer comme acheté';
+
+  @override
+  String get nearby_add => 'Ajouter';
+
+  @override
+  String get nearby_connect => 'Connecter';
+
+  @override
+  String get nearby_connected => 'Connecté';
+
+  @override
+  String get nearby_connecting => 'Connexion';
+
+  @override
+  String get nearby_connection_failed => 'Échec de connexion';
+
+  @override
+  String nearby_devices(int count) {
+    return 'Appareils à proximité ($count)';
+  }
+
+  @override
+  String nearby_item_count(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count articles',
+      one: '1 article',
+      zero: '0 article',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nearby_items_added(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count articles ajoutés',
+      one: '1 article ajouté',
+      zero: 'Aucun nouvel article ajouté',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nearby_list_received_message(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ajouter $count articles à votre liste ?',
+      one: 'Ajouter 1 article à votre liste ?',
+      zero: 'La liste partagée est vide.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nearby_list_received_title(String name) {
+    return '$name a partagé une liste';
+  }
+
+  @override
+  String nearby_list_sent(String name) {
+    return 'Liste envoyée à $name';
+  }
+
+  @override
+  String get nearby_my_list => 'Ma liste';
+
+  @override
+  String get nearby_retry => 'Redémarrer le partage à proximité';
+
+  @override
+  String get nearby_retry_connection => 'Réessayer';
+
+  @override
+  String get nearby_searching => 'Recherche d\'appareils à proximité…';
+
+  @override
+  String get nearby_send_list => 'Envoyer la liste';
+
+  @override
+  String get nearby_share_grocery_list => 'Partager la liste de courses';
+
+  @override
+  String get nearby_transfer_unavailable =>
+      'Le transfert de liste n\'est pas encore disponible.';
 
   @override
   String get product_name => 'Nom du produit';
@@ -91,6 +182,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settings_title => 'Paramètres';
+
+  @override
+  String get support_email_subject => 'Un problème avec FreshList';
 
   @override
   String get theme_mode_dark => 'Sombre';

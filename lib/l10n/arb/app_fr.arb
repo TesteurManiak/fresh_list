@@ -8,6 +8,7 @@
     "clear_all_confirmation_title": "Effacer tous les articles ?",
     "close": "Fermer",
     "coming_soon": "Bientôt disponible !",
+    "dismiss": "Fermer",
     "edit_grocery": "Modifier l'entrée",
     "empty_grocery_list": "Votre liste est vide.\nAjoutez des articles en appuyant sur le bouton \"+\".",
     "frequent_suggestions": "Suggestions fréquentes",
@@ -15,6 +16,67 @@
     "language_en": "Anglais",
     "language_fr": "Français",
     "mark_as_bought": "Marquer comme acheté",
+    "nearby_add": "Ajouter",
+    "nearby_connect": "Connecter",
+    "nearby_connected": "Connecté",
+    "nearby_connecting": "Connexion",
+    "nearby_connection_failed": "Échec de connexion",
+    "nearby_devices": "Appareils à proximité ({count})",
+    "@nearby_devices": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "nearby_item_count": "{count, plural, =0{0 article} one{1 article} other{{count} articles}}",
+    "@nearby_item_count": {
+        "description": "Nombre d'articles dans la liste de courses partagée.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "nearby_items_added": "{count, plural, =0{Aucun nouvel article ajouté} one{1 article ajouté} other{{count} articles ajoutés}}",
+    "@nearby_items_added": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "nearby_list_received_message": "{count, plural, =0{La liste partagée est vide.} one{Ajouter 1 article à votre liste ?} other{Ajouter {count} articles à votre liste ?}}",
+    "@nearby_list_received_message": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "nearby_list_received_title": "{name} a partagé une liste",
+    "@nearby_list_received_title": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "nearby_list_sent": "Liste envoyée à {name}",
+    "@nearby_list_sent": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "nearby_my_list": "Ma liste",
+    "nearby_retry": "Redémarrer le partage à proximité",
+    "nearby_retry_connection": "Réessayer",
+    "nearby_searching": "Recherche d'appareils à proximité…",
+    "nearby_send_list": "Envoyer la liste",
+    "nearby_share_grocery_list": "Partager la liste de courses",
+    "nearby_transfer_unavailable": "Le transfert de liste n'est pas encore disponible.",
     "product_name": "Nom du produit",
     "quick_action_delete": "Supprimer",
     "quick_action_edit": "Modifier",
@@ -26,6 +88,7 @@
     "settings_support_title": "Assistance",
     "settings_theme_title": "Thème",
     "settings_title": "Paramètres",
+    "support_email_subject": "Un problème avec FreshList",
     "theme_mode_dark": "Sombre",
     "theme_mode_light": "Clair",
     "theme_mode_system": "Système"

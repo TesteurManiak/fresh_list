@@ -447,7 +447,7 @@ class _DismissibleState extends State<AppDismissible>
     }
     _dragUnderway = false;
     if (_moveController.isCompleted) {
-      unawaited(_handleMoveCompleted());
+      _handleMoveCompleted();
       return;
     }
     final double flingVelocity = _directionIsXAxis
