@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
@@ -14,6 +15,7 @@ import 'package:todo_list/src/core/widgets/app_sheet.dart';
 import 'package:todo_list/src/core/widgets/app_snack.dart';
 import 'package:todo_list/src/core/widgets/sliver_spacing.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
+import 'package:todo_list/src/features/home/widgets/copied_list_snack.dart';
 import 'package:todo_list/src/features/home/widgets/error_snack.dart';
 
 class NearbySharingBottomSheet extends ConsumerStatefulWidget
@@ -136,10 +138,23 @@ class _SliverSharedListCard extends ConsumerWidget {
     return SliverToBoxAdapter(
       child: _Card(
         leading: const _Avatar(child: Icon(Icons.shopping_cart_outlined)),
+        trailing: const Icon(Icons.copy_rounded),
         title: strings.nearby_my_list,
         subtitle: strings.nearby_item_count(itemCount),
+        onTap: () => copyToClipboard(context, ref),
       ),
     );
+  }
+
+  Future<void> copyToClipboard(BuildContext context, WidgetRef ref) async {
+    final items = await ref.read(groceryListControllerProvider.future);
+    final buffer = StringBuffer();
+    for (final item in items) {
+      buffer.writeln('- ${item.name}');
+    }
+    await Clipboard.setData(ClipboardData(text: buffer.toString()));
+    if (!context.mounted) return;
+    const CopiedListSnack().show(context);
   }
 }
 

@@ -4,7 +4,7 @@ import 'package:todo_list/src/core/clock.dart';
 import 'package:todo_list/src/core/extensions/riverpod_extensions.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
-import 'package:todo_list/src/core/sharing/shared_grocery_list.dart';
+import 'package:todo_list/src/core/sharing/shared_grocery_list_codec.dart';
 import 'package:todo_list/src/features/home/data/repositories/home_repository.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
 

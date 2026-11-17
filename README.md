@@ -31,6 +31,7 @@ dart run vector_graphics_compiler \
 
 ## TODO
 
+* Manage multiple lists
 * Improve Material 3 Expressive UI
   - Delete slider
   - List

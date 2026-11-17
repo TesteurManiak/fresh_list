@@ -37,6 +37,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get coming_soon => 'Bientôt disponible !';
 
   @override
+  String get copied => 'Copié dans le presse-papiers';
+
+  @override
   String get dismiss => 'Fermer';
 
   @override

@@ -112,20 +112,29 @@ class _SettingsViewState extends State<SettingsView> {
             ],
           ),
           const SizedBox(height: 64),
-          Column(
-            spacing: 8,
-            children: [
-              const AppIcon(),
-              Text(
-                '${AppConstants.appName} $packageVersion',
-                textAlign: .center,
-                style: GoogleFonts.googleSansCode(
-                  textStyle: textTheme.labelSmall,
-                  color: colorScheme.outline,
-                  fontFeatures: const [.tabularFigures()],
+          GestureDetector(
+            behavior: .opaque,
+            onTap: () => showAboutDialog(
+              context: context,
+              applicationName: AppConstants.appName,
+              applicationVersion: packageVersion,
+              applicationIcon: const AppIcon(),
+            ),
+            child: Column(
+              spacing: 8,
+              children: [
+                const AppIcon(),
+                Text(
+                  '${AppConstants.appName} $packageVersion',
+                  textAlign: .center,
+                  style: GoogleFonts.googleSansCode(
+                    textStyle: textTheme.labelSmall,
+                    color: colorScheme.outline,
+                    fontFeatures: const [.tabularFigures()],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

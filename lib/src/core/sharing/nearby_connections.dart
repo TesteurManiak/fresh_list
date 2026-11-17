@@ -7,7 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:native_nearby_connections/native_nearby_connections.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/permissions/permission_manager.dart';
-import 'package:todo_list/src/core/sharing/shared_grocery_list.dart';
+import 'package:todo_list/src/core/sharing/shared_grocery_list_codec.dart';
 import 'package:todo_list/src/core/utils/device_info.dart';
 
 part 'nearby_connections.freezed.dart';

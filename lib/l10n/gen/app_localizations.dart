@@ -147,6 +147,12 @@ abstract class AppLocalizations {
   /// **'Bientôt disponible !'**
   String get coming_soon;
 
+  /// No description provided for @copied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Copié dans le presse-papiers'**
+  String get copied;
+
   /// No description provided for @dismiss.
   ///
   /// In fr, this message translates to:
