@@ -90,11 +90,13 @@ class _GroceryTileState extends ConsumerState<GroceryTile> {
             .read(groceryListControllerProvider.notifier)
             .deleteGrocery(grocery),
         background: _Background(
-          borderRadius: _kActiveRadius,
           isThresholdReached: isThresholdReached,
           dragProgress: dragProgress,
         ),
-        child: _GroceryCard(grocery: grocery),
+        child: ClipRRect(
+          borderRadius: _kActiveRadius,
+          child: _GroceryCard(grocery: grocery),
+        ),
       ),
     );
   }
@@ -197,13 +199,8 @@ class _GroceryCard extends ConsumerWidget {
 }
 
 class _Background extends StatelessWidget {
-  const new({
-    required this.borderRadius,
-    required this.isThresholdReached,
-    required this.dragProgress,
-  });
+  const new({required this.isThresholdReached, required this.dragProgress});
 
-  final BorderRadius borderRadius;
   final bool isThresholdReached;
   final double dragProgress;
 
@@ -214,10 +211,7 @@ class _Background extends StatelessWidget {
     return Container(
       alignment: .centerRight,
       padding: const .symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        borderRadius: borderRadius,
-        color: colorScheme.surface,
-      ),
+      color: colorScheme.surface,
       child: FractionallySizedBox(
         widthFactor: dragProgress.clamp(0.0, 1.0),
         heightFactor: 1,
