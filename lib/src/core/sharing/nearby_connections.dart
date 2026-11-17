@@ -1,4 +1,8 @@
+import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,14 +20,31 @@ final nearbyConnectionsProvider = Provider((_) => NativeNearbyConnections());
 
 final nearbySharingControllerProvider =
     NotifierProvider.autoDispose<NearbySharingController, NearbySharingState>(
-      () => NearbySharingController('My Device'),
+      NearbySharingController.new,
     );
+
+/// Name other devices see for this one.
+final deviceNameProvider = FutureProvider<String>((_) async {
+  final deviceInfo = DeviceInfoPlugin();
+  switch (Platform.operatingSystem) {
+    case 'android':
+      final info = await deviceInfo.androidInfo;
+      return info.name.isNotEmpty ? info.name : info.model;
+    case 'ios':
+      final info = await deviceInfo.iosInfo;
+      // Without Apple's user-assigned-device-name entitlement, iOS 16+ only
+      // returns the generic model ("iPhone"): the model name tells devices
+      // apart better.
+      return info.name != info.model ? info.name : info.modelName;
+    case final platform:
+      throw UnsupportedError('Unsupported platform: $platform');
+  }
+});
 
 class NearbySharingController extends Notifier<NearbySharingState>
     implements NearbyFlutterApi {
-  new(this.localEndpointName);
-
-  final String localEndpointName;
+  /// Resolved by [start], before anything is advertised or requested.
+  String _localName = '';
 
   @override
   NearbySharingState build() {
@@ -42,40 +63,25 @@ class NearbySharingController extends Notifier<NearbySharingState>
       ..stopAllEndpoints();
   }
 
-  Future<void> advertise() async {
-    state = state.copyWith(isAdvertising: true);
+  /// Advertises and discovers at once, so both devices see each other.
+  Future<void> start() async {
+    state = state.copyWith(isAdvertising: true, isDiscovering: true);
     try {
       await _requestPermission();
-      await ref
-          .read(nearbyConnectionsProvider)
-          .startAdvertising(localEndpointName, _kServiceId, .cluster);
+      _localName = await ref.read(deviceNameProvider.future);
+      final nearby = ref.read(nearbyConnectionsProvider);
+      await Future.wait([
+        nearby.startAdvertising(_localName, _kServiceId, .cluster),
+        nearby.startDiscovery(_kServiceId, .cluster),
+      ]);
     } catch (e, s) {
       log(
-        'Error while advertising',
+        'Error while starting nearby sharing',
         error: e,
         stackTrace: s,
         name: 'NearbySharingController',
       );
-      state = state.copyWith(isAdvertising: false);
-      rethrow;
-    }
-  }
-
-  Future<void> discover() async {
-    state = state.copyWith(isDiscovering: true);
-    try {
-      await _requestPermission();
-      await ref
-          .read(nearbyConnectionsProvider)
-          .startDiscovery(_kServiceId, .cluster);
-    } catch (e, s) {
-      log(
-        'Error while discovering',
-        error: e,
-        stackTrace: s,
-        name: 'NearbySharingController',
-      );
-      state = state.copyWith(isDiscovering: false);
+      await stop();
       rethrow;
     }
   }
@@ -107,7 +113,7 @@ class NearbySharingController extends Notifier<NearbySharingState>
     try {
       await ref
           .read(nearbyConnectionsProvider)
-          .requestConnection(localEndpointName, endpointId);
+          .requestConnection(_localName, endpointId);
       // `connected` is set by onConnectionResult.
     } catch (e, s) {
       log(
@@ -165,7 +171,8 @@ class NearbySharingController extends Notifier<NearbySharingState>
     if (peer == null) return;
 
     if (statusCode != 0) {
-      // Discoverer keeps the peer to retry; advertiser waits for a new request.
+      // Keep the peer to retry while discovering; otherwise wait for a new
+      // request.
       state = state.isDiscovering
           ? state.copyWith(
               peers: state.peers.update(
@@ -184,16 +191,19 @@ class NearbySharingController extends Notifier<NearbySharingState>
       ),
     );
 
-    if (!state.isDiscovering) return;
-
-    // Scanning slows transfers; tap Discover again to find more peers.
-    ref.read(nearbyConnectionsProvider).stopDiscovery();
-    state = state.copyWith(isDiscovering: false);
+    // Scanning slows transfers and both radios drain battery: stop looking
+    // once paired. Searching resumes when the last peer disconnects.
+    final nearby = ref.read(nearbyConnectionsProvider);
+    unawaited(nearby.stopDiscovery());
+    unawaited(nearby.stopAdvertising());
+    state = state.copyWith(isAdvertising: false, isDiscovering: false);
   }
 
   @override
   void onDisconnected(String endpointId) {
     state = state.copyWith(peers: state.peers.remove(endpointId));
+    // start() already logs its errors.
+    if (state.peers.isEmpty) start().ignore();
   }
 
   @override

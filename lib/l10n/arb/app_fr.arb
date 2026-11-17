@@ -17,7 +17,6 @@
     "language_fr": "Français",
     "mark_as_bought": "Marquer comme acheté",
     "nearby_add": "Ajouter",
-    "nearby_advertise": "Trouver des appareils",
     "nearby_connect": "Connecter",
     "nearby_connected": "Connecté",
     "nearby_connecting": "Connexion",
@@ -30,7 +29,6 @@
             }
         }
     },
-    "nearby_discover": "Être détectable",
     "nearby_item_count": "{count, plural, =0{0 article} one{1 article} other{{count} articles}}",
     "@nearby_item_count": {
         "description": "Nombre d'articles dans la liste de courses partagée.",

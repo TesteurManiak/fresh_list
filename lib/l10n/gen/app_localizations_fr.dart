@@ -66,9 +66,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get nearby_add => 'Ajouter';
 
   @override
-  String get nearby_advertise => 'Trouver des appareils';
-
-  @override
   String get nearby_connect => 'Connecter';
 
   @override
@@ -84,9 +81,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String nearby_devices(int count) {
     return 'Appareils à proximité ($count)';
   }
-
-  @override
-  String get nearby_discover => 'Être détectable';
 
   @override
   String nearby_item_count(int count) {

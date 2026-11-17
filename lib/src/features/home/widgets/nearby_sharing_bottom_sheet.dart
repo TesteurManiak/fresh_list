@@ -5,9 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:material_wavy_progress_indicator/material_wavy_progress_indicator.dart';
-import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
-import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
@@ -30,24 +28,20 @@ class NearbySharingBottomSheet extends ConsumerStatefulWidget
 class _NearbySharingBottomSheetState
     extends ConsumerState<NearbySharingBottomSheet>
     with HookMixin {
-  late final selectedModeNotifier = useValueNotifier(_DiscoveryMode.advertise);
   late final isStartingNotifier = useValueNotifier(false);
 
   @override
   void initState() {
     super.initState();
-    _start(selectedModeNotifier.value);
+    _start();
   }
 
-  Future<void> _start(_DiscoveryMode mode) async {
+  Future<void> _start() async {
     final controller = ref.read(nearbySharingControllerProvider.notifier);
     isStartingNotifier.value = true;
     try {
       await controller.stop();
-      await switch (mode) {
-        .advertise => controller.advertise(),
-        .discover => controller.discover(),
-      };
+      await controller.start();
     } catch (e, s) {
       log(
         'Error while starting nearby sharing',
@@ -108,25 +102,6 @@ class _NearbySharingBottomSheetState
           ),
           const SliverSpacing(16),
           _SliverSharedListCard(),
-          const SliverSpacing(16),
-          ListenableBuilder(
-            listenable: Listenable.merge([
-              selectedModeNotifier,
-              isStartingNotifier,
-            ]),
-            builder: (_, _) {
-              return _SliverDiscoveryModeSelector(
-                selectedMode: selectedModeNotifier.value,
-                // Disabled until the current mode finished starting.
-                onSelectionChanged: isStartingNotifier.value
-                    ? null
-                    : (v) {
-                        selectedModeNotifier.value = v;
-                        _start(v);
-                      },
-              );
-            },
-          ),
           const SliverSpacing(16),
           ValueListenableBuilder(
             valueListenable: isStartingNotifier,
@@ -268,46 +243,6 @@ class _Avatar extends StatelessWidget {
       ),
     );
   }
-}
-
-class _SliverDiscoveryModeSelector extends StatelessWidget {
-  const new({required this.selectedMode, this.onSelectionChanged});
-
-  final _DiscoveryMode selectedMode;
-  final ValueChanged<_DiscoveryMode>? onSelectionChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final strings = context.strings;
-
-    return SliverToBoxAdapter(
-      child: SegmentedButton<_DiscoveryMode>(
-        selected: {selectedMode},
-        onSelectionChanged: switch (onSelectionChanged) {
-          final onChanged? => (value) => onChanged(value.first),
-          null => null,
-        },
-        segments: [
-          for (final mode in _DiscoveryMode.values)
-            ButtonSegment(
-              value: mode,
-              label: Text(mode.label(strings)),
-              icon: Icon(mode.icon),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-enum _DiscoveryMode(final LocalizedString label, final IconData icon) {
-  advertise(_advertise, Icons.radar),
-  discover(_discover, Icons.wifi_tethering);
-
-  static String _advertise(AppLocalizations strings) =>
-      strings.nearby_advertise;
-
-  static String _discover(AppLocalizations strings) => strings.nearby_discover;
 }
 
 class _SliverNearbyPeerList extends ConsumerWidget {

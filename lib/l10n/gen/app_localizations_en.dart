@@ -65,9 +65,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nearby_add => 'Add';
 
   @override
-  String get nearby_advertise => 'Find Devices';
-
-  @override
   String get nearby_connect => 'Connect';
 
   @override
@@ -83,9 +80,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String nearby_devices(int count) {
     return 'Nearby devices ($count)';
   }
-
-  @override
-  String get nearby_discover => 'Be Discoverable';
 
   @override
   String nearby_item_count(int count) {

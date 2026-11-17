@@ -201,12 +201,6 @@ abstract class AppLocalizations {
   /// **'Ajouter'**
   String get nearby_add;
 
-  /// No description provided for @nearby_advertise.
-  ///
-  /// In fr, this message translates to:
-  /// **'Trouver des appareils'**
-  String get nearby_advertise;
-
   /// No description provided for @nearby_connect.
   ///
   /// In fr, this message translates to:
@@ -236,12 +230,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Appareils à proximité ({count})'**
   String nearby_devices(int count);
-
-  /// No description provided for @nearby_discover.
-  ///
-  /// In fr, this message translates to:
-  /// **'Être détectable'**
-  String get nearby_discover;
 
   /// Nombre d'articles dans la liste de courses partagée.
   ///
