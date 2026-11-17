@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
@@ -20,9 +20,15 @@ const _kActiveRadius = BorderRadius.all(.circular(28));
 const _kCompletedRadius = BorderRadius.all(.circular(16));
 
 class GroceryTile extends ConsumerStatefulWidget {
-  const new(this.grocery, {required Key super.key, this.showSwipeHint = false});
+  const new(
+    this.grocery, {
+    required Key super.key,
+    this.showSwipeHint = false,
+    this.dismissThreshold = 0.4,
+  });
 
   final Grocery grocery;
+  final double dismissThreshold;
 
   /// Whether this tile should briefly reveal its swipe action the first time
   /// the user ever sees the list.
@@ -34,6 +40,9 @@ class GroceryTile extends ConsumerStatefulWidget {
 
 class _GroceryTileState extends ConsumerState<GroceryTile> {
   final controller = AppDismissibleController();
+
+  double dragProgress = 0;
+  bool hasTriggeredHaptic = false;
 
   @override
   void initState() {
@@ -56,6 +65,7 @@ class _GroceryTileState extends ConsumerState<GroceryTile> {
   @override
   Widget build(BuildContext context) {
     final grocery = widget.grocery;
+    final isThresholdReached = dragProgress >= widget.dismissThreshold;
 
     return Padding(
       padding: const .symmetric(vertical: 3),
@@ -63,20 +73,27 @@ class _GroceryTileState extends ConsumerState<GroceryTile> {
         key: Key('GroceryTile-${grocery.id}'),
         controller: controller,
         direction: .endToStart,
+        dismissThresholds: {.endToStart: widget.dismissThreshold},
         onUpdate: (details) {
-          if (details.reached && !details.previousReached) {
-            HapticsHelper.medium();
+          setState(() => dragProgress = details.progress);
+
+          if (details.progress >= widget.dismissThreshold &&
+              !hasTriggeredHaptic) {
+            HapticFeedback.lightImpact();
+            hasTriggeredHaptic = true;
+          } else if (details.progress < widget.dismissThreshold &&
+              hasTriggeredHaptic) {
+            hasTriggeredHaptic = false;
           }
         },
-        onDismissed: (direction) {
-          if (direction == .endToStart) {
-            HapticsHelper.heavy();
-            ref
-                .read(groceryListControllerProvider.notifier)
-                .deleteGrocery(grocery);
-          }
-        },
-        background: const _Background(borderRadius: _kActiveRadius),
+        onDismissed: (_) => ref
+            .read(groceryListControllerProvider.notifier)
+            .deleteGrocery(grocery),
+        background: _Background(
+          borderRadius: _kActiveRadius,
+          isThresholdReached: isThresholdReached,
+          dragProgress: dragProgress,
+        ),
         child: _GroceryCard(grocery: grocery),
       ),
     );
@@ -180,36 +197,55 @@ class _GroceryCard extends ConsumerWidget {
 }
 
 class _Background extends StatelessWidget {
-  const new({required this.borderRadius});
+  const new({
+    required this.borderRadius,
+    required this.isThresholdReached,
+    required this.dragProgress,
+  });
 
   final BorderRadius borderRadius;
+  final bool isThresholdReached;
+  final double dragProgress;
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.strings;
     final colorScheme = ColorScheme.of(context);
-    final textTheme = TextTheme.of(context);
 
     return Container(
-      alignment: Alignment.centerRight,
+      alignment: .centerRight,
+      padding: const .symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         borderRadius: borderRadius,
-        color: colorScheme.errorContainer,
+        color: colorScheme.surface,
       ),
-      padding: const .symmetric(horizontal: 24),
-      child: Row(
-        mainAxisSize: .min,
-        mainAxisAlignment: .end,
-        spacing: 8,
-        children: [
-          Icon(Icons.delete_rounded, color: colorScheme.onErrorContainer),
-          Text(
-            strings.quick_action_delete,
-            style: textTheme.labelLarge?.copyWith(
-              color: colorScheme.onErrorContainer,
+      child: FractionallySizedBox(
+        widthFactor: dragProgress.clamp(0.0, 1.0),
+        heightFactor: 1,
+        alignment: .centerRight,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 48),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: colorScheme.error,
+              borderRadius: .circular(100),
+            ),
+            child: Center(
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(begin: 1, end: isThresholdReached ? 1.2 : .9),
+                duration: const Duration(milliseconds: 150),
+                curve: Curves.easeOutBack,
+                builder: (_, scale, child) {
+                  return Transform.scale(scale: scale, child: child);
+                },
+                child: Icon(
+                  Icons.delete_outline,
+                  color: colorScheme.onError,
+                  size: 24,
+                ),
+              ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

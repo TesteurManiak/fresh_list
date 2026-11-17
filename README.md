@@ -23,7 +23,6 @@ flutter drive \
 
 ## TODO
 
-* Native launcher icon & splash screen
 * Improve Material 3 Expressive UI
   - Delete slider
   - List
