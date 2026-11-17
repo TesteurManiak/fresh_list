@@ -14,21 +14,6 @@ final permissionManagerProvider = Provider(
 class const PermissionManager({
   required final DeviceInfoService deviceInfoService,
 }) {
-  Future<void> _requestPermission(List<Permission> permissions) async {
-    final statuses = await permissions.request();
-    // Nearby refuses to start unless every permission is granted, so
-    // permanently denied or restricted count as denied too.
-    final denied = <Permission, PermissionStatus>{
-      for (final entry in statuses.entries)
-        if (!entry.value.isGranted) entry.key: entry.value,
-    };
-    if (denied.isEmpty) return;
-
-    throw PermissionDeniedException(
-      denied.entries.map((e) => '${e.key}: ${e.value}').toList(),
-    );
-  }
-
   Future<void> requestNearbySharingPermission() {
     return switch (Platform.operatingSystem) {
       'android' => _requestAndroidNearbySharingPermission(),
@@ -41,7 +26,7 @@ class const PermissionManager({
   /// https://developers.google.com/nearby/connections/android/get-started
   Future<void> _requestAndroidNearbySharingPermission() async {
     final sdkInt = await deviceInfoService.getAndroidSdkInt();
-    return _requestPermission([
+    await [
       // Reported granted by permission_handler below Android 12 (API 31)
       // and, for nearbyWifiDevices, below Android 13 (API 33).
       Permission.bluetoothScan,
@@ -52,16 +37,13 @@ class const PermissionManager({
       // permissions above are declared neverForLocation and location isn't
       // declared at all.
       if (sdkInt <= 32) Permission.location,
-    ]);
+    ].request();
   }
 
   /// Local network prompts by itself on first Bonjour use; location lets
   /// Nearby join a peer's Wi-Fi hotspot.
-  Future<void> _requestIosNearbySharingPermission() {
-    return _requestPermission([
-      Permission.bluetooth,
-      Permission.locationWhenInUse,
-    ]);
+  Future<void> _requestIosNearbySharingPermission() async {
+    await [Permission.bluetooth, Permission.locationWhenInUse].request();
   }
 }
 
