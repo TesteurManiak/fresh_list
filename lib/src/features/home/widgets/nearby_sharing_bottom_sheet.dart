@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:material_wavy_progress_indicator/material_wavy_progress_indicator.dart';
 import 'package:todo_list/l10n/gen/app_localizations.dart';
@@ -24,7 +25,6 @@ class _NearbySharingBottomSheetState
     extends ConsumerState<NearbySharingBottomSheet>
     with HookMixin {
   late final selectedModeNotifier = useValueNotifier(_DiscoveryMode.advertise);
-  late final isLoadingNotifier = useValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +66,9 @@ class _NearbySharingBottomSheetState
           const SliverSpacing(16),
           SliverToBoxAdapter(
             child: TextButton(
+              style: TextButton.styleFrom(
+                textStyle: textTheme.labelLarge?.copyWith(fontWeight: .w600),
+              ),
               onPressed: () => Navigator.pop(context),
               child: const Text('Dismiss'),
             ),
@@ -155,7 +158,7 @@ class _Card extends StatelessWidget {
     final colorScheme = ColorScheme.of(context);
 
     return Material(
-      color: colorScheme.surfaceContainerLowest,
+      color: colorScheme.surfaceContainer,
       clipBehavior: .antiAlias,
       shape: RoundedRectangleBorder(borderRadius: .circular(24)),
       child: Padding(
@@ -309,6 +312,8 @@ class _SliverNearbyPeerList extends ConsumerWidget {
 class _SliverNearbySharingHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final strings = context.strings;
+    final textTheme = TextTheme.of(context);
     final peersCount = ref.watch(
       nearbySharingControllerProvider.select((s) => s.peers.length),
     );
@@ -317,7 +322,16 @@ class _SliverNearbySharingHeader extends ConsumerWidget {
         padding: const .symmetric(horizontal: 4),
         child: Row(
           children: [
-            Expanded(child: Text('NEARBY DEVICES ($peersCount)')),
+            Expanded(
+              child: Text(
+                strings.nearby_devices(peersCount),
+                style: GoogleFonts.unbounded(
+                  textStyle: textTheme.labelSmall,
+                  letterSpacing: -.3,
+                  fontWeight: .w600,
+                ),
+              ),
+            ),
             // TODO(Guillaume): Add re-scan button here
           ],
         ),
@@ -334,10 +348,16 @@ class _NearbyPeerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings;
     return _Card(
       leading: _Avatar(child: Text(peer.name[0])),
       title: peer.name,
-      trailing: FilledButton(onPressed: () {}, child: const Text('Connect')),
+      trailing: FilledButton(
+        onPressed: () {
+          // TODO(Guillaume): Implement
+        },
+        child: Text(strings.nearby_connect),
+      ),
     );
   }
 }
