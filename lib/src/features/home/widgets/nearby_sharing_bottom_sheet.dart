@@ -145,56 +145,68 @@ class _SliverSharedListCard extends ConsumerWidget {
 }
 
 class _Card extends StatelessWidget {
-  const new({required this.title, this.subtitle, this.leading, this.trailing});
+  const new({
+    required this.title,
+    this.subtitle,
+    this.leading,
+    this.trailing,
+    this.onTap,
+  });
 
   final Widget? leading;
   final Widget? trailing;
   final String title;
   final String? subtitle;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
+    final isLight = Theme.of(context).brightness == .light;
     final textTheme = TextTheme.of(context);
     final colorScheme = ColorScheme.of(context);
 
     return Material(
       color: colorScheme.surfaceContainer,
       clipBehavior: .antiAlias,
+      elevation: isLight ? 1 : 0,
       shape: RoundedRectangleBorder(borderRadius: .circular(24)),
-      child: Padding(
-        padding: const .all(16),
-        child: Row(
-          spacing: 8,
-          children: [
-            ?leading,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: .start,
-                mainAxisSize: .min,
-                children: [
-                  Text(
-                    title,
-                    style: textTheme.titleMedium?.copyWith(
-                      color: colorScheme.onSurface,
-                      fontWeight: .w700,
-                      letterSpacing: -.2,
-                    ),
-                    maxLines: 1,
-                    overflow: .ellipsis,
-                  ),
-                  if (subtitle case final s?)
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const .all(16),
+          child: Row(
+            spacing: 8,
+            children: [
+              ?leading,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: .start,
+                  mainAxisSize: .min,
+                  children: [
                     Text(
-                      s,
-                      style: textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                        fontWeight: .w500,
+                      title,
+                      style: textTheme.titleMedium?.copyWith(
+                        color: colorScheme.onSurface,
+                        fontWeight: .w700,
+                        letterSpacing: -.2,
                       ),
+                      maxLines: 1,
+                      overflow: .ellipsis,
                     ),
-                ],
+                    if (subtitle case final s?)
+                      Text(
+                        s,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                          fontWeight: .w500,
+                        ),
+                      ),
+                  ],
+                ),
               ),
-            ),
-            ?trailing,
-          ],
+              ?trailing,
+            ],
+          ),
         ),
       ),
     );
@@ -320,20 +332,13 @@ class _SliverNearbySharingHeader extends ConsumerWidget {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const .symmetric(horizontal: 4),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                strings.nearby_devices(peersCount),
-                style: GoogleFonts.unbounded(
-                  textStyle: textTheme.labelSmall,
-                  letterSpacing: -.3,
-                  fontWeight: .w600,
-                ),
-              ),
-            ),
-            // TODO(Guillaume): Add re-scan button here
-          ],
+        child: Text(
+          strings.nearby_devices(peersCount),
+          style: GoogleFonts.unbounded(
+            textStyle: textTheme.labelSmall,
+            letterSpacing: -.3,
+            fontWeight: .w600,
+          ),
         ),
       ),
     );

@@ -28,6 +28,10 @@
 	<true/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Needed when sharing a list to nearby devices.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_6E97058CB299._tcp</string>
+	</array>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Needed when sharing a list to nearby devices.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
