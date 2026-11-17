@@ -12,11 +12,12 @@ import 'package:todo_list/src/core/mixins/showable.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/sharing/nearby_connections.dart';
 import 'package:todo_list/src/core/widgets/app_sheet.dart';
-import 'package:todo_list/src/core/widgets/app_snack.dart';
 import 'package:todo_list/src/core/widgets/sliver_spacing.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/copied_list_snack.dart';
 import 'package:todo_list/src/features/home/widgets/error_snack.dart';
+import 'package:todo_list/src/features/home/widgets/items_added_snack.dart';
+import 'package:todo_list/src/features/home/widgets/list_sent_snack.dart';
 
 class NearbySharingBottomSheet extends ConsumerStatefulWidget
     with ShowableBottomSheetMixin<void> {
@@ -68,10 +69,7 @@ class _NearbySharingBottomSheetState
         .read(groceryListControllerProvider.notifier)
         .importGroceries(received.items);
     if (!mounted) return;
-    _Snack(
-      context.strings.nearby_items_added(added),
-      Icons.playlist_add_check_rounded,
-    ).show(context);
+    ItemsAddedSnack(added).show(context);
   }
 
   @override
@@ -443,10 +441,7 @@ class _NearbyPeerTile extends ConsumerWidget {
           .read(nearbySharingControllerProvider.notifier)
           .sendList(endpointId, groceries);
       if (!context.mounted) return;
-      _Snack(
-        context.strings.nearby_list_sent(peer.name),
-        Icons.send_rounded,
-      ).show(context);
+      ListSentSnack(peer.name).show(context);
     } catch (e, s) {
       log(
         'Error while sending list',
@@ -522,14 +517,5 @@ class _ReceivedListDialog extends StatelessWidget
           ),
       ],
     );
-  }
-}
-
-class _Snack(final String message, final IconData icon) extends AppSnack {
-  @override
-  SnackBarBuilder build(BuildContext context) {
-    return SnackBarBuilder()
-      ..text = message
-      ..icon = icon;
   }
 }
