@@ -10,8 +10,10 @@ import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
+import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/sharing/nearby_connections.dart';
 import 'package:todo_list/src/core/widgets/app_sheet.dart';
+import 'package:todo_list/src/core/widgets/app_snack.dart';
 import 'package:todo_list/src/core/widgets/sliver_spacing.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/error_snack.dart';
@@ -60,11 +62,34 @@ class _NearbySharingBottomSheetState
     }
   }
 
+  Future<void> _onListReceived(ReceivedList received) async {
+    ref.read(nearbySharingControllerProvider.notifier).clearReceivedList();
+
+    final accepted = await _ReceivedListDialog(received).show(context);
+    if (accepted != true || !mounted) return;
+
+    final added = await ref
+        .read(groceryListControllerProvider.notifier)
+        .importGroceries(received.items);
+    if (!mounted) return;
+    _Snack(
+      context.strings.nearby_items_added(added),
+      Icons.playlist_add_check_rounded,
+    ).show(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final strings = context.strings;
     final textTheme = TextTheme.of(context);
     final colorScheme = ColorScheme.of(context);
+
+    ref.listen(nearbySharingControllerProvider.select((s) => s.receivedList), (
+      _,
+      received,
+    ) {
+      if (received != null) _onListReceived(received);
+    });
 
     return AppSheet(
       child: CustomScrollView(
@@ -460,6 +485,30 @@ class _NearbyPeerTile extends ConsumerWidget {
   final String endpointId;
   final Peer peer;
 
+  Future<void> _sendList(BuildContext context, WidgetRef ref) async {
+    final Iterable<Grocery> groceries =
+        ref.read(groceryListControllerProvider).value ?? const [];
+    try {
+      await ref
+          .read(nearbySharingControllerProvider.notifier)
+          .sendList(endpointId, groceries);
+      if (!context.mounted) return;
+      _Snack(
+        context.strings.nearby_list_sent(peer.name),
+        Icons.send_rounded,
+      ).show(context);
+    } catch (e, s) {
+      log(
+        'Error while sending list',
+        error: e,
+        stackTrace: s,
+        name: 'NearbySharingBottomSheet',
+      );
+      if (!context.mounted) return;
+      ErrorSnack('$e').show(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
@@ -468,6 +517,7 @@ class _NearbyPeerTile extends ConsumerWidget {
     return _Card(
       leading: _Avatar(child: Text(peer.name[0])),
       title: peer.name,
+      subtitle: peer.state == .connected ? strings.nearby_connected : null,
       trailing: switch (peer.state) {
         .found => Icon(
           Icons.link_rounded,
@@ -479,16 +529,57 @@ class _NearbyPeerTile extends ConsumerWidget {
           child: LoadingIndicator(semanticsLabel: strings.nearby_connecting),
         ),
         .connected => Icon(
-          Icons.check_circle_rounded,
+          Icons.send_rounded,
           color: colorScheme.primary,
-          semanticLabel: strings.nearby_connected,
+          semanticLabel: strings.nearby_send_list,
         ),
       },
-      onTap: peer.state == .found
-          ? () => ref
-                .read(nearbySharingControllerProvider.notifier)
-                .requestConnection(endpointId)
-          : null,
+      onTap: switch (peer.state) {
+        .found =>
+          () => ref
+              .read(nearbySharingControllerProvider.notifier)
+              .requestConnection(endpointId),
+        .connecting => null,
+        .connected => () => _sendList(context, ref),
+      },
     );
+  }
+}
+
+class _ReceivedListDialog extends StatelessWidget
+    with ShowableDialogMixin<bool> {
+  const new(this.received);
+
+  final ReceivedList received;
+
+  @override
+  Widget build(BuildContext context) {
+    final strings = context.strings;
+    final count = received.items.length;
+
+    return AlertDialog(
+      title: Text(strings.nearby_list_received_title(received.from)),
+      content: Text(strings.nearby_list_received_message(count)),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text(count == 0 ? strings.close : strings.cancel),
+        ),
+        if (count > 0)
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(strings.nearby_add),
+          ),
+      ],
+    );
+  }
+}
+
+class _Snack(final String message, final IconData icon) extends AppSnack {
+  @override
+  SnackBarBuilder build(BuildContext context) {
+    return SnackBarBuilder()
+      ..text = message
+      ..icon = icon;
   }
 }

@@ -4,7 +4,9 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:native_nearby_connections/native_nearby_connections.dart';
+import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/permissions/permission_manager.dart';
+import 'package:todo_list/src/core/sharing/shared_grocery_list.dart';
 
 part 'nearby_connections.freezed.dart';
 
@@ -129,6 +131,17 @@ class NearbySharingController extends Notifier<NearbySharingState>
     );
   }
 
+  Future<void> sendList(String endpointId, Iterable<Grocery> groceries) {
+    return ref.read(nearbyConnectionsProvider).sendBytes([
+      endpointId,
+    ], SharedGroceryListCodec.encode(groceries));
+  }
+
+  /// Call once the received list has been handled.
+  void clearReceivedList() {
+    state = state.copyWith(receivedList: null);
+  }
+
   @override
   void onConnectionInitiated(String endpointId, ConnectionInfo info) {
     final peer = Peer(
@@ -206,10 +219,26 @@ class NearbySharingController extends Notifier<NearbySharingState>
 
   @override
   void onPayloadReceived(String endpointId, PayloadMessage payload) {
-    // final bytes = payload.bytes;
-    // final from = state.peers[endpointId]?.name ?? endpointId;
+    // Only bytes payloads carry a list; files and streams are not sent.
+    final bytes = payload.bytes;
+    if (bytes == null) return;
+
+    try {
+      state = state.copyWith(
+        receivedList: (
+          from: state.peers[endpointId]?.name ?? endpointId,
+          items: SharedGroceryListCodec.decode(bytes),
+        ),
+      );
+    } on FormatException catch (e, s) {
+      log(
+        'Ignored invalid payload from $endpointId',
+        error: e,
+        stackTrace: s,
+        name: 'NearbySharingController',
+      );
+    }
   }
-  // TODO(Guillaume): Handle payload decoding.
 
   @override
   void onPayloadTransferUpdate(String endpointId, TransferUpdate update) {}
@@ -221,8 +250,13 @@ sealed class NearbySharingState with _$NearbySharingState {
     @Default(false) bool isAdvertising,
     @Default(false) bool isDiscovering,
     @Default(IMap<String, Peer>.empty()) IMap<String, Peer> peers,
+
+    /// Last list received from a peer, waiting for the user to accept it.
+    ReceivedList? receivedList,
   }) = _NearbySharingState;
 }
+
+typedef ReceivedList = ({String from, List<SharedGrocery> items});
 
 enum PeerState { found, connecting, connected }
 

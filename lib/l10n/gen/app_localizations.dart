@@ -195,6 +195,12 @@ abstract class AppLocalizations {
   /// **'Marquer comme acheté'**
   String get mark_as_bought;
 
+  /// No description provided for @nearby_add.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter'**
+  String get nearby_add;
+
   /// No description provided for @nearby_advertise.
   ///
   /// In fr, this message translates to:
@@ -213,17 +219,17 @@ abstract class AppLocalizations {
   /// **'Connecté'**
   String get nearby_connected;
 
-  /// No description provided for @nearby_connection_failed.
-  ///
-  /// In fr, this message translates to:
-  /// **'Échec de connexion'**
-  String get nearby_connection_failed;
-
   /// No description provided for @nearby_connecting.
   ///
   /// In fr, this message translates to:
   /// **'Connexion'**
   String get nearby_connecting;
+
+  /// No description provided for @nearby_connection_failed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de connexion'**
+  String get nearby_connection_failed;
 
   /// No description provided for @nearby_devices.
   ///
@@ -242,6 +248,30 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'{count, plural, =0{0 article} one{1 article} other{{count} articles}}'**
   String nearby_item_count(int count);
+
+  /// No description provided for @nearby_items_added.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{Aucun nouvel article ajouté} one{1 article ajouté} other{{count} articles ajoutés}}'**
+  String nearby_items_added(int count);
+
+  /// No description provided for @nearby_list_received_message.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{La liste partagée est vide.} one{Ajouter 1 article à votre liste ?} other{Ajouter {count} articles à votre liste ?}}'**
+  String nearby_list_received_message(int count);
+
+  /// No description provided for @nearby_list_received_title.
+  ///
+  /// In fr, this message translates to:
+  /// **'{name} a partagé une liste'**
+  String nearby_list_received_title(String name);
+
+  /// No description provided for @nearby_list_sent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Liste envoyée à {name}'**
+  String nearby_list_sent(String name);
 
   /// No description provided for @nearby_my_list.
   ///
@@ -266,6 +296,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Recherche d\'appareils à proximité…'**
   String get nearby_searching;
+
+  /// No description provided for @nearby_send_list.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer la liste'**
+  String get nearby_send_list;
 
   /// No description provided for @nearby_share_grocery_list.
   ///

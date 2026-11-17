@@ -16,11 +16,12 @@
     "language_en": "English",
     "language_fr": "French",
     "mark_as_bought": "Mark as bought",
+    "nearby_add": "Add",
     "nearby_advertise": "Find Devices",
     "nearby_connect": "Connect",
     "nearby_connected": "Connected",
-    "nearby_connection_failed": "Connection failed",
     "nearby_connecting": "Connecting",
+    "nearby_connection_failed": "Connection failed",
     "nearby_devices": "Nearby devices ({count})",
     "@nearby_devices": {
         "placeholders": {
@@ -39,10 +40,43 @@
             }
         }
     },
+    "nearby_items_added": "{count, plural, =0{No new items added} one{1 item added} other{{count} items added}}",
+    "@nearby_items_added": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "nearby_list_received_message": "{count, plural, =0{The shared list is empty.} one{Add 1 item to your list?} other{Add {count} items to your list?}}",
+    "@nearby_list_received_message": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "nearby_list_received_title": "{name} shared a list",
+    "@nearby_list_received_title": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "nearby_list_sent": "List sent to {name}",
+    "@nearby_list_sent": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
     "nearby_my_list": "My list",
     "nearby_retry": "Restart nearby sharing",
     "nearby_retry_connection": "Retry",
     "nearby_searching": "Looking for nearby devices…",
+    "nearby_send_list": "Send list",
     "nearby_share_grocery_list": "Share Grocery List",
     "nearby_transfer_unavailable": "List transfer is not available yet.",
     "product_name": "Product name",

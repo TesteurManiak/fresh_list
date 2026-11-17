@@ -1,8 +1,10 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_list/src/core/clock.dart';
 import 'package:todo_list/src/core/extensions/riverpod_extensions.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/models/recent_search.dart';
+import 'package:todo_list/src/core/sharing/shared_grocery_list.dart';
 import 'package:todo_list/src/features/home/data/repositories/home_repository.dart';
 import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
 
@@ -23,6 +25,32 @@ class GroceryListController extends StreamNotifier<IList<Grocery>> {
     final newElement = grocery.copyWith(order: elements.length);
     state = AsyncData(elements.add(newElement));
     await ref.read(homeRepositoryProvider).addGrocery(newElement);
+  }
+
+  /// Appends [items] not already in the list (by name, case-insensitive) and
+  /// returns how many were added.
+  Future<int> importGroceries(List<SharedGrocery> items) async {
+    final elements = state.value;
+    if (elements == null) return 0;
+
+    final names = {for (final g in elements) g.name.toLowerCase()};
+    final now = ref.read(appClockProvider).now();
+    var added = 0;
+    for (final item in items) {
+      // `add` also dedupes repeated names within the received list.
+      if (!names.add(item.name.toLowerCase())) continue;
+
+      await createGrocery(
+        Grocery(
+          id: const GroceryId(0),
+          name: item.name,
+          updatedAt: now,
+          completed: item.completed,
+        ),
+      );
+      added++;
+    }
+    return added;
   }
 
   Future<void> updateGrocery(Grocery grocery) async {

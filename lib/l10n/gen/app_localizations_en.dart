@@ -62,6 +62,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mark_as_bought => 'Mark as bought';
 
   @override
+  String get nearby_add => 'Add';
+
+  @override
   String get nearby_advertise => 'Find Devices';
 
   @override
@@ -71,10 +74,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nearby_connected => 'Connected';
 
   @override
-  String get nearby_connection_failed => 'Connection failed';
+  String get nearby_connecting => 'Connecting';
 
   @override
-  String get nearby_connecting => 'Connecting';
+  String get nearby_connection_failed => 'Connection failed';
 
   @override
   String nearby_devices(int count) {
@@ -97,6 +100,40 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String nearby_items_added(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items added',
+      one: '1 item added',
+      zero: 'No new items added',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nearby_list_received_message(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Add $count items to your list?',
+      one: 'Add 1 item to your list?',
+      zero: 'The shared list is empty.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nearby_list_received_title(String name) {
+    return '$name shared a list';
+  }
+
+  @override
+  String nearby_list_sent(String name) {
+    return 'List sent to $name';
+  }
+
+  @override
   String get nearby_my_list => 'My list';
 
   @override
@@ -107,6 +144,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nearby_searching => 'Looking for nearby devices…';
+
+  @override
+  String get nearby_send_list => 'Send list';
 
   @override
   String get nearby_share_grocery_list => 'Share Grocery List';
