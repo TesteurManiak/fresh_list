@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_list/app.dart';
+import 'package:todo_list/gen/assets.gen.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/theme/theme_controller.dart';
 import 'package:todo_list/src/core/widgets/error_page.dart';
@@ -71,7 +72,7 @@ Future<void> _precacheOtherFonts() async {
 
 void _registerFontsLicenses() {
   LicenseRegistry.addLicense(() async* {
-    final license = await rootBundle.loadString('google_fonts/OFL.txt');
+    final license = await rootBundle.loadString(AppAssets.googleFontsOFL);
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
 }

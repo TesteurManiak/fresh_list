@@ -21,6 +21,14 @@ flutter drive \
   -d <simulator id>
 ```
 
+## Precompile SVGs
+
+```sh
+dart run vector_graphics_compiler \
+  --input-dir assets/icons/svg/raw \
+  --out-dir assets/icons/svg/precompiled
+```
+
 ## TODO
 
 * Improve Material 3 Expressive UI

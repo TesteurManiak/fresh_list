@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">
+  <defs>
+    <!-- Cut out the checkmark & text pill cleanly so the wallpaper background shows through -->
+    <mask id="front-card-cutout">
+      <rect width="108" height="108" fill="white" />
+      <path d="M 37.5 71 L 41.5 75 L 49.5 67" fill="none" stroke="black" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+      <rect x="55" y="69" width="17" height="4" rx="2" fill="black" />
+    </mask>
+  </defs>
+
+  <!-- Back Card (35% alpha) -->
+  <g transform="rotate(-5 54 54)">
+    <rect x="28" y="30" width="48" height="16" rx="8" fill="#000000" fill-opacity="0.35" />
+  </g>
+
+  <!-- Middle Card (65% alpha) -->
+  <g transform="rotate(3.5 54 54)">
+    <rect x="31" y="45" width="48" height="17" rx="8.5" fill="#000000" fill-opacity="0.65" />
+  </g>
+
+  <!-- Front Card (100% alpha with cut-out details) -->
+  <rect x="28" y="61" width="52" height="20" rx="10" fill="#000000" mask="url(#front-card-cutout)" />
+</svg>

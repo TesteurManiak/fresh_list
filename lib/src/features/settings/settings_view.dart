@@ -115,7 +115,7 @@ class _SettingsViewState extends State<SettingsView> {
           Column(
             spacing: 8,
             children: [
-              const AppIcon(size: 24),
+              const AppIcon(),
               Text(
                 '${AppConstants.appName} $packageVersion',
                 textAlign: .center,

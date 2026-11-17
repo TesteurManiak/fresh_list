@@ -228,9 +228,8 @@ class _Background extends StatelessWidget {
                 tween: Tween(begin: 1, end: isThresholdReached ? 1.2 : .9),
                 duration: const Duration(milliseconds: 150),
                 curve: Curves.easeOutBack,
-                builder: (_, scale, child) {
-                  return Transform.scale(scale: scale, child: child);
-                },
+                builder: (_, scale, child) =>
+                    Transform.scale(scale: scale, child: child),
                 child: Icon(
                   Icons.delete_outline,
                   color: colorScheme.onError,

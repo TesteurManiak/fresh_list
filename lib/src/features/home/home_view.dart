@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:material_wavy_progress_indicator/material_wavy_progress_indicator.dart';
 import 'package:todo_list/src/core/constants/consts.dart';
@@ -39,10 +40,16 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Row(
+          title: Row(
             mainAxisSize: .min,
             spacing: 8,
-            children: [AppIcon(), Text(AppConstants.appName)],
+            children: [
+              const AppIcon(),
+              Text(
+                AppConstants.appName,
+                style: GoogleFonts.unbounded(letterSpacing: -.3),
+              ),
+            ],
           ),
           actions: [
             IconButton(
