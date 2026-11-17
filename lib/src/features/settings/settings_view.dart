@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/gen/version.dart';
 import 'package:todo_list/l10n/gen/app_localizations.dart';
 import 'package:todo_list/src/core/constants/consts.dart';
+import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/theme/theme_controller.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
@@ -27,7 +28,7 @@ class SettingsView extends StatefulWidget {
 class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
-    final strings = AppLocalizations.of(context);
+    final strings = context.strings;
     final colorScheme = ColorScheme.of(context);
     final textTheme = TextTheme.of(context);
 

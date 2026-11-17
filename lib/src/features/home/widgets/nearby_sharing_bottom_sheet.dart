@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/l10n/gen/app_localizations.dart';
+import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/localization/locale_controller.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
@@ -25,6 +26,7 @@ class _NearbySharingBottomSheetState
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings;
     final textTheme = TextTheme.of(context);
     final colorScheme = ColorScheme.of(context);
 
@@ -36,7 +38,7 @@ class _NearbySharingBottomSheetState
           const SliverSpacing(4),
           SliverToBoxAdapter(
             child: Text(
-              AppLocalizations.of(context).nearby_share_grocery_list,
+              strings.nearby_share_grocery_list,
               style: textTheme.headlineMedium?.copyWith(
                 color: colorScheme.onSurface,
                 fontWeight: .w700,
@@ -64,6 +66,7 @@ class _SliverStatusTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings;
     final textTheme = TextTheme.of(context);
     final colorScheme = ColorScheme.of(context);
 
@@ -89,9 +92,7 @@ class _SliverStatusTag extends StatelessWidget {
                     ),
                   ),
                 ),
-                TextSpan(
-                  text: AppLocalizations.of(context).nearby_share_active,
-                ),
+                TextSpan(text: strings.nearby_share_active),
               ],
             ),
             style: textTheme.labelMedium?.copyWith(
@@ -110,6 +111,7 @@ class _SliverStatusTag extends StatelessWidget {
 class _SliverSharedListCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final strings = context.strings;
     final itemCount = ref.watch(
       groceryListControllerProvider.select((l) => l.value?.length ?? 0),
     );
@@ -117,8 +119,8 @@ class _SliverSharedListCard extends ConsumerWidget {
     return SliverToBoxAdapter(
       child: _Card(
         avatar: const _Avatar(child: Icon(Icons.shopping_cart_outlined)),
-        title: AppLocalizations.of(context).nearby_my_list,
-        subtitle: AppLocalizations.of(context).nearby_item_count(itemCount),
+        title: strings.nearby_my_list,
+        subtitle: strings.nearby_item_count(itemCount),
       ),
     );
   }
@@ -227,13 +229,12 @@ class _SliverDiscoveryModeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final strings = AppLocalizations.of(context);
+    final strings = context.strings;
 
     return SliverToBoxAdapter(
       child: SegmentedButton<_DiscoveryMode>(
         selected: {selectedMode},
-        onSelectionChanged: (newSelection) =>
-            onSelectionChanged(newSelection.first),
+        onSelectionChanged: (value) => onSelectionChanged(value.first),
         segments: [
           for (final mode in _DiscoveryMode.values)
             ButtonSegment(
