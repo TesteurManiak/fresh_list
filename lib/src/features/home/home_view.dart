@@ -11,10 +11,10 @@ import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/app_icon.dart';
 import 'package:todo_list/src/core/widgets/bottom_padding.dart';
-import 'package:todo_list/src/core/widgets/coming_soon_snack.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 import 'package:todo_list/src/features/home/widgets/grocery_tile.dart';
+import 'package:todo_list/src/features/home/widgets/nearby_sharing_bottom_sheet.dart';
 import 'package:todo_list/src/features/settings/navigation/settings_route.dart';
 
 class HomeView extends ConsumerStatefulWidget {
@@ -40,7 +40,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: .min,
             spacing: 8,
             children: [AppIcon(), Text(AppConstants.appName)],
           ),
@@ -48,10 +48,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
             IconButton(
               tooltip: strings.quick_action_share,
               icon: const Icon(Icons.offline_share_rounded),
-              onPressed: () {
-                // TODO(Guillaume): implement sharing
-                const ComingSoonSnack().show(context);
-              },
+              onPressed: () => const NearbySharingBottomSheet().show(context),
             ),
             IconButton(
               key: const Key('settings_button'),
