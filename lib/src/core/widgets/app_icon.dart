@@ -9,10 +9,13 @@ class AppIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = ColorScheme.of(context);
+    final effectiveColor = color ?? colorScheme.onSurface;
+
     return AppAssets.iconsSvgPrecompiledIcLauncherMonochromeSvg.svg(
       width: size,
       height: size,
-      colorFilter: color?.toColorFilter(),
+      colorFilter: effectiveColor.toColorFilter(),
     );
   }
 }
