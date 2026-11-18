@@ -25,6 +25,12 @@ flutter drive \
   -d <simulator id>
 ```
 
+## Generate localizations
+
+```sh
+flutter gen-l10n
+```
+
 ## Precompile SVGs
 
 ```sh
@@ -33,8 +39,17 @@ dart run vector_graphics_compiler \
   --out-dir assets/icons/svg/precompiled
 ```
 
-## TODO
+Then run `build_runner` to generate the appropriate accessors.
 
-* Manage multiple lists
+## TODOs
+
 * Improve Material 3 Expressive UI
   - Add/Edit entry sheet
+* Manage multiple lists
+* Collaborative list edition with [Nearby Connections](https://developers.google.com/nearby/connections/overview)
+* In-app updates
+
+## Credits
+
+* [Expressive components](https://github.com/kamranbekirovyz/bunpod/tree/main/packages) from [Kamran Bekirov](https://github.com/kamranbekirovyz)
+
