@@ -197,22 +197,15 @@ class _Background extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 48),
           child: DecoratedBox(
-            decoration: BoxDecoration(
+            decoration: ShapeDecoration(
               color: colorScheme.error,
-              borderRadius: .circular(100),
+              shape: const StadiumBorder(),
             ),
             child: Center(
-              child: TweenAnimationBuilder<double>(
-                tween: Tween(begin: 1, end: isThresholdReached ? 1.2 : .9),
-                duration: const Duration(milliseconds: 150),
-                curve: Curves.easeOutBack,
-                builder: (_, scale, child) =>
-                    Transform.scale(scale: scale, child: child),
-                child: Icon(
-                  Icons.delete_outline,
-                  color: colorScheme.onError,
-                  size: 24,
-                ),
+              child: Icon(
+                Icons.delete_outline,
+                color: colorScheme.onError,
+                size: 24,
               ),
             ),
           ),
