@@ -94,7 +94,7 @@ class _GroceryCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
     final completed = grocery.completed;
 
     return AnimatedContainer(
@@ -104,9 +104,7 @@ class _GroceryCard extends ConsumerWidget {
       constraints: const BoxConstraints(minHeight: 56, maxHeight: 88),
       decoration: BoxDecoration(
         borderRadius: borderRadius,
-        color: completed
-            ? colorScheme.surfaceContainerLow
-            : colorScheme.surfaceContainerHigh,
+        color: completed ? cs.surfaceContainerLow : cs.surfaceContainer,
       ),
       child: Material(
         type: .transparency,
@@ -145,9 +143,7 @@ class _GroceryCard extends ConsumerWidget {
                       fontWeight: .w400,
                       decoration: completed ? .lineThrough : null,
                       height: 24 / 16,
-                      color: completed
-                          ? colorScheme.onSurfaceVariant
-                          : colorScheme.onSurface,
+                      color: completed ? cs.onSurfaceVariant : cs.onSurface,
                     ),
                   ),
                 ),
@@ -155,11 +151,7 @@ class _GroceryCard extends ConsumerWidget {
                   duration: _kAnimationDuration,
                   curve: _kAnimationCurve,
                   scale: completed ? 1.0 : 0.0,
-                  child: Icon(
-                    Icons.done_all,
-                    color: colorScheme.primary,
-                    size: 20,
-                  ),
+                  child: Icon(Icons.done_all, color: cs.primary, size: 24),
                 ),
               ],
             ),
