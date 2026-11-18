@@ -100,7 +100,15 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
                 bottom: BottomPadding.of(context) + 72,
               ),
               physics: const AlwaysScrollableScrollPhysics(),
-              proxyDecorator: proxyDecorator,
+              proxyDecorator: (child, index, animation) {
+                final item = data[index];
+                return proxyDecorator(
+                  child,
+                  index,
+                  animation,
+                  GroceryTile.radiusFor(index, data.length, item.completed),
+                );
+              },
               itemBuilder: (_, i) {
                 final g = data[i];
                 return GroceryTile(
@@ -131,14 +139,22 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
     );
   }
 
-  Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
+  Widget proxyDecorator(
+    Widget child,
+    int index,
+    Animation<double> animation,
+    BorderRadius currentBorderRadius,
+  ) {
+    final endingBorderRadius = BorderRadius.circular(GroceryTile.outerRadius);
+
     return AnimatedBuilder(
       animation: animation,
       builder: (context, child) {
         final value = Curves.easeInOut.transform(animation.value);
         final elevation = lerpDouble(0, 4, value) ?? 0;
-        final radius = value * GroceryTile.outerRadius;
-        final borderRadius = BorderRadius.circular(radius);
+        final borderRadius =
+            BorderRadius.lerp(currentBorderRadius, endingBorderRadius, value) ??
+            endingBorderRadius;
 
         return Material(
           elevation: elevation,
