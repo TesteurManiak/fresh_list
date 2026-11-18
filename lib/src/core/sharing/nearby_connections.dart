@@ -177,9 +177,9 @@ class NearbySharingController extends Notifier<NearbySharingState>
 
     // Scanning slows transfers and both radios drain battery: stop looking
     // once paired. Searching resumes when the last peer disconnects.
-    final nearby = ref.read(nearbyConnectionsProvider);
-    unawaited(nearby.stopDiscovery());
-    unawaited(nearby.stopAdvertising());
+    ref.read(nearbyConnectionsProvider)
+      ..stopDiscovery()
+      ..stopAdvertising();
     state = state.copyWith(isAdvertising: false, isDiscovering: false);
   }
 

@@ -66,12 +66,10 @@ class _SettingsViewState extends State<SettingsView> {
                           ),
                       ],
                       onSelectionChanged: (selection) {
-                        unawaited(
-                          ref
-                              .read(themeControllerProvider.notifier)
-                              .setThemeMode(selection.first),
-                        );
-                        unawaited(HapticsHelper.selection());
+                        ref
+                            .read(themeControllerProvider.notifier)
+                            .setThemeMode(selection.first);
+                        HapticsHelper.selection();
                       },
                     );
                   },
@@ -79,20 +77,18 @@ class _SettingsViewState extends State<SettingsView> {
               ),
               Consumer(
                 builder: (context, ref, _) {
-                  final locale = ref.watch(localeControllerProvider);
+                  final currentLocale = ref.watch(localeControllerProvider);
                   return MenuTile(
                     icon: Icons.language,
                     title: strings.settings_language_title,
-                    trailing: Text(locale.label(strings)),
+                    trailing: Text(currentLocale.label(strings)),
                     onTap: () async {
-                      final newLocale = await const LanguageSheet().show(
-                        context,
-                      );
-                      if (newLocale == null || newLocale == locale) return;
+                      final locale = await const LanguageSheet().show(context);
+                      if (locale == null || locale == currentLocale) return;
                       unawaited(
                         ref
                             .read(localeControllerProvider.notifier)
-                            .setLocale(newLocale),
+                            .setLocale(locale),
                       );
                     },
                   );

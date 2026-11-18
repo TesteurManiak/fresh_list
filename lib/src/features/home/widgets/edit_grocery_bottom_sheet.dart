@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -182,11 +180,10 @@ class _SuggestionTileState extends ConsumerState<_SuggestionTile> {
               if (widget.isEditing) return context.pop(grocery);
 
               setState(() => added = true);
-              unawaited(
-                ref
-                    .read(groceryListControllerProvider.notifier)
-                    .createGrocery(grocery),
-              );
+
+              ref
+                  .read(groceryListControllerProvider.notifier)
+                  .createGrocery(grocery);
             },
     );
   }
