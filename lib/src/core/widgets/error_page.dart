@@ -25,7 +25,7 @@ class _AppErrorPageState extends State<AppErrorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
 
     return Directionality(
       textDirection: .ltr,
@@ -52,7 +52,7 @@ class _AppErrorPageState extends State<AppErrorPage> {
                     width: c.hasBoundedWidth ? c.maxWidth : null,
                     height: c.hasBoundedHeight ? c.maxHeight : null,
                     decoration: BoxDecoration(
-                      color: colorScheme.primaryContainer,
+                      color: cs.primaryContainer,
                       borderRadius: .circular(full ? 0 : 28),
                     ),
                     child: full
@@ -94,9 +94,8 @@ class _FullView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
     final textTheme = TextTheme.of(context);
-
     final padding = MediaQuery.maybePaddingOf(context);
 
     return CustomScrollView(
@@ -123,7 +122,7 @@ class _FullView extends StatelessWidget {
                       'Something went wrong',
                       textAlign: .center,
                       style: textTheme.titleLarge?.copyWith(
-                        color: colorScheme.onPrimaryContainer,
+                        color: cs.onPrimaryContainer,
                         fontWeight: .w700,
                       ),
                     ),
@@ -132,9 +131,7 @@ class _FullView extends StatelessWidget {
                       'Restarting the app should fix it.',
                       textAlign: .center,
                       style: textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onPrimaryContainer.withValues(
-                          alpha: .75,
-                        ),
+                        color: cs.onPrimaryContainer.withValues(alpha: .75),
                       ),
                     ),
                   ],
@@ -195,12 +192,13 @@ class _Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
+
     return Container(
       width: size,
       height: size,
       decoration: ShapeDecoration(
-        color: colorScheme.primary,
+        color: cs.primary,
         shape: const StarBorder(
           points: 12,
           innerRadiusRatio: .8,
@@ -213,7 +211,7 @@ class _Badge extends StatelessWidget {
         child: Icon(
           copied ? Icons.check_rounded : Icons.priority_high_rounded,
           key: ValueKey(copied),
-          color: colorScheme.onPrimary,
+          color: cs.onPrimary,
           size: size * .4,
         ),
       ),
@@ -230,7 +228,7 @@ class _DebugText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
 
     return Text(
       text,
@@ -241,7 +239,7 @@ class _DebugText extends StatelessWidget {
         fontFamily: 'monospace',
         fontFamilyFallback: const ['Menlo', 'Courier'],
         fontSize: 12,
-        color: colorScheme.onPrimaryContainer.withValues(alpha: .6),
+        color: cs.onPrimaryContainer.withValues(alpha: .6),
       ),
     );
   }

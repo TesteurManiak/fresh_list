@@ -31,7 +31,7 @@ class _AppCheckboxState extends State<AppCheckbox> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
 
     return Semantics(
       label: widget.semanticLabel,
@@ -43,15 +43,15 @@ class _AppCheckboxState extends State<AppCheckbox> {
           width: widget.size,
           height: widget.size,
           decoration: BoxDecoration(
-            color: widget.value ? colorScheme.primary : Colors.transparent,
+            color: widget.value ? cs.primary : Colors.transparent,
             border: Border.all(
-              color: widget.value ? colorScheme.primary : colorScheme.outline,
+              color: widget.value ? cs.primary : cs.outline,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(8),
           ),
           child: widget.value
-              ? Icon(Icons.check, size: 18, color: colorScheme.onPrimary)
+              ? Icon(Icons.check, size: 18, color: cs.onPrimary)
               : null,
         ),
       ),

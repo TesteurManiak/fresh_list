@@ -29,7 +29,7 @@ class MenuSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
     final textTheme = TextTheme.of(context);
 
     return Column(
@@ -44,7 +44,7 @@ class MenuSection extends StatelessWidget {
                 textStyle: textTheme.labelLarge,
                 fontWeight: .w600,
                 letterSpacing: -.3,
-                color: colorScheme.primary,
+                color: cs.primary,
               ),
             ),
           ),

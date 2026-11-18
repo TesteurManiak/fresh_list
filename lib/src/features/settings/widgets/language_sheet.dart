@@ -15,7 +15,7 @@ class LanguageSheet extends ConsumerWidget
   Widget build(BuildContext context, WidgetRef ref) {
     const supportedLocales = AppLocalizations.supportedLocales;
     final currentLocale = ref.watch(localeControllerProvider);
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
 
     return AppSheet(
       child: ListView.separated(
@@ -26,8 +26,8 @@ class LanguageSheet extends ConsumerWidget
 
           return Material(
             color: selected
-                ? colorScheme.secondaryContainer
-                : colorScheme.surfaceContainerHighest,
+                ? cs.secondaryContainer
+                : cs.surfaceContainerHighest,
             shape: RoundedRectangleBorder(
               borderRadius: _LocaleTile.radiusFor(
                 index,
@@ -68,7 +68,7 @@ class _LocaleTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.strings;
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
     final textTheme = TextTheme.of(context);
 
     return InkWell(
@@ -83,17 +83,12 @@ class _LocaleTile extends StatelessWidget {
                 style: GoogleFonts.googleSans(
                   textStyle: textTheme.titleMedium,
                   fontWeight: selected ? .w700 : .w500,
-                  color: selected
-                      ? colorScheme.onSecondaryContainer
-                      : colorScheme.onSurface,
+                  color: selected ? cs.onSecondaryContainer : cs.onSurface,
                 ),
               ),
             ),
             if (selected)
-              Icon(
-                Icons.check_circle_rounded,
-                color: colorScheme.onSecondaryContainer,
-              ),
+              Icon(Icons.check_circle_rounded, color: cs.onSecondaryContainer),
           ],
         ),
       ),

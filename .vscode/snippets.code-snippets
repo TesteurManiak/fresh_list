@@ -34,7 +34,7 @@
         "prefix": "colorScheme",
         "description": "Retrieve color scheme from context in a variable",
         "body": [
-            "final colorScheme = ColorScheme.of(context);",
+            "final cs = ColorScheme.of(context);",
         ]
     },
     "Get text theme": {

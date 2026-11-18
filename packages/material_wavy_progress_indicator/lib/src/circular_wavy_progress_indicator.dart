@@ -325,11 +325,10 @@ class _CircularWavyProgressIndicatorState
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
 
-    final effectiveColor = widget.color ?? colorScheme.primary;
-    final effectiveTrackColor =
-        widget.trackColor ?? colorScheme.secondaryContainer;
+    final effectiveColor = widget.color ?? cs.primary;
+    final effectiveTrackColor = widget.trackColor ?? cs.secondaryContainer;
     final effectiveStrokeWidth = widget.strokeWidth ?? _kActiveThickness;
     final effectiveTrackGap = widget.trackGap ?? _kTrackActiveSpace;
     final effectiveWavelength = widget.wavelength ?? _kActiveWaveWavelength;

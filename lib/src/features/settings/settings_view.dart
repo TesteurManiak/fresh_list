@@ -29,7 +29,7 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     final strings = context.strings;
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
     final textTheme = TextTheme.of(context);
 
     return Scaffold(
@@ -129,7 +129,7 @@ class _SettingsViewState extends State<SettingsView> {
                   textAlign: .center,
                   style: GoogleFonts.googleSansCode(
                     textStyle: textTheme.labelSmall,
-                    color: colorScheme.outline,
+                    color: cs.outline,
                     fontFeatures: const [.tabularFigures()],
                   ),
                 ),

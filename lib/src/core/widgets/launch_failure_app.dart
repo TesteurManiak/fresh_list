@@ -15,7 +15,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
     final textTheme = TextTheme.of(context);
 
     return Scaffold(
@@ -28,7 +28,7 @@ class _Content extends StatelessWidget {
               width: 104,
               height: 104,
               decoration: ShapeDecoration(
-                color: colorScheme.primaryContainer,
+                color: cs.primaryContainer,
                 shape: const StarBorder(
                   points: 12,
                   innerRadiusRatio: .8,
@@ -38,7 +38,7 @@ class _Content extends StatelessWidget {
               ),
               child: Icon(
                 Icons.power_off_rounded,
-                color: colorScheme.onPrimaryContainer,
+                color: cs.onPrimaryContainer,
                 size: 48,
               ),
             ),
@@ -53,9 +53,7 @@ class _Content extends StatelessWidget {
               "Close it from the app switcher and open it again. We've "
               'been alerted and are fixing it.',
               textAlign: .center,
-              style: textTheme.bodyLarge?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
+              style: textTheme.bodyLarge?.copyWith(color: cs.onSurfaceVariant),
             ),
           ],
         ),

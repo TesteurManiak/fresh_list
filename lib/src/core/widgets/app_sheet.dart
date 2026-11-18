@@ -7,7 +7,8 @@ class AppSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: SafeArea(
@@ -18,7 +19,7 @@ class AppSheet extends StatelessWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 560),
             child: Material(
-              color: colorScheme.surfaceContainerHigh,
+              color: cs.surfaceContainerHigh,
               clipBehavior: .antiAlias,
               shape: RoundedRectangleBorder(
                 // M3 concentric nesting: outer radius = inner radius + padding.

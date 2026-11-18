@@ -184,12 +184,12 @@ class _Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
 
     return Container(
       alignment: .centerRight,
       padding: const .symmetric(horizontal: 12, vertical: 6),
-      color: colorScheme.surface,
+      color: cs.surface,
       child: FractionallySizedBox(
         widthFactor: dragProgress.clamp(0.0, 1.0),
         heightFactor: 1,
@@ -198,15 +198,11 @@ class _Background extends StatelessWidget {
           constraints: const BoxConstraints(minWidth: 48),
           child: DecoratedBox(
             decoration: ShapeDecoration(
-              color: colorScheme.error,
+              color: cs.error,
               shape: const StadiumBorder(),
             ),
             child: Center(
-              child: Icon(
-                Icons.delete_outline,
-                color: colorScheme.onError,
-                size: 24,
-              ),
+              child: Icon(Icons.delete_outline, color: cs.onError, size: 24),
             ),
           ),
         ),

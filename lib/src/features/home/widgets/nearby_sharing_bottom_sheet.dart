@@ -76,7 +76,7 @@ class _NearbySharingBottomSheetState
   Widget build(BuildContext context) {
     final strings = context.strings;
     final textTheme = TextTheme.of(context);
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
 
     ref.listen(nearbySharingControllerProvider.select((s) => s.receivedList), (
       _,
@@ -93,7 +93,7 @@ class _NearbySharingBottomSheetState
             child: Text(
               strings.nearby_share_grocery_list,
               style: textTheme.headlineMedium?.copyWith(
-                color: colorScheme.onSurface,
+                color: cs.onSurface,
                 fontWeight: .w700,
                 letterSpacing: -.5,
               ),
@@ -175,10 +175,10 @@ class _Card extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLight = Theme.of(context).brightness == .light;
     final textTheme = TextTheme.of(context);
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
 
     return Material(
-      color: colorScheme.surfaceContainer,
+      color: cs.surfaceContainer,
       clipBehavior: .antiAlias,
       elevation: isLight ? 1 : 0,
       shape: RoundedRectangleBorder(borderRadius: .circular(24)),
@@ -198,7 +198,7 @@ class _Card extends StatelessWidget {
                     Text(
                       title,
                       style: textTheme.titleMedium?.copyWith(
-                        color: colorScheme.onSurface,
+                        color: cs.onSurface,
                         fontWeight: .w700,
                         letterSpacing: -.2,
                       ),
@@ -209,7 +209,7 @@ class _Card extends StatelessWidget {
                       Text(
                         s,
                         style: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
+                          color: cs.onSurfaceVariant,
                           fontWeight: .w500,
                         ),
                       ),
@@ -234,7 +234,7 @@ class _Avatar extends StatelessWidget {
   Widget build(BuildContext context) {
     const dimension = 48.0;
     const contentSize = 20.0;
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
 
     return Container(
       height: dimension,
@@ -242,13 +242,10 @@ class _Avatar extends StatelessWidget {
       alignment: .center,
       decoration: BoxDecoration(
         borderRadius: .circular(16),
-        color: colorScheme.primaryContainer,
+        color: cs.primaryContainer,
       ),
       child: IconTheme(
-        data: IconThemeData(
-          size: contentSize,
-          color: colorScheme.onPrimaryContainer,
-        ),
+        data: IconThemeData(size: contentSize, color: cs.onPrimaryContainer),
         child: DefaultTextStyle(
           style: const TextStyle(fontSize: contentSize),
           child: child,
@@ -305,7 +302,7 @@ class _SearchingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = TextTheme.of(context);
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
 
     return Column(
       mainAxisAlignment: .center,
@@ -315,7 +312,7 @@ class _SearchingIndicator extends StatelessWidget {
         Text(
           context.strings.nearby_searching,
           style: textTheme.bodyMedium?.copyWith(
-            color: colorScheme.onSurfaceVariant,
+            color: cs.onSurfaceVariant,
             fontWeight: .w500,
           ),
           textAlign: .center,
@@ -362,7 +359,7 @@ class _PulsingRadarState extends State<_PulsingRadar>
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
 
     return SizedBox.square(
       dimension: _dimension,
@@ -381,7 +378,7 @@ class _PulsingRadarState extends State<_PulsingRadar>
                     width: _iconDimension + (_dimension - _iconDimension) * t,
                     height: _iconDimension + (_dimension - _iconDimension) * t,
                     decoration: ShapeDecoration(
-                      color: colorScheme.primaryContainer.withValues(alpha: .5),
+                      color: cs.primaryContainer.withValues(alpha: .5),
                       shape: const CircleBorder(),
                     ),
                   ),
@@ -392,10 +389,10 @@ class _PulsingRadarState extends State<_PulsingRadar>
             width: _iconDimension,
             height: _iconDimension,
             decoration: ShapeDecoration(
-              color: colorScheme.primaryContainer,
+              color: cs.primaryContainer,
               shape: const CircleBorder(),
             ),
-            child: Icon(Icons.radar, color: colorScheme.onPrimaryContainer),
+            child: Icon(Icons.radar, color: cs.onPrimaryContainer),
           ),
         ],
       ),
@@ -457,7 +454,7 @@ class _NearbyPeerTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
-    final colorScheme = ColorScheme.of(context);
+    final cs = ColorScheme.of(context);
 
     return _Card(
       leading: _Avatar(child: Text(peer.name[0])),
@@ -466,7 +463,7 @@ class _NearbyPeerTile extends ConsumerWidget {
       trailing: switch (peer.state) {
         .found => Icon(
           Icons.link_rounded,
-          color: colorScheme.onSurfaceVariant,
+          color: cs.onSurfaceVariant,
           semanticLabel: strings.nearby_connect,
         ),
         .connecting => SizedBox.square(
@@ -475,7 +472,7 @@ class _NearbyPeerTile extends ConsumerWidget {
         ),
         .connected => Icon(
           Icons.send_rounded,
-          color: colorScheme.primary,
+          color: cs.primary,
           semanticLabel: strings.nearby_send_list,
         ),
       },
