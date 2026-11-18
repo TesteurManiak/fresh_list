@@ -104,7 +104,7 @@ class _GroceryCard extends ConsumerWidget {
       constraints: const BoxConstraints(minHeight: 56, maxHeight: 88),
       decoration: BoxDecoration(
         borderRadius: borderRadius,
-        color: completed ? cs.surfaceContainerLow : cs.surfaceContainer,
+        color: completed ? cs.secondaryContainer : cs.surfaceContainer,
       ),
       child: Material(
         type: .transparency,
@@ -143,7 +143,7 @@ class _GroceryCard extends ConsumerWidget {
                       fontWeight: .w400,
                       decoration: completed ? .lineThrough : null,
                       height: 24 / 16,
-                      color: completed ? cs.onSurfaceVariant : cs.onSurface,
+                      color: completed ? cs.onSecondaryContainer : cs.onSurface,
                     ),
                   ),
                 ),
@@ -151,7 +151,11 @@ class _GroceryCard extends ConsumerWidget {
                   duration: _kAnimationDuration,
                   curve: _kAnimationCurve,
                   scale: completed ? 1.0 : 0.0,
-                  child: Icon(Icons.done_all, color: cs.primary, size: 24),
+                  child: Icon(
+                    Icons.done_all,
+                    color: cs.onSecondaryContainer,
+                    size: 24,
+                  ),
                 ),
               ],
             ),
