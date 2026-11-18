@@ -14,8 +14,6 @@ import 'package:todo_list/src/core/models/recent_search.dart';
 import 'package:todo_list/src/core/widgets/app_sheet.dart';
 import 'package:todo_list/src/core/widgets/tile_icon.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
-import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
-import 'package:todo_list/src/features/home/widgets/recent_search_actions_bottom_sheet.dart';
 
 class EditGroceryBottomSheet extends ConsumerStatefulWidget
     with ShowableBottomSheetMixin<Grocery> {
@@ -173,21 +171,6 @@ class _SuggestionTileState extends ConsumerState<_SuggestionTile> {
       title: Text(widget.item.query),
       trailing: !added ? const Icon(Icons.add) : Text(strings.added),
       contentPadding: .zero,
-      onLongPress: () async {
-        final action = await const RecentSearchActionsBottomSheet().show(
-          context,
-        );
-        if (action == null || !context.mounted) return;
-
-        switch (action) {
-          case .delete:
-            unawaited(
-              ref
-                  .read(homeLocalDatasourceProvider)
-                  .deleteRecentSearch(widget.item.query),
-            );
-        }
-      },
       onTap: added
           ? null
           : () {
