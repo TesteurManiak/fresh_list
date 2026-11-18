@@ -78,6 +78,14 @@
     "nearby_send_list": "Envoyer la liste",
     "nearby_share_grocery_list": "Partager la liste de courses",
     "nearby_transfer_unavailable": "Le transfert de liste n'est pas encore disponible.",
+    "no_mail_app": "Écrivez à {email}",
+    "@no_mail_app": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
     "product_name": "Nom du produit",
     "quick_action_delete": "Supprimer",
     "quick_action_edit": "Modifier",

@@ -153,6 +153,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'List transfer is not available yet.';
 
   @override
+  String no_mail_app(String email) {
+    return 'No mail app. Write to $email';
+  }
+
+  @override
   String get product_name => 'Product name';
 
   @override

@@ -154,6 +154,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Le transfert de liste n\'est pas encore disponible.';
 
   @override
+  String no_mail_app(String email) {
+    return 'Écrivez à $email';
+  }
+
+  @override
   String get product_name => 'Nom du produit';
 
   @override

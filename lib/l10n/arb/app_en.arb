@@ -78,6 +78,14 @@
     "nearby_send_list": "Send list",
     "nearby_share_grocery_list": "Share Grocery List",
     "nearby_transfer_unavailable": "List transfer is not available yet.",
+    "no_mail_app": "No mail app. Write to {email}",
+    "@no_mail_app": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
     "product_name": "Product name",
     "quick_action_delete": "Delete",
     "quick_action_edit": "Edit",

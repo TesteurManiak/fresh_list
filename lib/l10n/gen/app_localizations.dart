@@ -309,6 +309,12 @@ abstract class AppLocalizations {
   /// **'Le transfert de liste n\'est pas encore disponible.'**
   String get nearby_transfer_unavailable;
 
+  /// No description provided for @no_mail_app.
+  ///
+  /// In fr, this message translates to:
+  /// **'Écrivez à {email}'**
+  String no_mail_app(String email);
+
   /// No description provided for @product_name.
   ///
   /// In fr, this message translates to:
