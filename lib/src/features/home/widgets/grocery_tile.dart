@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/gen/assets.gen.dart';
@@ -11,9 +10,7 @@ import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/checkbox.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
-
-const _kAnimationDuration = Duration(milliseconds: 300);
-const _kAnimationCurve = Curves.easeOutBack;
+import 'package:todo_list/src/features/home/widgets/grocery_card.dart';
 
 class GroceryTile extends ConsumerStatefulWidget {
   const new(
@@ -79,16 +76,13 @@ class _GroceryTileState extends ConsumerState<GroceryTile> {
           isThresholdReached: isThresholdReached,
           dragProgress: dragProgress,
         ),
-        child: _GroceryCard(
-          grocery: grocery,
-          borderRadius: widget.borderRadius,
-        ),
+        child: _Card(grocery: grocery, borderRadius: widget.borderRadius),
       ),
     );
   }
 }
 
-class _GroceryCard extends ConsumerWidget {
+class _Card extends ConsumerWidget {
   const new({required this.grocery, required this.borderRadius});
 
   final Grocery grocery;
@@ -99,70 +93,27 @@ class _GroceryCard extends ConsumerWidget {
     final cs = ColorScheme.of(context);
     final completed = grocery.completed;
 
-    return AnimatedContainer(
-      duration: _kAnimationDuration,
-      curve: _kAnimationCurve,
-      clipBehavior: .antiAlias,
-      constraints: const BoxConstraints(minHeight: 56, maxHeight: 88),
-      decoration: BoxDecoration(
-        borderRadius: borderRadius,
-        color: completed ? cs.secondaryContainer : cs.surfaceContainer,
+    return GroceryCard(
+      name: grocery.name,
+      completed: grocery.completed,
+      borderRadius: borderRadius,
+      onTap: () {
+        HapticsHelper.light();
+        _showEditionBottomSheet(context, ref, grocery);
+      },
+      leading: AppCheckbox(
+        value: grocery.completed,
+        size: 24,
+        onChanged: (_) {
+          grocery.completed ? HapticsHelper.light() : HapticsHelper.success();
+          ref.read(groceryListControllerProvider.notifier).toggle(grocery);
+        },
       ),
-      child: Material(
-        type: .transparency,
-        child: InkWell(
-          onTap: () {
-            HapticsHelper.light();
-            _showEditionBottomSheet(context, ref, grocery);
-          },
-          borderRadius: borderRadius,
-          child: Padding(
-            padding: const .symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              spacing: 12,
-              children: [
-                AppCheckbox(
-                  value: completed,
-                  size: 24,
-                  onChanged: (_) {
-                    unawaited(
-                      completed
-                          ? HapticsHelper.light()
-                          : HapticsHelper.success(),
-                    );
-                    unawaited(
-                      ref
-                          .read(groceryListControllerProvider.notifier)
-                          .toggle(grocery),
-                    );
-                  },
-                ),
-                Expanded(
-                  child: Text(
-                    grocery.name,
-                    style: GoogleFonts.roboto(
-                      fontSize: 16,
-                      fontWeight: .w400,
-                      decoration: completed ? .lineThrough : null,
-                      height: 24 / 16,
-                      color: completed ? cs.onSecondaryContainer : cs.onSurface,
-                    ),
-                  ),
-                ),
-                AnimatedScale(
-                  duration: _kAnimationDuration,
-                  curve: _kAnimationCurve,
-                  scale: completed ? 1.0 : 0.0,
-                  child: Icon(
-                    Icons.done_all,
-                    color: cs.onSecondaryContainer,
-                    size: 24,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+      trailing: AnimatedScale(
+        duration: GroceryCard.animationDuration,
+        curve: GroceryCard.animationCurve,
+        scale: completed ? 1.0 : 0.0,
+        child: const Icon(Icons.done_all),
       ),
     );
   }
