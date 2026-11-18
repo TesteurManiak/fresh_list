@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
@@ -14,10 +15,7 @@ import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.da
 const _kAnimationDuration = Duration(milliseconds: 300);
 const _kAnimationCurve = Curves.easeOutBack;
 
-// Expressive shape morph: active tiles are fully rounded, completed ones
-// settle into a tighter shape.
-const _kActiveRadius = BorderRadius.all(.circular(28));
-const _kCompletedRadius = BorderRadius.all(.circular(16));
+const _kActiveRadius = BorderRadius.all(.circular(16));
 
 class GroceryTile extends ConsumerStatefulWidget {
   const new(
@@ -110,17 +108,15 @@ class _GroceryCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = ColorScheme.of(context);
-    final textTheme = TextTheme.of(context);
     final completed = grocery.completed;
-    final borderRadius = completed ? _kCompletedRadius : _kActiveRadius;
 
     return AnimatedContainer(
       duration: _kAnimationDuration,
       curve: _kAnimationCurve,
       clipBehavior: .antiAlias,
-      constraints: const BoxConstraints(minHeight: 72),
+      constraints: const BoxConstraints(minHeight: 56, maxHeight: 88),
       decoration: BoxDecoration(
-        borderRadius: borderRadius,
+        borderRadius: _kActiveRadius,
         color: completed
             ? colorScheme.surfaceContainerLow
             : colorScheme.surfaceContainerHigh,
@@ -132,7 +128,7 @@ class _GroceryCard extends ConsumerWidget {
             HapticsHelper.light();
             _showEditionBottomSheet(context, ref, grocery);
           },
-          borderRadius: borderRadius,
+          borderRadius: _kActiveRadius,
           child: Padding(
             padding: const .symmetric(horizontal: 16, vertical: 12),
             child: Row(
@@ -140,6 +136,7 @@ class _GroceryCard extends ConsumerWidget {
               children: [
                 AppCheckbox(
                   value: completed,
+                  size: 24,
                   onChanged: (_) {
                     unawaited(
                       completed
@@ -154,15 +151,17 @@ class _GroceryCard extends ConsumerWidget {
                   },
                 ),
                 Expanded(
-                  child: AnimatedDefaultTextStyle(
-                    duration: _kAnimationDuration,
-                    style: textTheme.titleMedium!.copyWith(
+                  child: Text(
+                    grocery.name,
+                    style: GoogleFonts.roboto(
+                      fontSize: 16,
+                      fontWeight: .w400,
                       decoration: completed ? .lineThrough : null,
+                      height: 24 / 16,
                       color: completed
                           ? colorScheme.onSurfaceVariant
                           : colorScheme.onSurface,
                     ),
-                    child: Text(grocery.name),
                   ),
                 ),
                 AnimatedScale(

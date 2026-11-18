@@ -49,12 +49,17 @@ Future<void> _init() async {
 }
 
 Future<void> _precacheFonts() async {
+  // First one to be displayed, so we precache it immediately.
   await GoogleFonts.pendingFonts([
     GoogleFonts.googleSans(fontWeight: .w400),
     GoogleFonts.googleSans(fontWeight: .w500),
     GoogleFonts.googleSans(fontWeight: .w700),
+    GoogleFonts.roboto(fontWeight: .w400),
+    GoogleFonts.unbounded(fontWeight: .w600),
+    GoogleFonts.unbounded(fontWeight: .w700),
   ]);
 
+  // Precache other fonts asynchronously.
   unawaited(_precacheOtherFonts());
 
   _registerFontsLicenses();
@@ -62,11 +67,8 @@ Future<void> _precacheFonts() async {
 
 Future<void> _precacheOtherFonts() async {
   await GoogleFonts.pendingFonts([
-    GoogleFonts.unbounded(fontWeight: .w600),
-    GoogleFonts.unbounded(fontWeight: .w700),
     GoogleFonts.googleSansCode(fontWeight: .w500),
     GoogleFonts.googleSansCode(fontWeight: .w700),
-    GoogleFonts.nanumPenScript(fontWeight: .w500),
   ]);
 }
 
