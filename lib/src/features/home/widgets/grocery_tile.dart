@@ -68,7 +68,7 @@ class _GroceryTileState extends ConsumerState<GroceryTile> {
     final isThresholdReached = dragProgress >= widget.dismissThreshold;
 
     return Padding(
-      padding: const .symmetric(vertical: 3),
+      padding: const .symmetric(vertical: 2),
       child: AppDismissible(
         key: Key('GroceryTile-${grocery.id}'),
         controller: controller,
@@ -134,9 +134,9 @@ class _GroceryCard extends ConsumerWidget {
           },
           borderRadius: borderRadius,
           child: Padding(
-            padding: const .symmetric(horizontal: 20, vertical: 12),
+            padding: const .symmetric(horizontal: 16, vertical: 12),
             child: Row(
-              spacing: 16,
+              spacing: 12,
               children: [
                 AppCheckbox(
                   value: completed,
