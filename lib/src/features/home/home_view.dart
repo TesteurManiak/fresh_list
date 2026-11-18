@@ -47,7 +47,10 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
               const AppIcon(),
               Text(
                 AppConstants.appName,
-                style: GoogleFonts.unbounded(letterSpacing: -.3),
+                style: GoogleFonts.unbounded(
+                  fontWeight: .w600,
+                  letterSpacing: -.3,
+                ),
               ),
             ],
           ),

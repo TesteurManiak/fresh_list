@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "add_grocery": "Add to the list",
+    "add_grocery": "Add",
     "added": "Added",
     "cancel": "Cancel",
     "clear_all": "Clear all",
@@ -10,7 +10,7 @@
     "coming_soon": "Coming soon — stay tuned!",
     "copied": "Copied to clipboard",
     "dismiss": "Dismiss",
-    "edit_grocery": "Edit grocery",
+    "edit_grocery": "Edit",
     "empty_grocery_list": "Your grocery list is empty.\nAdd items by clicking the \"+\" button.",
     "frequent_suggestions": "Frequent suggestions",
     "generic_error": "An error occurred. Please try again later.",

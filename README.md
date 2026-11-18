@@ -37,6 +37,4 @@ dart run vector_graphics_compiler \
 
 * Manage multiple lists
 * Improve Material 3 Expressive UI
-  - Delete slider
-  - List
   - Add/Edit entry sheet

@@ -1,6 +1,6 @@
 {
     "@@locale": "fr",
-    "add_grocery": "Ajouter à la liste",
+    "add_grocery": "Ajouter",
     "added": "Ajouté",
     "cancel": "Annuler",
     "clear_all": "Effacer la liste",
@@ -10,7 +10,7 @@
     "coming_soon": "Bientôt disponible !",
     "copied": "Copié dans le presse-papiers",
     "dismiss": "Fermer",
-    "edit_grocery": "Modifier l'entrée",
+    "edit_grocery": "Modifier",
     "empty_grocery_list": "Votre liste est vide.\nAjoutez des articles en appuyant sur le bouton \"+\".",
     "frequent_suggestions": "Suggestions fréquentes",
     "generic_error": "Une erreur s'est produite. Veuillez réessayer plus tard.",

@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:todo_list/gen/assets.gen.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/checkbox.dart';
@@ -192,7 +194,6 @@ class _Background extends StatelessWidget {
 
     return Container(
       alignment: .centerRight,
-      padding: const .symmetric(horizontal: 12, vertical: 6),
       color: cs.surface,
       child: FractionallySizedBox(
         widthFactor: dragProgress.clamp(0.0, 1.0),
@@ -206,10 +207,60 @@ class _Background extends StatelessWidget {
               shape: const StadiumBorder(),
             ),
             child: Center(
-              child: Icon(Icons.delete_outline, color: cs.onError, size: 24),
+              child: _DeleteIcon(isThresholdReached: isThresholdReached),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _DeleteIcon extends StatefulWidget {
+  const new({required this.isThresholdReached});
+
+  final bool isThresholdReached;
+
+  @override
+  State<_DeleteIcon> createState() => _DeleteIconState();
+}
+
+class _DeleteIconState extends State<_DeleteIcon>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant _DeleteIcon oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isThresholdReached) controller.forward();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = ColorScheme.of(context);
+
+    return AppAssets.lottieTrash.lottie(
+      height: 28,
+      controller: controller,
+      delegates: LottieDelegates(
+        values: [
+          ValueDelegate.color(['**'], value: cs.onError),
+        ],
       ),
     );
   }

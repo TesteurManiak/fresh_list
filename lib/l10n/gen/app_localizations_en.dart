@@ -12,7 +12,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get add_grocery => 'Add to the list';
+  String get add_grocery => 'Add';
 
   @override
   String get added => 'Added';
@@ -43,7 +43,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dismiss => 'Dismiss';
 
   @override
-  String get edit_grocery => 'Edit grocery';
+  String get edit_grocery => 'Edit';
 
   @override
   String get empty_grocery_list =>

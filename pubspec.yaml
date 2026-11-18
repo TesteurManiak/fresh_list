@@ -44,6 +44,7 @@ dependencies:
   google_fonts: ^9.0.0
   haptic_feedback: ^0.8.0
   intl: ^0.20.3
+  lottie: ^3.8.2
   material_ui: ^1.11.0
   material_wavy_progress_indicator:
     path: packages/material_wavy_progress_indicator
@@ -78,11 +79,13 @@ flutter:
   assets:
     - google_fonts/
     - assets/icons/svg/precompiled/
+    - assets/lottie/
 
 flutter_gen:
   output: lib/gen/
   integrations:
     flutter_svg: true
+    lottie: true
   assets:
     enabled: true
     outputs:

@@ -102,7 +102,7 @@ abstract class AppLocalizations {
   /// No description provided for @add_grocery.
   ///
   /// In fr, this message translates to:
-  /// **'Ajouter à la liste'**
+  /// **'Ajouter'**
   String get add_grocery;
 
   /// No description provided for @added.
@@ -162,7 +162,7 @@ abstract class AppLocalizations {
   /// No description provided for @edit_grocery.
   ///
   /// In fr, this message translates to:
-  /// **'Modifier l\'entrée'**
+  /// **'Modifier'**
   String get edit_grocery;
 
   /// No description provided for @empty_grocery_list.

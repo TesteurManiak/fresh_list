@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/src/core/clock.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
@@ -52,15 +53,15 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
           SliverAppBar(
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
-            title: Text(isEdition ? strings.edit_grocery : strings.add_grocery),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.close),
-                tooltip: strings.close,
-                onPressed: context.pop,
+            title: Text(
+              isEdition ? strings.edit_grocery : strings.add_grocery,
+              style: GoogleFonts.unbounded(
+                fontWeight: .w600,
+                letterSpacing: -.3,
               ),
-            ],
+            ),
+            centerTitle: true,
+            actions: const [CloseButton()],
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -92,10 +93,6 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                 return searchValue.when(
                   skipLoadingOnReload: true,
                   data: (data) {
-                    if (data.isEmpty) {
-                      return const SliverToBoxAdapter(child: SizedBox.shrink());
-                    }
-
                     return SliverList.builder(
                       itemCount: data.length,
                       itemBuilder: (context, index) {
@@ -175,6 +172,7 @@ class _SuggestionTileState extends ConsumerState<_SuggestionTile> {
       leading: const TileIcon(Icons.history),
       title: Text(widget.item.query),
       trailing: !added ? const Icon(Icons.add) : Text(strings.added),
+      contentPadding: .zero,
       onLongPress: () async {
         final action = await const RecentSearchActionsBottomSheet().show(
           context,

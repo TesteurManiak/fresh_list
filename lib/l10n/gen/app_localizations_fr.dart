@@ -12,7 +12,7 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
-  String get add_grocery => 'Ajouter à la liste';
+  String get add_grocery => 'Ajouter';
 
   @override
   String get added => 'Ajouté';
@@ -43,7 +43,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dismiss => 'Fermer';
 
   @override
-  String get edit_grocery => 'Modifier l\'entrée';
+  String get edit_grocery => 'Modifier';
 
   @override
   String get empty_grocery_list =>
