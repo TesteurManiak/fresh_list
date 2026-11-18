@@ -5,10 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/src/core/models/grocery.dart';
-import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
 import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/checkbox.dart';
-import 'package:todo_list/src/core/widgets/dismissible.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 
@@ -21,44 +19,19 @@ class GroceryTile extends ConsumerStatefulWidget {
   const new(
     this.grocery, {
     required Key super.key,
-    this.showSwipeHint = false,
     this.dismissThreshold = 0.4,
   });
 
   final Grocery grocery;
   final double dismissThreshold;
 
-  /// Whether this tile should briefly reveal its swipe action the first time
-  /// the user ever sees the list.
-  final bool showSwipeHint;
-
   @override
   ConsumerState<GroceryTile> createState() => _GroceryTileState();
 }
 
 class _GroceryTileState extends ConsumerState<GroceryTile> {
-  final controller = AppDismissibleController();
-
   double dragProgress = 0;
   bool hasTriggeredHaptic = false;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.showSwipeHint) runSwipeHint();
-  }
-
-  Future<void> runSwipeHint() async {
-    final prefs = await ref.read(sharedPreferencesProvider.future);
-    final key = SharedPrefsKey.swipeHintShown.key;
-    if (prefs.getBool(key) ?? false) return;
-    await prefs.setBool(key, true);
-
-    // Let the page finish settling first.
-    await Future<void>.delayed(const Duration(milliseconds: 700));
-    if (!mounted) return;
-    await controller.peek();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +40,8 @@ class _GroceryTileState extends ConsumerState<GroceryTile> {
 
     return Padding(
       padding: const .symmetric(vertical: 2),
-      child: AppDismissible(
+      child: Dismissible(
         key: Key('GroceryTile-${grocery.id}'),
-        controller: controller,
         direction: .endToStart,
         dismissThresholds: {.endToStart: widget.dismissThreshold},
         onUpdate: (details) {

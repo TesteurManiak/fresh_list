@@ -103,11 +103,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
               proxyDecorator: proxyDecorator,
               itemBuilder: (_, i) {
                 final g = data[i];
-                return GroceryTile(
-                  g,
-                  key: Key('Reorderable-${g.id}'),
-                  showSwipeHint: i == 0,
-                );
+                return GroceryTile(g, key: Key('Reorderable-${g.id}'));
               },
               itemCount: data.length,
               onReorderStart: (_) => HapticsHelper.medium(),
