@@ -13,17 +13,31 @@ import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.da
 const _kAnimationDuration = Duration(milliseconds: 300);
 const _kAnimationCurve = Curves.easeOutBack;
 
-const _kActiveRadius = BorderRadius.all(.circular(16));
-
 class GroceryTile extends ConsumerStatefulWidget {
   const new(
     this.grocery, {
     required Key super.key,
+    required this.borderRadius,
     this.dismissThreshold = 0.4,
   });
 
   final Grocery grocery;
   final double dismissThreshold;
+  final BorderRadius borderRadius;
+
+  static const outerRadius = 16.0;
+  static const innerRadius = 2.0;
+  static const tileGap = 2.0;
+
+  static BorderRadius radiusFor(int index, int length, bool selected) {
+    const Radius outer = Radius.circular(outerRadius);
+    const Radius inner = Radius.circular(innerRadius);
+
+    return .vertical(
+      top: (index == 0 || selected) ? outer : inner,
+      bottom: (index == length - 1 || selected) ? outer : inner,
+    );
+  }
 
   @override
   ConsumerState<GroceryTile> createState() => _GroceryTileState();
@@ -39,7 +53,7 @@ class _GroceryTileState extends ConsumerState<GroceryTile> {
     final isThresholdReached = dragProgress >= widget.dismissThreshold;
 
     return Padding(
-      padding: const .symmetric(vertical: 2),
+      padding: const .symmetric(vertical: GroceryTile.tileGap),
       child: Dismissible(
         key: Key('GroceryTile-${grocery.id}'),
         direction: .endToStart,
@@ -63,9 +77,9 @@ class _GroceryTileState extends ConsumerState<GroceryTile> {
           isThresholdReached: isThresholdReached,
           dragProgress: dragProgress,
         ),
-        child: ClipRRect(
-          borderRadius: _kActiveRadius,
-          child: _GroceryCard(grocery: grocery),
+        child: _GroceryCard(
+          grocery: grocery,
+          borderRadius: widget.borderRadius,
         ),
       ),
     );
@@ -73,9 +87,10 @@ class _GroceryTileState extends ConsumerState<GroceryTile> {
 }
 
 class _GroceryCard extends ConsumerWidget {
-  const new({required this.grocery});
+  const new({required this.grocery, required this.borderRadius});
 
   final Grocery grocery;
+  final BorderRadius borderRadius;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -88,7 +103,7 @@ class _GroceryCard extends ConsumerWidget {
       clipBehavior: .antiAlias,
       constraints: const BoxConstraints(minHeight: 56, maxHeight: 88),
       decoration: BoxDecoration(
-        borderRadius: _kActiveRadius,
+        borderRadius: borderRadius,
         color: completed
             ? colorScheme.surfaceContainerLow
             : colorScheme.surfaceContainerHigh,
@@ -100,7 +115,7 @@ class _GroceryCard extends ConsumerWidget {
             HapticsHelper.light();
             _showEditionBottomSheet(context, ref, grocery);
           },
-          borderRadius: _kActiveRadius,
+          borderRadius: borderRadius,
           child: Padding(
             padding: const .symmetric(horizontal: 16, vertical: 12),
             child: Row(
