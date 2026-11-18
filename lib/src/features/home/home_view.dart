@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:material_wavy_progress_indicator/material_wavy_progress_indicator.dart';
 import 'package:todo_list/src/core/constants/consts.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
@@ -136,7 +136,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
             log(e.toString(), error: e, stackTrace: s);
             return _CenteredText(strings.generic_error);
           },
-          loading: () => const Center(child: CircularWavyProgressIndicator()),
+          loading: () => Center(child: LoadingIndicator()),
         ),
       ),
     );

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:material_wavy_progress_indicator/material_wavy_progress_indicator.dart';
 import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
 import 'package:todo_list/src/core/mixins/hook.dart';
 import 'package:todo_list/src/core/mixins/showable.dart';
@@ -276,9 +275,7 @@ class _SliverNearbyPeerList extends ConsumerWidget {
             child: SizedBox(
               height: screenHeight * 0.25,
               child: isStarting
-                  ? const UnconstrainedBox(
-                      child: CircularWavyProgressIndicator(),
-                    )
+                  ? UnconstrainedBox(child: LoadingIndicator())
                   : const _SearchingIndicator(),
             ),
           )
