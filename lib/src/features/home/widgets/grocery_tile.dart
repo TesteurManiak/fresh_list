@@ -90,9 +90,6 @@ class _Card extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cs = ColorScheme.of(context);
-    final completed = grocery.completed;
-
     return GroceryCard(
       name: grocery.name,
       completed: grocery.completed,
@@ -112,7 +109,7 @@ class _Card extends ConsumerWidget {
       trailing: AnimatedScale(
         duration: GroceryCard.animationDuration,
         curve: GroceryCard.animationCurve,
-        scale: completed ? 1.0 : 0.0,
+        scale: grocery.completed ? 1.0 : 0.0,
         child: const Icon(Icons.done_all),
       ),
     );
