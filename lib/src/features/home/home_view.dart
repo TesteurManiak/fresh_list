@@ -136,14 +136,16 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
       animation: animation,
       builder: (context, child) {
         final value = Curves.easeInOut.transform(animation.value);
-        final borderRadius = value * GroceryTile.outerRadius;
-        final elevation = lerpDouble(0, 6, value) ?? 0;
+        final elevation = lerpDouble(0, 4, value) ?? 0;
+        final radius = value * GroceryTile.outerRadius;
+        final borderRadius = BorderRadius.circular(radius);
 
         return Material(
           elevation: elevation,
           color: Colors.transparent,
-          shadowColor: Colors.black.withValues(alpha: 0.3),
-          child: ClipRRect(borderRadius: .circular(borderRadius), child: child),
+          shadowColor: Colors.black.withValues(alpha: .3),
+          borderRadius: borderRadius,
+          child: ClipRRect(borderRadius: borderRadius, child: child),
         );
       },
       child: child,
