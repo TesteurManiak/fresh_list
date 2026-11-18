@@ -160,14 +160,12 @@ class _CenteredText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = TextTheme.of(context);
+
     return Center(
       child: Padding(
         padding: const .all(16),
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.titleLarge,
-          textAlign: TextAlign.center,
-        ),
+        child: Text(text, style: textTheme.titleLarge, textAlign: .center),
       ),
     );
   }
