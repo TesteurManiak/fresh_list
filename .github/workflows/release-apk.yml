@@ -80,3 +80,14 @@ jobs:
         with:
           files: build/app/outputs/flutter-apk/freshlist-${{ steps.version.outputs.full_version }}.apk
           generate_release_notes: true
+
+      - name: Keep only the 3 latest releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release list --limit 100 --json tagName -q '.[3:].[].tagName' | while read -r tag; do
+            if [ -n "$tag" ]; then
+              echo "Deleting old release and tag: $tag"
+              gh release delete "$tag" --yes --cleanup-tag
+            fi
+          done
