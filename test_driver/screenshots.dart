@@ -44,15 +44,6 @@ Future<void> _run(FlutterDriver driver) async {
     await pause();
   }
 
-  Future<bool> isShown(SerializableFinder finder) async {
-    try {
-      await driver.waitFor(finder, timeout: const Duration(seconds: 2));
-      return true;
-    } on DriverError {
-      return false;
-    }
-  }
-
   Future<void> shot(String name) async {
     await pause();
     final result = await Process.run('xcrun', [
@@ -69,15 +60,6 @@ Future<void> _run(FlutterDriver driver) async {
 
   final settings = find.byValueKey('settings_button');
 
-  // Start from a known state: English, light theme.
-  await tap(settings);
-  if (await isShown(find.text('Langue'))) {
-    await tap(find.text('Langue'));
-    await tap(find.text('Anglais'));
-  }
-  await tap(find.byValueKey('theme_light'));
-  await tap(find.byType('BackButton'));
-
   await shot('home');
 
   await tap(find.byType('FloatingActionButton'));
@@ -90,16 +72,6 @@ Future<void> _run(FlutterDriver driver) async {
   await tap(settings);
   await shot('settings');
 
-  await tap(find.text('Language'));
-  await shot('language-switcher');
-  await tap(find.text('French'));
-  await shot('settings-fr');
-
   await tap(find.byValueKey('theme_dark'));
   await shot('settings-dark');
-
-  // Restore the initial state.
-  await tap(find.text('Langue'));
-  await tap(find.text('Anglais'));
-  await tap(find.byValueKey('theme_light'));
 }

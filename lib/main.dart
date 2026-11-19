@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_list/app.dart';
@@ -15,7 +16,7 @@ import 'package:todo_list/src/core/theme/theme_controller.dart';
 import 'package:todo_list/src/core/widgets/error_page.dart';
 import 'package:todo_list/src/core/widgets/launch_failure_app.dart';
 
-Future<void> main() async {
+Future<void> main({List<Override> overrides = const []}) async {
   final binding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: binding);
 
@@ -24,7 +25,7 @@ Future<void> main() async {
   try {
     await _init();
 
-    final container = ProviderContainer();
+    final container = ProviderContainer(overrides: overrides);
     await Future.wait([
       container.read(localeControllerProvider.notifier).init(),
       container.read(themeControllerProvider.notifier).init(),
