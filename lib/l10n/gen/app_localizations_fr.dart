@@ -57,6 +57,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Une erreur s\'est produite. Veuillez réessayer plus tard.';
 
   @override
+  String item_edited(String content) {
+    return '« $content » modifié';
+  }
+
+  @override
   String get language_en => 'Anglais';
 
   @override

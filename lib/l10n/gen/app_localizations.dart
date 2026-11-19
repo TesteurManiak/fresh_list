@@ -183,6 +183,12 @@ abstract class AppLocalizations {
   /// **'Une erreur s\'est produite. Veuillez réessayer plus tard.'**
   String get generic_error;
 
+  /// No description provided for @item_edited.
+  ///
+  /// In fr, this message translates to:
+  /// **'« {content} » modifié'**
+  String item_edited(String content);
+
   /// No description provided for @language_en.
   ///
   /// In fr, this message translates to:

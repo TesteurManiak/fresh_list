@@ -56,6 +56,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get generic_error => 'An error occurred. Please try again later.';
 
   @override
+  String item_edited(String content) {
+    return 'Updated \"$content\"';
+  }
+
+  @override
   String get language_en => 'English';
 
   @override

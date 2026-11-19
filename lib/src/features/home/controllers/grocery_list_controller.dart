@@ -129,6 +129,6 @@ class GroceryListController extends StreamNotifier<IList<Grocery>> {
 
 final watchRecentSearchesProvider =
     StreamProvider.family<IList<RecentSearch>, String>((ref, query) async* {
-      await ref.debounce(const Duration(milliseconds: 500));
+      await ref.debounce(const Duration(milliseconds: 300));
       yield* ref.watch(homeLocalDatasourceProvider).watchRecentSearches(query);
     });

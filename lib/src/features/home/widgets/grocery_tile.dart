@@ -121,16 +121,14 @@ class _Card extends ConsumerWidget {
     WidgetRef ref,
     Grocery initialValue,
   ) async {
-    final grocery = await EditGroceryBottomSheet(initialValue: initialValue)
+    final edited = await EditGroceryBottomSheet(initialValue: initialValue)
         .show(context);
-    if (grocery == null || grocery == this.grocery || !context.mounted) return;
+    if (edited == null || edited == grocery || !context.mounted) return;
 
-    await ref
-        .read(groceryListControllerProvider.notifier)
-        .updateGrocery(grocery);
-
-    if (!context.mounted) return;
-    EditedSnack(grocery.name).show(context);
+    EditedSnack(edited.name).show(context);
+    unawaited(
+      ref.read(groceryListControllerProvider.notifier).updateGrocery(edited),
+    );
   }
 }
 

@@ -14,6 +14,14 @@
     "empty_grocery_list": "Votre liste est vide.\nAjoutez des articles en appuyant sur le bouton \"+\".",
     "frequent_suggestions": "Suggestions fréquentes",
     "generic_error": "Une erreur s'est produite. Veuillez réessayer plus tard.",
+    "item_edited": "« {content} » modifié",
+    "@item_edited": {
+        "placeholders": {
+            "content": {
+                "type": "String"
+            }
+        }
+    },
     "language_en": "Anglais",
     "language_fr": "Français",
     "mark_as_bought": "Marquer comme acheté",

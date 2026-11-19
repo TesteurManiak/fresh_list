@@ -79,7 +79,7 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
             ),
           ),
           if (searchController.text.trim() case final query
-              when query.length > 2)
+              when query.isNotEmpty)
             Consumer(
               builder: (context, ref, _) {
                 final searchValue = ref.watch(
