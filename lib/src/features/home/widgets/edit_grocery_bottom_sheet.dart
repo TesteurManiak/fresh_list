@@ -65,14 +65,14 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
               child: _InputField(
                 controller: searchController,
                 onSubmitted: (name) {
-                  final appClock = ref.read(appClockProvider);
-                  final grocery =
-                      widget.initialValue?.copyWith(name: name) ??
-                      Grocery(
-                        id: const GroceryId(0),
-                        name: name,
-                        updatedAt: appClock.now(),
-                      );
+                  final grocery = Grocery(
+                    id: widget.initialValue?.id ?? const GroceryId(0),
+                    name: name,
+                    updatedAt: ref.read(appClockProvider).now(),
+                    order: widget.initialValue?.order ?? 0,
+                    completed: widget.initialValue?.completed ?? false,
+                  );
+
                   context.pop(grocery);
                 },
               ),
@@ -96,6 +96,7 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
                         return _SuggestionTile(
                           item,
                           isEditing: widget.initialValue != null,
+                          initialValue: widget.initialValue,
                         );
                       },
                     );
@@ -147,9 +148,10 @@ class _InputField extends ConsumerWidget {
 }
 
 class _SuggestionTile extends ConsumerStatefulWidget {
-  const new(this.item, {required this.isEditing});
+  const new(this.item, {required this.isEditing, required this.initialValue});
 
   final RecentSearch item;
+  final Grocery? initialValue;
   final bool isEditing;
 
   @override
@@ -173,7 +175,9 @@ class _SuggestionTileState extends ConsumerState<_SuggestionTile> {
           ? null
           : () {
               final grocery = Grocery(
-                id: const GroceryId(0),
+                id: widget.initialValue?.id ?? const GroceryId(0),
+                completed: widget.initialValue?.completed ?? false,
+                order: widget.initialValue?.order ?? 0,
                 name: widget.item.query,
                 updatedAt: ref.read(appClockProvider).now(),
               );

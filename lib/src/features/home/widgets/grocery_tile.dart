@@ -10,6 +10,7 @@ import 'package:todo_list/src/core/utils/haptics_helper.dart';
 import 'package:todo_list/src/core/widgets/checkbox.dart';
 import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
+import 'package:todo_list/src/features/home/widgets/edited_snack.dart';
 import 'package:todo_list/src/features/home/widgets/grocery_card.dart';
 
 class GroceryTile extends ConsumerStatefulWidget {
@@ -124,9 +125,12 @@ class _Card extends ConsumerWidget {
         .show(context);
     if (grocery == null || grocery == this.grocery || !context.mounted) return;
 
-    unawaited(
-      ref.read(groceryListControllerProvider.notifier).updateGrocery(grocery),
-    );
+    await ref
+        .read(groceryListControllerProvider.notifier)
+        .updateGrocery(grocery);
+
+    if (!context.mounted) return;
+    EditedSnack(grocery.name).show(context);
   }
 }
 

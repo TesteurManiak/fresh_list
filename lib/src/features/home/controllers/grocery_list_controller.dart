@@ -36,16 +36,17 @@ class GroceryListController extends StreamNotifier<IList<Grocery>> {
     final names = {for (final g in elements) g.name.toLowerCase()};
     final now = ref.read(appClockProvider).now();
     var added = 0;
-    for (final item in items) {
+    for (final (index, item) in items.indexed) {
       // `add` also dedupes repeated names within the received list.
       if (!names.add(item.name.toLowerCase())) continue;
 
       await createGrocery(
         Grocery(
           id: const GroceryId(0),
+          order: elements.length + index,
           name: item.name,
-          updatedAt: now,
           completed: item.completed,
+          updatedAt: now,
         ),
       );
       added++;

@@ -7,11 +7,12 @@ class TileIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = ColorScheme.of(context);
     return Container(
       padding: const .all(8),
-      decoration: const BoxDecoration(
-        color: Color(0xFFFFDCC2),
-        borderRadius: BorderRadius.all(.circular(12)),
+      decoration: BoxDecoration(
+        color: cs.primaryContainer,
+        borderRadius: const BorderRadius.all(.circular(12)),
       ),
       child: Icon(icon),
     );

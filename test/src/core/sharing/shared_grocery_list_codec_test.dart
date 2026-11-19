@@ -7,6 +7,7 @@ import 'package:todo_list/src/core/sharing/shared_grocery_list_codec.dart';
 void main() {
   Grocery grocery(String name, {bool completed = false}) => Grocery(
     id: const GroceryId(1),
+    order: 0,
     name: name,
     updatedAt: DateTime(2026),
     completed: completed,
