@@ -6,8 +6,10 @@
 
 <p align="center">A Flutter application to manage your grocery list.</p>
 
-![GitHub License](https://img.shields.io/github/license/TesteurManiak/fresh_list)
-[![Build & Release Signed APK](https://github.com/TesteurManiak/fresh_list/actions/workflows/release-apk.yml/badge.svg)](https://github.com/TesteurManiak/fresh_list/actions/workflows/release-apk.yml)
+<p align="center">
+  <img src="https://img.shields.io/github/license/TesteurManiak/fresh_list" alt="GitHub License">
+  <a href="https://github.com/TesteurManiak/fresh_list/actions/workflows/release-apk.yml"><img src="https://github.com/TesteurManiak/fresh_list/actions/workflows/release-apk.yml/badge.svg" alt="Build & Release Signed APK"></a>
+</p>
 
 ## Screenshots
 
