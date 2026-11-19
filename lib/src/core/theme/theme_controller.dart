@@ -5,19 +5,13 @@ import 'package:todo_list/src/core/extensions/theme_mode_extensions.dart';
 import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
 import 'package:todo_list/src/core/theme/theme.dart';
 
-final defaultThemeModeProvider = Provider.autoDispose<ThemeMode>(
-  (_) => .system,
-);
+final defaultThemeModeProvider = Provider<ThemeMode>((_) => .system);
 
-final lightThemeProvider = Provider.autoDispose<ThemeData>(
-  (_) => AppTheme.light(),
-);
+final lightThemeProvider = Provider<ThemeData>((_) => AppTheme.light());
 
-final darkThemeProvider = Provider.autoDispose<ThemeData>(
-  (_) => AppTheme.dark(),
-);
+final darkThemeProvider = Provider<ThemeData>((_) => AppTheme.dark());
 
-final platformBrightnessProvider = Provider.autoDispose<Brightness>(
+final platformBrightnessProvider = Provider<Brightness>(
   (_) => PlatformDispatcher.instance.platformBrightness,
 );
 
