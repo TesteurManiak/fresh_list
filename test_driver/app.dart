@@ -1,8 +1,11 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_driver/driver_extension.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:todo_list/main.dart' as app;
 import 'package:todo_list/src/core/localization/locale_controller.dart';
+import 'package:todo_list/src/core/models/recent_search.dart';
 import 'package:todo_list/src/core/theme/theme_controller.dart';
+import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 
 Future<void> main() async {
   enableFlutterDriverExtension();
@@ -11,6 +14,13 @@ Future<void> main() async {
     overrides: [
       localeControllerProvider.overrideWith(_EnglishLocaleController.new),
       themeControllerProvider.overrideWith(_LightThemeController.new),
+      watchRecentSearchesProvider.overrideWith(
+        (_, _) => Stream.fromIterable([
+          IList<RecentSearch>([
+            RecentSearch(query: 'Strawberries', timestamp: DateTime(2024)),
+          ]),
+        ]),
+      ),
     ],
   );
 }
