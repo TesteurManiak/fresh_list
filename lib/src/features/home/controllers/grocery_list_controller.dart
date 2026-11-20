@@ -128,5 +128,6 @@ class GroceryListController extends StreamNotifier<IList<Grocery>> {
 
 final watchRecentSearchesProvider = StreamProvider.autoDispose
     .family<IList<RecentSearch>, String>((ref, query) {
+      if (query.isEmpty) return Stream.value(const IListConst([]));
       return ref.watch(homeLocalDatasourceProvider).watchRecentSearches(query);
     });

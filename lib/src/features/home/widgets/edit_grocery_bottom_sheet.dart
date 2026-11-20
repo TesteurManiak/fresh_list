@@ -30,12 +30,14 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
   late final searchController = useTextEditingController(
     text: widget.initialValue?.name,
   );
+  late final queryNotifier = useValueNotifier(widget.initialValue?.name ?? '');
 
   @override
   void initState() {
     super.initState();
-
-    searchController.addListener(() => setState(() {}));
+    searchController.addListener(
+      () => queryNotifier.value = searchController.text.trim(),
+    );
   }
 
   @override
@@ -81,38 +83,43 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
               ),
             ),
           ),
-          if (searchController.text.trim() case final query
-              when query.isNotEmpty)
-            Consumer(
-              builder: (context, ref, _) {
-                final searchValue = ref.watch(
-                  watchRecentSearchesProvider(query),
-                );
+          ValueListenableBuilder(
+            valueListenable: queryNotifier,
+            builder: (context, query, _) {
+              return Consumer(
+                builder: (context, ref, _) {
+                  final searchValue = ref.watch(
+                    watchRecentSearchesProvider(query),
+                  );
 
-                return searchValue.when(
-                  skipLoadingOnReload: true,
-                  data: (data) {
-                    return SliverList.builder(
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        final item = data[index];
-                        return _SuggestionTile(
-                          item,
-                          isEditing: widget.initialValue != null,
-                          initialValue: widget.initialValue,
-                        );
-                      },
-                    );
-                  },
-                  error: (e, _) => SliverFillRemaining(
-                    child: Center(child: Text(strings.generic_error)),
-                  ),
-                  loading: () => SliverFillRemaining(
-                    child: Center(child: LoadingIndicator()),
-                  ),
-                );
-              },
-            ),
+                  return searchValue.when(
+                    skipLoadingOnReload: true,
+                    data: (data) {
+                      return SliverList.builder(
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          final item = data[index];
+                          return _SuggestionTile(
+                            item,
+                            isEditing: widget.initialValue != null,
+                            initialValue: widget.initialValue,
+                          );
+                        },
+                      );
+                    },
+                    error: (e, _) => SliverFillRemaining(
+                      child: Center(
+                        child: Text(strings.generic_error, textAlign: .center),
+                      ),
+                    ),
+                    loading: () => SliverFillRemaining(
+                      child: Center(child: LoadingIndicator()),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ],
       ),
     );
