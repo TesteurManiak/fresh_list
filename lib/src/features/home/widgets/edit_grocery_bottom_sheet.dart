@@ -134,7 +134,6 @@ class _InputField extends ConsumerWidget {
       hintText: strings.product_name,
       textCapitalization: .sentences,
       controller: controller,
-      trailingIcon: IconButton(icon: const Icon(Icons.mic), onPressed: () {}),
       onSubmitted: (value) {
         final name = value.trim();
         if (name.isEmpty) return context.pop();
