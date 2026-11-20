@@ -179,6 +179,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settings_about_title => 'À propos';
 
   @override
+  String get settings_color_title => 'Couleur';
+
+  @override
   String get settings_language_title => 'Langue';
 
   @override

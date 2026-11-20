@@ -351,6 +351,12 @@ abstract class AppLocalizations {
   /// **'À propos'**
   String get settings_about_title;
 
+  /// No description provided for @settings_color_title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Couleur'**
+  String get settings_color_title;
+
   /// No description provided for @settings_language_title.
   ///
   /// In fr, this message translates to:

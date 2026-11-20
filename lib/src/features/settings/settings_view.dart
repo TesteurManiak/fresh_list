@@ -79,18 +79,15 @@ class _SettingsViewState extends State<SettingsView> {
               ),
               Consumer(
                 builder: (context, ref, _) {
-                  final seedIndex = ref.watch(
-                    colorSchemeSeedControllerProvider,
-                  );
-                  final color = Colors.primaries.elementAt(seedIndex);
+                  final color = ref.watch(colorSeedProvider);
 
                   return MenuTile(
                     icon: Icons.color_lens_outlined,
-                    title: 'Color',
+                    title: strings.settings_color_title,
                     trailing: Container(
                       decoration: BoxDecoration(
                         color: color,
-                        shape: BoxShape.circle,
+                        borderRadius: .circular(8),
                       ),
                       width: 24,
                       height: 24,

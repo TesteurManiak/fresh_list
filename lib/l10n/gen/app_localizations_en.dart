@@ -178,6 +178,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_about_title => 'About';
 
   @override
+  String get settings_color_title => 'Color';
+
+  @override
   String get settings_language_title => 'Language';
 
   @override

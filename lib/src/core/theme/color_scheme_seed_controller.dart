@@ -9,6 +9,11 @@ final colorSchemeSeedControllerProvider =
       ColorSchemeSeedController.new,
     );
 
+final colorSeedProvider = Provider<Color>((ref) {
+  final seedIndex = ref.watch(colorSchemeSeedControllerProvider);
+  return Colors.primaries.elementAt(seedIndex);
+});
+
 class ColorSchemeSeedController extends Notifier<int> {
   static const colorSchemeIndexKey = SharedPrefsKey.colorSchemeIndex;
 
