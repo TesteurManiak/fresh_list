@@ -11,10 +11,10 @@ class TileIcon extends StatelessWidget {
     return Container(
       padding: const .all(8),
       decoration: BoxDecoration(
-        color: cs.primaryContainer,
+        color: cs.surfaceContainerHigh,
         borderRadius: const BorderRadius.all(.circular(12)),
       ),
-      child: Icon(icon),
+      child: Icon(icon, color: cs.onSurface),
     );
   }
 }
