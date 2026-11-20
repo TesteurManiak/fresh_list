@@ -20,8 +20,6 @@ dependencies:
   dynamic_color: ^2.1.0
   expressive_loading_indicator:
     path: packages/expressive_loading_indicator
-  expressive_search:
-    path: packages/expressive_search
   expressive_shapes:
     path: packages/expressive_shapes
   expressive_sheet:

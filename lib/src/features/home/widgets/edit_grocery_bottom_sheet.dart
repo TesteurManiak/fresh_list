@@ -1,5 +1,4 @@
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
-import 'package:expressive_search/expressive_search.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_list/src/core/clock.dart';
 import 'package:fresh_list/src/core/extensions/build_context_extensions.dart';
@@ -8,6 +7,7 @@ import 'package:fresh_list/src/core/mixins/showable.dart';
 import 'package:fresh_list/src/core/models/grocery.dart';
 import 'package:fresh_list/src/core/models/recent_search.dart';
 import 'package:fresh_list/src/core/widgets/app_sheet.dart';
+import 'package:fresh_list/src/core/widgets/expressive_search_field.dart';
 import 'package:fresh_list/src/core/widgets/tile_icon.dart';
 import 'package:fresh_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:go_router/go_router.dart';
