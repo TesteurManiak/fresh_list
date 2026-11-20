@@ -178,7 +178,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_about_title => 'About';
 
   @override
-  String get settings_color_title => 'Color';
+  String get settings_color_title => 'Color style';
 
   @override
   String get settings_language_title => 'Language';
@@ -191,6 +191,63 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_support_title => 'Support';
+
+  @override
+  String get settings_theme_color_amber => 'Amber';
+
+  @override
+  String get settings_theme_color_blue => 'Blue';
+
+  @override
+  String get settings_theme_color_blue_grey => 'Blue Grey';
+
+  @override
+  String get settings_theme_color_brown => 'Brown';
+
+  @override
+  String get settings_theme_color_cyan => 'Cyan';
+
+  @override
+  String get settings_theme_color_deep_orange => 'Deep Orange';
+
+  @override
+  String get settings_theme_color_deep_purple => 'Deep Purple';
+
+  @override
+  String get settings_theme_color_dynamic => 'Dynamic';
+
+  @override
+  String get settings_theme_color_green => 'Green';
+
+  @override
+  String get settings_theme_color_indigo => 'Indigo';
+
+  @override
+  String get settings_theme_color_light_blue => 'Light Blue';
+
+  @override
+  String get settings_theme_color_light_green => 'Light Green';
+
+  @override
+  String get settings_theme_color_lime => 'Lime';
+
+  @override
+  String get settings_theme_color_orange => 'Orange';
+
+  @override
+  String get settings_theme_color_pink => 'Pink';
+
+  @override
+  String get settings_theme_color_purple => 'Purple';
+
+  @override
+  String get settings_theme_color_red => 'Red';
+
+  @override
+  String get settings_theme_color_teal => 'Teal';
+
+  @override
+  String get settings_theme_color_yellow => 'Yellow';
 
   @override
   String get settings_theme_title => 'Theme';

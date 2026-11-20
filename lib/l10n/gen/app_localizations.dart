@@ -354,7 +354,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_color_title.
   ///
   /// In fr, this message translates to:
-  /// **'Couleur'**
+  /// **'Style de couleur'**
   String get settings_color_title;
 
   /// No description provided for @settings_language_title.
@@ -380,6 +380,120 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Assistance'**
   String get settings_support_title;
+
+  /// No description provided for @settings_theme_color_amber.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ambre'**
+  String get settings_theme_color_amber;
+
+  /// No description provided for @settings_theme_color_blue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bleu'**
+  String get settings_theme_color_blue;
+
+  /// No description provided for @settings_theme_color_blue_grey.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bleu gris'**
+  String get settings_theme_color_blue_grey;
+
+  /// No description provided for @settings_theme_color_brown.
+  ///
+  /// In fr, this message translates to:
+  /// **'Marron'**
+  String get settings_theme_color_brown;
+
+  /// No description provided for @settings_theme_color_cyan.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cyan'**
+  String get settings_theme_color_cyan;
+
+  /// No description provided for @settings_theme_color_deep_orange.
+  ///
+  /// In fr, this message translates to:
+  /// **'Orange foncé'**
+  String get settings_theme_color_deep_orange;
+
+  /// No description provided for @settings_theme_color_deep_purple.
+  ///
+  /// In fr, this message translates to:
+  /// **'Violet foncé'**
+  String get settings_theme_color_deep_purple;
+
+  /// No description provided for @settings_theme_color_dynamic.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dynamique'**
+  String get settings_theme_color_dynamic;
+
+  /// No description provided for @settings_theme_color_green.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vert'**
+  String get settings_theme_color_green;
+
+  /// No description provided for @settings_theme_color_indigo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Indigo'**
+  String get settings_theme_color_indigo;
+
+  /// No description provided for @settings_theme_color_light_blue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bleu clair'**
+  String get settings_theme_color_light_blue;
+
+  /// No description provided for @settings_theme_color_light_green.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vert clair'**
+  String get settings_theme_color_light_green;
+
+  /// No description provided for @settings_theme_color_lime.
+  ///
+  /// In fr, this message translates to:
+  /// **'Citron vert'**
+  String get settings_theme_color_lime;
+
+  /// No description provided for @settings_theme_color_orange.
+  ///
+  /// In fr, this message translates to:
+  /// **'Orange'**
+  String get settings_theme_color_orange;
+
+  /// No description provided for @settings_theme_color_pink.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rose'**
+  String get settings_theme_color_pink;
+
+  /// No description provided for @settings_theme_color_purple.
+  ///
+  /// In fr, this message translates to:
+  /// **'Violet'**
+  String get settings_theme_color_purple;
+
+  /// No description provided for @settings_theme_color_red.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rouge'**
+  String get settings_theme_color_red;
+
+  /// No description provided for @settings_theme_color_teal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sarcelle'**
+  String get settings_theme_color_teal;
+
+  /// No description provided for @settings_theme_color_yellow.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jaune'**
+  String get settings_theme_color_yellow;
 
   /// No description provided for @settings_theme_title.
   ///
