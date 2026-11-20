@@ -50,7 +50,9 @@ Then run `build_runner` to generate the appropriate accessors.
 
 * Material 3 Expressive UI
 * Light & Dark theme support
+* Offline-first
 * List management (add, edit, reorder, delete entries)
+* Entry suggestions
 * List sharing (via P2P Nearby Connections or Copy to Clipboard)
 * Localization support:
   - English
