@@ -1,0 +1,23 @@
+name: expressive_search
+description: "Flutter implementation of expressive search field"
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ^3.14.0
+  flutter: ">=1.17.0"
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  material_ui:
+  motor:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:

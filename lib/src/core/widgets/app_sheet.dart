@@ -1,9 +1,10 @@
 import 'package:material_ui/material_ui.dart';
 
 class AppSheet extends StatelessWidget {
-  const new({required this.child, super.key});
+  const new({required this.child, this.backgroundColor, super.key});
 
   final Widget child;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class AppSheet extends StatelessWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 560),
             child: Material(
-              color: cs.surfaceContainerHigh,
+              color: backgroundColor ?? cs.surfaceContainerHigh,
               clipBehavior: .antiAlias,
               shape: RoundedRectangleBorder(
                 // M3 concentric nesting: outer radius = inner radius + padding.

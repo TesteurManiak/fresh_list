@@ -8,12 +8,7 @@ environment:
   flutter: ">=3.50.0"
 
 workspace:
-  - packages/expressive_loading_indicator
-  - packages/expressive_refresh_indicator
-  - packages/expressive_shapes
-  - packages/expressive_sheet
-  - packages/expressive_snack
-  - packages/material_wavy_progress_indicator
+  - packages/**
 
 dependencies:
   clock: ^1.1.3
@@ -24,6 +19,8 @@ dependencies:
   drift_dev: ^2.35.3
   expressive_loading_indicator:
     path: packages/expressive_loading_indicator
+  expressive_search:
+    path: packages/expressive_search
   expressive_shapes:
     path: packages/expressive_shapes
   expressive_sheet:

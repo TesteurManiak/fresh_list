@@ -1,4 +1,5 @@
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
+import 'package:expressive_search/expressive_search.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_list/src/core/clock.dart';
 import 'package:fresh_list/src/core/extensions/build_context_extensions.dart';
@@ -39,16 +40,19 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
 
   @override
   Widget build(BuildContext context) {
+    final cs = ColorScheme.of(context);
     final strings = context.strings;
     final isEdition = widget.initialValue != null;
 
     return AppSheet(
+      backgroundColor: cs.surfaceContainerLow,
       child: CustomScrollView(
         keyboardDismissBehavior: .onDrag,
         slivers: [
           SliverAppBar(
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
+            leading: const CloseButton(),
             title: Text(
               isEdition ? strings.edit_grocery : strings.add_grocery,
               style: GoogleFonts.unbounded(
@@ -57,7 +61,6 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
               ),
             ),
             centerTitle: true,
-            actions: const [CloseButton()],
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -125,18 +128,13 @@ class _InputField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
-    final bottomSheetTheme = Theme.of(context).bottomSheetTheme;
 
-    return TextField(
+    return ExpressiveSearchField(
       autofocus: true,
-      decoration: InputDecoration(
-        hintText: strings.product_name,
-        filled: true,
-        fillColor: bottomSheetTheme.backgroundColor,
-        border: OutlineInputBorder(borderRadius: .circular(20)),
-      ),
-      textCapitalization: TextCapitalization.sentences,
+      hintText: strings.product_name,
+      textCapitalization: .sentences,
       controller: controller,
+      trailingIcon: IconButton(icon: const Icon(Icons.mic), onPressed: () {}),
       onSubmitted: (value) {
         final name = value.trim();
         if (name.isEmpty) return context.pop();
