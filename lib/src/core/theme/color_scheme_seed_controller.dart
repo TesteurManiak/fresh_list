@@ -14,15 +14,15 @@ final colorSeedProvider = Provider<Color?>(
 
 class ColorPresetController extends Notifier<ColorPreset> {
   static const colorSchemeIndexKey = SharedPrefsKey.colorPreset;
+  static const defaultPreset = ColorPreset.dynamic;
 
   @override
-  ColorPreset build() => .dynamic;
+  ColorPreset build() => defaultPreset;
 
   Future<void> init() async {
     final prefs = await ref.read(sharedPreferencesProvider.future);
     final index = prefs.getInt(colorSchemeIndexKey.key);
-
-    await setPreset(ColorPreset.fromIndex(index ?? ColorPreset.dynamic.index));
+    await setPreset(.fromIndex(index ?? defaultPreset.index));
   }
 
   Future<void> setPreset(ColorPreset preset) async {
@@ -33,5 +33,5 @@ class ColorPresetController extends Notifier<ColorPreset> {
     state = preset;
   }
 
-  Future<void> reset() => setPreset(.dynamic);
+  Future<void> reset() => setPreset(defaultPreset);
 }
