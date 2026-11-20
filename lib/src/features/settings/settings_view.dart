@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:fresh_list/l10n/gen/app_localizations.dart';
 import 'package:fresh_list/src/core/constants/consts.dart';
 import 'package:fresh_list/src/core/extensions/build_context_extensions.dart';
 import 'package:fresh_list/src/core/localization/locale_controller.dart';
+import 'package:fresh_list/src/core/theme/color_scheme_seed_controller.dart';
 import 'package:fresh_list/src/core/theme/theme_controller.dart';
 import 'package:fresh_list/src/core/utils/haptics_helper.dart';
 import 'package:fresh_list/src/core/widgets/app_icon.dart';
@@ -74,6 +76,35 @@ class _SettingsViewState extends State<SettingsView> {
                     );
                   },
                 ),
+              ),
+              Consumer(
+                builder: (context, ref, _) {
+                  final seedIndex = ref.watch(
+                    colorSchemeSeedControllerProvider,
+                  );
+                  final color = Colors.primaries.elementAt(seedIndex);
+
+                  return MenuTile(
+                    icon: Icons.color_lens_outlined,
+                    title: 'Color',
+                    trailing: Container(
+                      decoration: BoxDecoration(
+                        color: color,
+                        shape: BoxShape.circle,
+                      ),
+                      width: 24,
+                      height: 24,
+                    ),
+                    onTap: () {
+                      final randomSeedIndex = math.Random().nextInt(
+                        Colors.primaries.length,
+                      );
+                      ref
+                          .read(colorSchemeSeedControllerProvider.notifier)
+                          .setSeedIndex(randomSeedIndex);
+                    },
+                  );
+                },
               ),
               Consumer(
                 builder: (context, ref, _) {

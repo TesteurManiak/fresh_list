@@ -3,8 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
 
 class const AppTheme._() {
-  static const seedColor = MaterialColor(0xffF5A623, {});
-
   static const _pageTransitionsTheme = PageTransitionsTheme(
     builders: {
       .android: FadeForwardsPageTransitionsBuilder(),
@@ -12,9 +10,9 @@ class const AppTheme._() {
     },
   );
 
-  static ThemeData _themeBuilder(Brightness brightness) {
+  static ThemeData _themeBuilder(Brightness brightness, int seedIndex) {
     final base = ThemeData(
-      colorSchemeSeed: Colors.primaries.elementAt(12),
+      colorSchemeSeed: Colors.primaries.elementAt(seedIndex),
       brightness: brightness,
     );
 
@@ -29,6 +27,6 @@ class const AppTheme._() {
     );
   }
 
-  static ThemeData light() => _themeBuilder(.light);
-  static ThemeData dark() => _themeBuilder(.dark);
+  static ThemeData light(int seedIndex) => _themeBuilder(.light, seedIndex);
+  static ThemeData dark(int seedIndex) => _themeBuilder(.dark, seedIndex);
 }

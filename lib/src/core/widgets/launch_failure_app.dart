@@ -1,3 +1,4 @@
+import 'package:fresh_list/src/core/theme/color_scheme_seed_controller.dart';
 import 'package:fresh_list/src/core/theme/theme.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -6,7 +7,10 @@ class LaunchFailureApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: AppTheme.light(), home: const _Content());
+    return MaterialApp(
+      theme: AppTheme.light(kDefaultSeedIndex),
+      home: const _Content(),
+    );
   }
 }
 
