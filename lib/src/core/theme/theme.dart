@@ -3,6 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
 
 class const AppTheme._() {
+  /// Color used as a fallback seed for the theme when no dynamic color is
+  /// available and no user-selected color is provided.
+  static const fallbackSeedColor = Colors.yellow;
+
   static const _pageTransitionsTheme = PageTransitionsTheme(
     builders: {
       .android: FadeForwardsPageTransitionsBuilder(),
@@ -10,11 +14,8 @@ class const AppTheme._() {
     },
   );
 
-  static ThemeData _themeBuilder(Brightness brightness, int seedIndex) {
-    final base = ThemeData(
-      colorSchemeSeed: Colors.primaries.elementAt(seedIndex),
-      brightness: brightness,
-    );
+  static ThemeData _themeBuilder(ColorScheme cs) {
+    final base = ThemeData(colorScheme: cs);
 
     return base.copyWith(
       textTheme: GoogleFonts.googleSansTextTheme(base.textTheme),
@@ -46,6 +47,8 @@ class const AppTheme._() {
     );
   }
 
-  static ThemeData light(int seedIndex) => _themeBuilder(.light, seedIndex);
-  static ThemeData dark(int seedIndex) => _themeBuilder(.dark, seedIndex);
+  static ThemeData fromColorScheme(ColorScheme cs) => _themeBuilder(cs);
+
+  static ThemeData light() =>
+      _themeBuilder(ColorScheme.fromSeed(seedColor: fallbackSeedColor));
 }

@@ -30,7 +30,7 @@ Future<void> main({List<Override> overrides = const []}) async {
     await Future.wait([
       container.read(localeControllerProvider.notifier).init(),
       container.read(themeControllerProvider.notifier).init(),
-      container.read(colorSchemeSeedControllerProvider.notifier).init(),
+      container.read(colorPresetControllerProvider.notifier).init(),
     ]);
 
     runApp(UncontrolledProviderScope(container: container, child: const App()));

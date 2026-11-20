@@ -8,6 +8,7 @@ import 'package:fresh_list/l10n/gen/app_localizations.dart';
 import 'package:fresh_list/src/core/constants/consts.dart';
 import 'package:fresh_list/src/core/extensions/build_context_extensions.dart';
 import 'package:fresh_list/src/core/localization/locale_controller.dart';
+import 'package:fresh_list/src/core/theme/color_preset.dart';
 import 'package:fresh_list/src/core/theme/color_scheme_seed_controller.dart';
 import 'package:fresh_list/src/core/theme/theme_controller.dart';
 import 'package:fresh_list/src/core/utils/haptics_helper.dart';
@@ -94,11 +95,11 @@ class _SettingsViewState extends State<SettingsView> {
                     ),
                     onTap: () {
                       final randomSeedIndex = math.Random().nextInt(
-                        Colors.primaries.length,
+                        ColorPreset.values.length,
                       );
                       ref
-                          .read(colorSchemeSeedControllerProvider.notifier)
-                          .setSeedIndex(randomSeedIndex);
+                          .read(colorPresetControllerProvider.notifier)
+                          .setPreset(ColorPreset.values[randomSeedIndex]);
                     },
                   );
                 },

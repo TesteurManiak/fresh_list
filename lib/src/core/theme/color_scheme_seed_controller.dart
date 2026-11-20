@@ -1,39 +1,37 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_list/src/core/shared_prefs/shared_prefs.dart';
+import 'package:fresh_list/src/core/theme/color_preset.dart';
 import 'package:material_ui/material_ui.dart';
 
-const kDefaultSeedIndex = 12;
-
-final colorSchemeSeedControllerProvider =
-    NotifierProvider<ColorSchemeSeedController, int>(
-      ColorSchemeSeedController.new,
+final colorPresetControllerProvider =
+    NotifierProvider<ColorPresetController, ColorPreset>(
+      ColorPresetController.new,
     );
 
-final colorSeedProvider = Provider<Color>((ref) {
-  final seedIndex = ref.watch(colorSchemeSeedControllerProvider);
-  return Colors.primaries.elementAt(seedIndex);
-});
+final colorSeedProvider = Provider<Color?>(
+  (ref) => ref.watch(colorPresetControllerProvider.select((p) => p.color)),
+);
 
-class ColorSchemeSeedController extends Notifier<int> {
-  static const colorSchemeIndexKey = SharedPrefsKey.colorSchemeIndex;
+class ColorPresetController extends Notifier<ColorPreset> {
+  static const colorSchemeIndexKey = SharedPrefsKey.colorPreset;
 
   @override
-  int build() => kDefaultSeedIndex;
+  ColorPreset build() => .dynamic;
 
   Future<void> init() async {
     final prefs = await ref.read(sharedPreferencesProvider.future);
-    final index = prefs.getInt(colorSchemeIndexKey.key) ?? kDefaultSeedIndex;
-    await setSeedIndex(index);
+    final index = prefs.getInt(colorSchemeIndexKey.key);
+
+    await setPreset(ColorPreset.fromIndex(index ?? ColorPreset.dynamic.index));
   }
 
-  Future<void> setSeedIndex(int index) async {
-    final newIndex = index.clamp(0, Colors.primaries.length - 1);
-    if (newIndex == state) return;
+  Future<void> setPreset(ColorPreset preset) async {
+    if (preset == state) return;
 
     final prefs = await ref.read(sharedPreferencesProvider.future);
-    await prefs.setInt(colorSchemeIndexKey.key, newIndex);
-    state = newIndex;
+    await prefs.setInt(colorSchemeIndexKey.key, preset.index);
+    state = preset;
   }
 
-  Future<void> reset() => setSeedIndex(kDefaultSeedIndex);
+  Future<void> reset() => setPreset(.dynamic);
 }

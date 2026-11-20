@@ -2,18 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_list/src/core/extensions/theme_mode_extensions.dart';
 import 'package:fresh_list/src/core/shared_prefs/shared_prefs.dart';
-import 'package:fresh_list/src/core/theme/theme.dart';
 import 'package:material_ui/material_ui.dart';
-
-final defaultThemeModeProvider = Provider<ThemeMode>((_) => .system);
-
-final lightThemeProvider = Provider.autoDispose.family<ThemeData, int>(
-  (_, seedIndex) => AppTheme.light(seedIndex),
-);
-
-final darkThemeProvider = Provider.autoDispose.family<ThemeData, int>(
-  (_, seedIndex) => AppTheme.dark(seedIndex),
-);
 
 final platformBrightnessProvider = Provider<Brightness>(
   (_) => PlatformDispatcher.instance.platformBrightness,
@@ -27,7 +16,7 @@ class ThemeController extends Notifier<ThemeMode> {
   static const themeKey = SharedPrefsKey.themeMode;
 
   @override
-  ThemeMode build() => ref.watch(defaultThemeModeProvider);
+  ThemeMode build() => .system;
 
   /// Initialize the theme mode.
   ///
@@ -59,5 +48,5 @@ class ThemeController extends Notifier<ThemeMode> {
   }
 
   /// Used to reset the theme mode to the default theme mode.
-  Future<void> reset() => setThemeMode(ref.read(defaultThemeModeProvider));
+  Future<void> reset() => setThemeMode(.system);
 }
