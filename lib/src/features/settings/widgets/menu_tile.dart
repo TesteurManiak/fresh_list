@@ -29,11 +29,11 @@ class MenuTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme cs = ColorScheme.of(context);
-    final TextTheme tt = TextTheme.of(context);
+    final cs = ColorScheme.of(context);
+    final tt = TextTheme.of(context);
 
-    final Color titleColor = foreground ?? cs.onSurface;
-    final Color accessoryColor = foreground ?? cs.onSurfaceVariant;
+    final titleColor = foreground ?? cs.onSurface;
+    final accessoryColor = foreground ?? cs.onSurfaceVariant;
 
     return Material(
       color: background ?? cs.surfaceContainer,
@@ -58,24 +58,23 @@ class MenuTile extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: .center,
                     crossAxisAlignment: .start,
+                    spacing: 2,
                     children: [
                       Text(
                         title,
                         style: tt.bodyLarge?.copyWith(color: titleColor),
                       ),
-                      if (subtitle != null) ...[
-                        const SizedBox(height: 2),
+                      if (subtitle case final s?)
                         Text(
-                          subtitle!,
+                          s,
                           style: tt.bodyMedium?.copyWith(color: accessoryColor),
                         ),
-                      ],
                     ],
                   ),
                 ),
-                if (trailing != null) ...[
+                if (trailing case final t?) ...[
                   const SizedBox(width: 8),
-                  trailing!,
+                  t,
                 ] else if (onTap != null) ...[
                   const SizedBox(width: 8),
                   Icon(Icons.chevron_right_rounded, color: accessoryColor),
