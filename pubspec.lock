@@ -739,8 +739,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "1a8f7be0a01fc37c987acaffbfbd3deea685ca23"
-      resolved-ref: "1a8f7be0a01fc37c987acaffbfbd3deea685ca23"
+      ref: "30e8fab1be7591e613fdd9afc80ebb37ed9f6f0a"
+      resolved-ref: "30e8fab1be7591e613fdd9afc80ebb37ed9f6f0a"
       url: "https://github.com/TesteurManiak/native_nearby_connections/"
     source: git
     version: "0.1.0"
