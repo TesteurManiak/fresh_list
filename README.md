@@ -46,9 +46,20 @@ dart run vector_graphics_compiler \
 
 Then run `build_runner` to generate the appropriate accessors.
 
+## Features
+
+* Material 3 Expressive UI
+* Light & Dark theme support
+* List management (add, edit, reorder, delete entries)
+* List sharing (via P2P Nearby Connections or Copy to Clipboard)
+* Localization support:
+  - English
+  - French
+
 ## TODOs
 
 * Improve Material 3 Expressive UI
+  - Color seed selection
   - Add/Edit entry sheet
 * Manage multiple lists
 * Collaborative list edition with [Nearby Connections](https://developers.google.com/nearby/connections/overview)
