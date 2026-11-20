@@ -60,9 +60,10 @@ Then run `build_runner` to generate the appropriate accessors.
 
 ## TODOs
 
-* Improve Material 3 Expressive UI
+* Improve Material 3 Expressive UI/UX
   - Color seed selection
   - Add/Edit entry sheet
+  - Edit entries on single tap or double tap
 * Manage multiple lists
 * Collaborative list edition with [Nearby Connections](https://developers.google.com/nearby/connections/overview)
 * In-app updates

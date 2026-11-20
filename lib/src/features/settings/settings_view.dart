@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,12 +7,12 @@ import 'package:fresh_list/l10n/gen/app_localizations.dart';
 import 'package:fresh_list/src/core/constants/consts.dart';
 import 'package:fresh_list/src/core/extensions/build_context_extensions.dart';
 import 'package:fresh_list/src/core/localization/locale_controller.dart';
-import 'package:fresh_list/src/core/theme/color_preset.dart';
 import 'package:fresh_list/src/core/theme/color_scheme_seed_controller.dart';
 import 'package:fresh_list/src/core/theme/theme_controller.dart';
 import 'package:fresh_list/src/core/utils/haptics_helper.dart';
 import 'package:fresh_list/src/core/widgets/app_icon.dart';
 import 'package:fresh_list/src/core/widgets/bottom_padding.dart';
+import 'package:fresh_list/src/features/settings/widgets/color_preset_sheet.dart';
 import 'package:fresh_list/src/features/settings/widgets/language_sheet.dart';
 import 'package:fresh_list/src/features/settings/widgets/menu_section.dart';
 import 'package:fresh_list/src/features/settings/widgets/menu_tile.dart';
@@ -80,26 +79,20 @@ class _SettingsViewState extends State<SettingsView> {
               ),
               Consumer(
                 builder: (context, ref, _) {
-                  final color = ref.watch(colorSeedProvider);
-
                   return MenuTile(
                     icon: Icons.color_lens_outlined,
                     title: strings.settings_color_title,
-                    trailing: Container(
-                      decoration: BoxDecoration(
-                        color: color,
-                        borderRadius: .circular(8),
-                      ),
-                      width: 24,
-                      height: 24,
-                    ),
-                    onTap: () {
-                      final randomSeedIndex = math.Random().nextInt(
-                        ColorPreset.values.length,
+                    trailing: const _ColorPresetIcon(),
+                    onTap: () async {
+                      final newPreset = await const ColorPresetSheet().show(
+                        context,
                       );
-                      ref
-                          .read(colorPresetControllerProvider.notifier)
-                          .setPreset(ColorPreset.values[randomSeedIndex]);
+                      if (newPreset == null) return;
+                      unawaited(
+                        ref
+                            .read(colorPresetControllerProvider.notifier)
+                            .setPreset(newPreset),
+                      );
                     },
                   );
                 },
@@ -179,6 +172,33 @@ class _SettingsViewState extends State<SettingsView> {
 
       const NoMailAppSnack().show(context);
     }
+  }
+}
+
+class _ColorPresetIcon extends ConsumerWidget {
+  const new();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const size = 32.0;
+    final cs = ColorScheme.of(context);
+    final preset = ref.watch(colorPresetControllerProvider);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: preset.color,
+        gradient: switch (preset) {
+          .dynamic => LinearGradient(
+            colors: [cs.primary, cs.secondary, cs.tertiaryContainer],
+          ),
+          _ => null,
+        },
+        borderRadius: .circular(10),
+        border: Border.all(color: cs.outlineVariant, width: 1.5),
+      ),
+      width: size,
+      height: size,
+    );
   }
 }
 
