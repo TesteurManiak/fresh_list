@@ -107,7 +107,7 @@ class _SettingsViewState extends State<SettingsView> {
                 builder: (context, ref, _) {
                   final currentLocale = ref.watch(localeControllerProvider);
                   return MenuTile(
-                    icon: Icons.language,
+                    icon: Icons.translate,
                     title: strings.settings_language_title,
                     trailing: Text(currentLocale.label(strings)),
                     onTap: () async {

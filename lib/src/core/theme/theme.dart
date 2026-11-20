@@ -24,6 +24,25 @@ class const AppTheme._() {
         selectionHandleColor: base.colorScheme.primary,
         cursorColor: base.colorScheme.primary,
       ),
+      dialogTheme: base.dialogTheme.copyWith(
+        shape: RoundedRectangleBorder(borderRadius: .circular(28)),
+        clipBehavior: .antiAlias,
+        backgroundColor: base.colorScheme.surfaceContainerHigh,
+        iconColor: base.colorScheme.secondary,
+        titleTextStyle: TextStyle(
+          fontSize: 24,
+          height: 32 / 24,
+          fontWeight: .w400,
+          color: base.colorScheme.onSurface,
+        ),
+      ),
+      bottomSheetTheme: base.bottomSheetTheme.copyWith(
+        shape: RoundedRectangleBorder(borderRadius: .circular(52)),
+        clipBehavior: .antiAlias,
+        constraints: const BoxConstraints(maxWidth: 560),
+        showDragHandle: false,
+        backgroundColor: base.colorScheme.surfaceContainerHigh,
+      ),
     );
   }
 
