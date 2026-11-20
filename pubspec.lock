@@ -739,11 +739,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "1f93da7d245c71cd08188c239c89bf9c9f77d3fd"
-      resolved-ref: "1f93da7d245c71cd08188c239c89bf9c9f77d3fd"
+      ref: "1a8f7be0a01fc37c987acaffbfbd3deea685ca23"
+      resolved-ref: "1a8f7be0a01fc37c987acaffbfbd3deea685ca23"
       url: "https://github.com/TesteurManiak/native_nearby_connections/"
     source: git
-    version: "1.0.0"
+    version: "0.1.0"
   native_toolchain_c:
     dependency: transitive
     description:
@@ -1391,4 +1391,4 @@ packages:
     version: "2.2.4"
 sdks:
   dart: ">=3.13.7 <4.0.0"
-  flutter: ">=3.47.0"
+  flutter: ">=3.50.0"

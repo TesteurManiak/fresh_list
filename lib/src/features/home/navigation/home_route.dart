@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:fresh_list/src/features/home/home_view.dart';
+import 'package:fresh_list/src/features/settings/navigation/settings_route.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_list/src/features/home/home_view.dart';
-import 'package:todo_list/src/features/settings/navigation/settings_route.dart';
 
 part 'home_route.g.dart';
 

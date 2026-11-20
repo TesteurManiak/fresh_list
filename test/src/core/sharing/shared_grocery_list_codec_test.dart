@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todo_list/src/core/models/grocery.dart';
-import 'package:todo_list/src/core/sharing/shared_grocery_list_codec.dart';
+import 'package:fresh_list/src/core/models/grocery.dart';
+import 'package:fresh_list/src/core/sharing/shared_grocery_list_codec.dart';
 
 void main() {
   Grocery grocery(String name, {bool completed = false}) => Grocery(

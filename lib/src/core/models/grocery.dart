@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:todo_list/src/core/models/grocery_list.dart';
-import 'package:todo_list/src/core/models/id.dart';
+import 'package:fresh_list/src/core/models/grocery_list.dart';
+import 'package:fresh_list/src/core/models/id.dart';
 
 part 'grocery.freezed.dart';
 

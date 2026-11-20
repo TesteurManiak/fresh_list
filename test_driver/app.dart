@@ -1,11 +1,11 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_driver/driver_extension.dart';
+import 'package:fresh_list/main.dart' as app;
+import 'package:fresh_list/src/core/localization/locale_controller.dart';
+import 'package:fresh_list/src/core/models/recent_search.dart';
+import 'package:fresh_list/src/core/theme/theme_controller.dart';
+import 'package:fresh_list/src/features/home/controllers/grocery_list_controller.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/main.dart' as app;
-import 'package:todo_list/src/core/localization/locale_controller.dart';
-import 'package:todo_list/src/core/models/recent_search.dart';
-import 'package:todo_list/src/core/theme/theme_controller.dart';
-import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
 
 Future<void> main() async {
   enableFlutterDriverExtension();

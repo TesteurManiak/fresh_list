@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_list/src/core/models/grocery.dart';
-import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
+import 'package:fresh_list/src/core/models/grocery.dart';
+import 'package:fresh_list/src/features/home/data/sources/home_local_datasource.dart';
 
 final homeRepositoryProvider = Provider<HomeRepository>((ref) {
   final localDatasource = ref.watch(homeLocalDatasourceProvider);

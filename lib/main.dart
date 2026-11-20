@@ -7,14 +7,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
+import 'package:fresh_list/app.dart';
+import 'package:fresh_list/gen/assets.gen.dart';
+import 'package:fresh_list/src/core/localization/locale_controller.dart';
+import 'package:fresh_list/src/core/theme/theme_controller.dart';
+import 'package:fresh_list/src/core/widgets/error_page.dart';
+import 'package:fresh_list/src/core/widgets/launch_failure_app.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:todo_list/app.dart';
-import 'package:todo_list/gen/assets.gen.dart';
-import 'package:todo_list/src/core/localization/locale_controller.dart';
-import 'package:todo_list/src/core/theme/theme_controller.dart';
-import 'package:todo_list/src/core/widgets/error_page.dart';
-import 'package:todo_list/src/core/widgets/launch_failure_app.dart';
 
 Future<void> main({List<Override> overrides = const []}) async {
   final binding = WidgetsFlutterBinding.ensureInitialized();

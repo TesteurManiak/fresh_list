@@ -1,5 +1,5 @@
+import 'package:fresh_list/src/features/settings/widgets/menu_section.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/src/features/settings/widgets/menu_section.dart';
 
 /// A single row in a grouped settings list. Sized to the M3 list-item spec:
 /// 56dp min height for one line, 72dp with a supporting line, 24dp leading

@@ -1,11 +1,11 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_list/src/core/clock.dart';
-import 'package:todo_list/src/core/models/grocery.dart';
-import 'package:todo_list/src/core/models/recent_search.dart';
-import 'package:todo_list/src/core/sharing/shared_grocery_list_codec.dart';
-import 'package:todo_list/src/features/home/data/repositories/home_repository.dart';
-import 'package:todo_list/src/features/home/data/sources/home_local_datasource.dart';
+import 'package:fresh_list/src/core/clock.dart';
+import 'package:fresh_list/src/core/models/grocery.dart';
+import 'package:fresh_list/src/core/models/recent_search.dart';
+import 'package:fresh_list/src/core/sharing/shared_grocery_list_codec.dart';
+import 'package:fresh_list/src/features/home/data/repositories/home_repository.dart';
+import 'package:fresh_list/src/features/home/data/sources/home_local_datasource.dart';
 
 final groceryListControllerProvider =
     StreamNotifierProvider.autoDispose<GroceryListController, IList<Grocery>>(
@@ -28,7 +28,7 @@ class GroceryListController extends StreamNotifier<IList<Grocery>> {
 
   /// Appends [items] not already in the list (by name, case-insensitive) and
   /// returns how many were added.
-  Future<int> importGroceries(List<SharedGrocery> items) async {
+  Future<int> importGroceries(IList<SharedGrocery> items) async {
     final elements = state.value;
     if (elements == null) return 0;
 

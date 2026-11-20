@@ -3,20 +3,19 @@ import 'dart:developer';
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_list/src/core/extensions/build_context_extensions.dart';
+import 'package:fresh_list/src/core/mixins/showable.dart';
+import 'package:fresh_list/src/core/models/grocery.dart';
+import 'package:fresh_list/src/core/sharing/nearby_connections.dart';
+import 'package:fresh_list/src/core/widgets/app_sheet.dart';
+import 'package:fresh_list/src/core/widgets/sliver_spacing.dart';
+import 'package:fresh_list/src/features/home/controllers/grocery_list_controller.dart';
+import 'package:fresh_list/src/features/home/widgets/copied_list_snack.dart';
+import 'package:fresh_list/src/features/home/widgets/error_snack.dart';
+import 'package:fresh_list/src/features/home/widgets/items_added_snack.dart';
+import 'package:fresh_list/src/features/home/widgets/list_sent_snack.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
-import 'package:todo_list/src/core/mixins/hook.dart';
-import 'package:todo_list/src/core/mixins/showable.dart';
-import 'package:todo_list/src/core/models/grocery.dart';
-import 'package:todo_list/src/core/sharing/nearby_connections.dart';
-import 'package:todo_list/src/core/widgets/app_sheet.dart';
-import 'package:todo_list/src/core/widgets/sliver_spacing.dart';
-import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
-import 'package:todo_list/src/features/home/widgets/copied_list_snack.dart';
-import 'package:todo_list/src/features/home/widgets/error_snack.dart';
-import 'package:todo_list/src/features/home/widgets/items_added_snack.dart';
-import 'package:todo_list/src/features/home/widgets/list_sent_snack.dart';
 
 class NearbySharingBottomSheet extends ConsumerStatefulWidget
     with ShowableBottomSheetMixin<void> {
@@ -28,37 +27,8 @@ class NearbySharingBottomSheet extends ConsumerStatefulWidget
 }
 
 class _NearbySharingBottomSheetState
-    extends ConsumerState<NearbySharingBottomSheet>
-    with HookMixin {
-  late final isStartingNotifier = useValueNotifier(false);
-
-  @override
-  void initState() {
-    super.initState();
-    _start();
-  }
-
-  Future<void> _start() async {
-    final controller = ref.read(nearbySharingControllerProvider.notifier);
-    isStartingNotifier.value = true;
-    try {
-      await controller.stop();
-      await controller.start();
-    } catch (e, s) {
-      log(
-        'Error while starting nearby sharing',
-        error: e,
-        stackTrace: s,
-        name: 'NearbySharingBottomSheet',
-      );
-      if (!mounted) return;
-      ErrorSnack('$e').show(context);
-    } finally {
-      if (mounted) isStartingNotifier.value = false;
-    }
-  }
-
-  Future<void> _onListReceived(ReceivedList received) async {
+    extends ConsumerState<NearbySharingBottomSheet> {
+  Future<void> onListReceived(ReceivedListRecord received) async {
     ref.read(nearbySharingControllerProvider.notifier).clearReceivedList();
 
     final accepted = await _ReceivedListDialog(received).show(context);
@@ -77,11 +47,15 @@ class _NearbySharingBottomSheetState
     final textTheme = TextTheme.of(context);
     final cs = ColorScheme.of(context);
 
-    ref.listen(nearbySharingControllerProvider.select((s) => s.receivedList), (
-      _,
-      received,
-    ) {
-      if (received != null) _onListReceived(received);
+    ref.listen(nearbySharingControllerProvider, (_, next) {
+      if (next.error case final error?) {
+        if (!context.mounted) return;
+        ErrorSnack('$error').show(context);
+      }
+    });
+
+    ref.listen(nearbySharingReceivedListProvider, (_, next) {
+      if (next != null) onListReceived(next);
     });
 
     return AppSheet(
@@ -102,12 +76,7 @@ class _NearbySharingBottomSheetState
           const SliverSpacing(16),
           _SliverSharedListCard(),
           const SliverSpacing(16),
-          ValueListenableBuilder(
-            valueListenable: isStartingNotifier,
-            builder: (_, isStarting, _) {
-              return _SliverNearbyPeerList(isStarting: isStarting);
-            },
-          ),
+          const _SliverNearbyPeerList(),
           const SliverSpacing(16),
           SliverToBoxAdapter(
             child: TextButton(
@@ -255,28 +224,22 @@ class _Avatar extends StatelessWidget {
 }
 
 class _SliverNearbyPeerList extends ConsumerWidget {
-  const new({required this.isStarting});
-
-  final bool isStarting;
+  const new();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenHeight = MediaQuery.sizeOf(context).height;
-    final peers = ref.watch(
-      nearbySharingControllerProvider.select((s) => s.peers),
-    );
+    final peers = ref.watch(nearbySharingPeersProvider);
 
     return SliverMainAxisGroup(
       slivers: [
         _SliverNearbySharingHeader(),
         const SliverSpacing(4),
-        if (isStarting || peers.isEmpty)
+        if (peers.isEmpty)
           SliverToBoxAdapter(
             child: SizedBox(
               height: screenHeight * 0.25,
-              child: isStarting
-                  ? UnconstrainedBox(child: LoadingIndicator())
-                  : const _SearchingIndicator(),
+              child: const _SearchingIndicator(),
             ),
           )
         else
@@ -403,8 +366,9 @@ class _SliverNearbySharingHeader extends ConsumerWidget {
     final strings = context.strings;
     final textTheme = TextTheme.of(context);
     final peersCount = ref.watch(
-      nearbySharingControllerProvider.select((s) => s.peers.length),
+      nearbySharingPeersProvider.select((p) => p.length),
     );
+
     return SliverToBoxAdapter(
       child: Padding(
         padding: const .symmetric(horizontal: 4),
@@ -489,7 +453,7 @@ class _ReceivedListDialog extends StatelessWidget
     with ShowableDialogMixin<bool> {
   const new(this.received);
 
-  final ReceivedList received;
+  final ReceivedListRecord received;
 
   @override
   Widget build(BuildContext context) {

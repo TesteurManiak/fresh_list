@@ -4,11 +4,11 @@ import 'dart:developer';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fresh_list/src/core/models/grocery.dart';
+import 'package:fresh_list/src/core/permissions/permission_manager.dart';
+import 'package:fresh_list/src/core/sharing/shared_grocery_list_codec.dart';
+import 'package:fresh_list/src/core/utils/device_info.dart';
 import 'package:native_nearby_connections/native_nearby_connections.dart';
-import 'package:todo_list/src/core/models/grocery.dart';
-import 'package:todo_list/src/core/permissions/permission_manager.dart';
-import 'package:todo_list/src/core/sharing/shared_grocery_list_codec.dart';
-import 'package:todo_list/src/core/utils/device_info.dart';
 
 part 'nearby_connections.freezed.dart';
 
@@ -21,11 +21,18 @@ final nearbySharingControllerProvider =
       NearbySharingController.new,
     );
 
-/// Name other devices see for this one.
-final deviceNameProvider = FutureProvider<String>((ref) {
-  final deviceInfoService = ref.watch(deviceInfoServiceProvider);
-  return deviceInfoService.getDeviceName();
+final nearbySharingPeersProvider = Provider.autoDispose<IMap<String, Peer>>((
+  ref,
+) {
+  return ref.watch(nearbySharingControllerProvider.select((s) => s.peers));
 });
+
+final nearbySharingReceivedListProvider =
+    Provider.autoDispose<ReceivedListRecord?>((ref) {
+      return ref.watch(
+        nearbySharingControllerProvider.select((s) => s.receivedList),
+      );
+    });
 
 class NearbySharingController extends Notifier<NearbySharingState>
     implements NearbyFlutterApi {
@@ -35,7 +42,9 @@ class NearbySharingController extends Notifier<NearbySharingState>
 
     ref.onDispose(() => _dispose(nearby));
 
-    return const NearbySharingState();
+    start();
+
+    return const NearbySharingState(isAdvertising: true, isDiscovering: true);
   }
 
   void _dispose(NativeNearbyConnections nearby) {
@@ -48,7 +57,6 @@ class NearbySharingController extends Notifier<NearbySharingState>
 
   /// Advertises and discovers at once, so both devices see each other.
   Future<void> start() async {
-    state = state.copyWith(isAdvertising: true, isDiscovering: true);
     try {
       await ref
           .read(permissionManagerProvider)
@@ -67,24 +75,23 @@ class NearbySharingController extends Notifier<NearbySharingState>
         stackTrace: s,
         name: 'NearbySharingController',
       );
-      await stop();
-      rethrow;
+      stop(error: e);
     }
   }
 
-  Future<void> stop() async {
+  void stop({Object? error}) {
     // No early return on idle state: after a hot restart the native session
     // may still be running while this state says idle.
-    await Future.wait([
-      ref.read(nearbyConnectionsProvider).stopAdvertising(),
-      ref.read(nearbyConnectionsProvider).stopDiscovery(),
-      ref.read(nearbyConnectionsProvider).stopAllEndpoints(),
-    ]);
+    ref.read(nearbyConnectionsProvider)
+      ..stopAdvertising()
+      ..stopDiscovery()
+      ..stopAllEndpoints();
 
     state = state.copyWith(
       isAdvertising: false,
       isDiscovering: false,
       peers: state.peers.clear(),
+      error: error,
     );
   }
 
@@ -221,7 +228,7 @@ class NearbySharingController extends Notifier<NearbySharingState>
       state = state.copyWith(
         receivedList: (
           from: state.peers[endpointId]?.name ?? endpointId,
-          items: SharedGroceryListCodec.decode(bytes),
+          items: SharedGroceryListCodec.decode(bytes).lock,
         ),
       );
     } on FormatException catch (e, s) {
@@ -246,11 +253,12 @@ sealed class NearbySharingState with _$NearbySharingState {
     @Default(IMap<String, Peer>.empty()) IMap<String, Peer> peers,
 
     /// Last list received from a peer, waiting for the user to accept it.
-    ReceivedList? receivedList,
+    ReceivedListRecord? receivedList,
+    Object? error,
   }) = _NearbySharingState;
 }
 
-typedef ReceivedList = ({String from, List<SharedGrocery> items});
+typedef ReceivedListRecord = ({String from, IList<SharedGrocery> items});
 
 enum PeerState { found, connecting, connected }
 

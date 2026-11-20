@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_list/gen/assets.gen.dart';
+import 'package:fresh_list/src/core/models/grocery.dart';
+import 'package:fresh_list/src/core/utils/haptics_helper.dart';
+import 'package:fresh_list/src/core/widgets/checkbox.dart';
+import 'package:fresh_list/src/features/home/controllers/grocery_list_controller.dart';
+import 'package:fresh_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
+import 'package:fresh_list/src/features/home/widgets/edited_snack.dart';
+import 'package:fresh_list/src/features/home/widgets/grocery_card.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/gen/assets.gen.dart';
-import 'package:todo_list/src/core/models/grocery.dart';
-import 'package:todo_list/src/core/utils/haptics_helper.dart';
-import 'package:todo_list/src/core/widgets/checkbox.dart';
-import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
-import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
-import 'package:todo_list/src/features/home/widgets/edited_snack.dart';
-import 'package:todo_list/src/features/home/widgets/grocery_card.dart';
 
 class GroceryTile extends ConsumerStatefulWidget {
   const new(

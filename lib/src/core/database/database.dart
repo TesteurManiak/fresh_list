@@ -3,12 +3,12 @@ import 'dart:io' as io;
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_list/src/core/database/database.drift.dart';
+import 'package:fresh_list/src/core/database/groceries_table.dart';
+import 'package:fresh_list/src/core/database/recent_searches_table.dart';
+import 'package:fresh_list/src/core/database/shopping_lists_table.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:todo_list/src/core/database/database.drift.dart';
-import 'package:todo_list/src/core/database/groceries_table.dart';
-import 'package:todo_list/src/core/database/recent_searches_table.dart';
-import 'package:todo_list/src/core/database/shopping_lists_table.dart';
 
 @DriftDatabase(
   tables: [ShoppingListsTable, GroceriesTable, RecentSearchesTable],

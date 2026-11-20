@@ -1,5 +1,5 @@
+import 'package:fresh_list/src/core/theme/theme.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/src/core/theme/theme.dart';
 
 class LaunchFailureApp extends StatelessWidget {
   const new({super.key});

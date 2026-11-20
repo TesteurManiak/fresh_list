@@ -1,10 +1,10 @@
 // dart format width=80
 // ignore_for_file: type=lint
 import 'package:drift/drift.dart' as i0;
-import 'package:todo_list/src/core/database/shopping_lists_table.drift.dart'
+import 'package:fresh_list/src/core/database/shopping_lists_table.drift.dart'
     as i1;
-import 'package:todo_list/src/core/database/groceries_table.drift.dart' as i2;
-import 'package:todo_list/src/core/database/recent_searches_table.drift.dart'
+import 'package:fresh_list/src/core/database/groceries_table.drift.dart' as i2;
+import 'package:fresh_list/src/core/database/recent_searches_table.drift.dart'
     as i3;
 
 abstract class $AppDatabase extends i0.GeneratedDatabase {

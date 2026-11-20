@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
-import 'package:todo_list/src/core/database/groceries_table.drift.dart';
-import 'package:todo_list/src/core/database/shopping_lists_table.dart';
-import 'package:todo_list/src/core/models/grocery.dart';
-import 'package:todo_list/src/core/models/id.dart';
+import 'package:fresh_list/src/core/database/groceries_table.drift.dart';
+import 'package:fresh_list/src/core/database/shopping_lists_table.dart';
+import 'package:fresh_list/src/core/models/grocery.dart';
+import 'package:fresh_list/src/core/models/id.dart';
 
 @TableIndex(name: 'grocery_index', columns: {#order})
 class GroceriesTable extends Table {

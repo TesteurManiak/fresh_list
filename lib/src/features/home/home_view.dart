@@ -4,19 +4,19 @@ import 'dart:ui';
 
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_list/src/core/constants/consts.dart';
+import 'package:fresh_list/src/core/extensions/build_context_extensions.dart';
+import 'package:fresh_list/src/core/mixins/hook.dart';
+import 'package:fresh_list/src/core/utils/haptics_helper.dart';
+import 'package:fresh_list/src/core/widgets/app_icon.dart';
+import 'package:fresh_list/src/core/widgets/bottom_padding.dart';
+import 'package:fresh_list/src/features/home/controllers/grocery_list_controller.dart';
+import 'package:fresh_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
+import 'package:fresh_list/src/features/home/widgets/grocery_tile.dart';
+import 'package:fresh_list/src/features/home/widgets/nearby_sharing_bottom_sheet.dart';
+import 'package:fresh_list/src/features/settings/navigation/settings_route.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/src/core/constants/consts.dart';
-import 'package:todo_list/src/core/extensions/build_context_extensions.dart';
-import 'package:todo_list/src/core/mixins/hook.dart';
-import 'package:todo_list/src/core/utils/haptics_helper.dart';
-import 'package:todo_list/src/core/widgets/app_icon.dart';
-import 'package:todo_list/src/core/widgets/bottom_padding.dart';
-import 'package:todo_list/src/features/home/controllers/grocery_list_controller.dart';
-import 'package:todo_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
-import 'package:todo_list/src/features/home/widgets/grocery_tile.dart';
-import 'package:todo_list/src/features/home/widgets/nearby_sharing_bottom_sheet.dart';
-import 'package:todo_list/src/features/settings/navigation/settings_route.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const new({super.key});

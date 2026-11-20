@@ -1,5 +1,5 @@
+import 'package:fresh_list/src/core/widgets/app_snack.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/src/core/widgets/app_snack.dart';
 
 class ErrorSnack(final Object error) extends AppSnack {
   @override

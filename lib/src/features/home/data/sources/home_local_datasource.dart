@@ -2,15 +2,15 @@ import 'package:clock/clock.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_list/src/core/clock.dart';
-import 'package:todo_list/src/core/database/database.dart';
-import 'package:todo_list/src/core/database/groceries_table.dart';
-import 'package:todo_list/src/core/database/groceries_table.drift.dart';
-import 'package:todo_list/src/core/database/recent_searches_table.dart';
-import 'package:todo_list/src/core/database/recent_searches_table.drift.dart';
-import 'package:todo_list/src/core/extensions/date_time_extensions.dart';
-import 'package:todo_list/src/core/models/grocery.dart';
-import 'package:todo_list/src/core/models/recent_search.dart';
+import 'package:fresh_list/src/core/clock.dart';
+import 'package:fresh_list/src/core/database/database.dart';
+import 'package:fresh_list/src/core/database/groceries_table.dart';
+import 'package:fresh_list/src/core/database/groceries_table.drift.dart';
+import 'package:fresh_list/src/core/database/recent_searches_table.dart';
+import 'package:fresh_list/src/core/database/recent_searches_table.drift.dart';
+import 'package:fresh_list/src/core/extensions/date_time_extensions.dart';
+import 'package:fresh_list/src/core/models/grocery.dart';
+import 'package:fresh_list/src/core/models/recent_search.dart';
 
 const kMaxRecentSearches = 2;
 

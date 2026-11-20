@@ -1,8 +1,8 @@
 // dart format width=80
 // ignore_for_file: type=lint
 import 'package:drift/drift.dart' as i0;
-import 'package:todo_list/src/core/database/groceries_table.drift.dart' as i1;
-import 'package:todo_list/src/core/database/groceries_table.dart' as i2;
+import 'package:fresh_list/src/core/database/groceries_table.drift.dart' as i1;
+import 'package:fresh_list/src/core/database/groceries_table.dart' as i2;
 
 i0.Index get groceryIndex => i0.Index(
   'grocery_index',

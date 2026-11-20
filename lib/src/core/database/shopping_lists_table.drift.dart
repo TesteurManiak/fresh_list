@@ -1,9 +1,9 @@
 // dart format width=80
 // ignore_for_file: type=lint
 import 'package:drift/drift.dart' as i0;
-import 'package:todo_list/src/core/database/shopping_lists_table.drift.dart'
+import 'package:fresh_list/src/core/database/shopping_lists_table.drift.dart'
     as i1;
-import 'package:todo_list/src/core/database/shopping_lists_table.dart' as i2;
+import 'package:fresh_list/src/core/database/shopping_lists_table.dart' as i2;
 
 class $ShoppingListsTableTable extends i2.ShoppingListsTable
     with i0.TableInfo<$ShoppingListsTableTable, i1.ShoppingListsTableData> {

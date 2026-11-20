@@ -2,13 +2,19 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_list/src/core/exceptions/unsupported_platform_error.dart';
+import 'package:fresh_list/src/core/exceptions/unsupported_platform_error.dart';
 
 final deviceInfoPluginProvider = Provider((_) => DeviceInfoPlugin());
 
 final deviceInfoServiceProvider = Provider((ref) {
   final deviceInfoPlugin = ref.watch(deviceInfoPluginProvider);
   return DeviceInfoService(deviceInfoPlugin: deviceInfoPlugin);
+});
+
+/// Name other devices see for this one.
+final deviceNameProvider = FutureProvider<String>((ref) {
+  final deviceInfoService = ref.watch(deviceInfoServiceProvider);
+  return deviceInfoService.getDeviceName();
 });
 
 class const DeviceInfoService({

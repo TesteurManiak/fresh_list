@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_list/l10n/gen/app_localizations.dart';
-import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
+import 'package:fresh_list/l10n/gen/app_localizations.dart';
+import 'package:fresh_list/src/core/shared_prefs/shared_prefs.dart';
 
 typedef LocalizedString = String Function(AppLocalizations strings);
 

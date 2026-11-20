@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:todo_list/src/core/models/grocery.dart';
+import 'package:fresh_list/src/core/models/grocery.dart';
 
 typedef SharedGrocery = ({String name, bool completed});
 

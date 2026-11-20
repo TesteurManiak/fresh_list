@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_list/src/core/extensions/theme_mode_extensions.dart';
+import 'package:fresh_list/src/core/shared_prefs/shared_prefs.dart';
+import 'package:fresh_list/src/core/theme/theme.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/src/core/extensions/theme_mode_extensions.dart';
-import 'package:todo_list/src/core/shared_prefs/shared_prefs.dart';
-import 'package:todo_list/src/core/theme/theme.dart';
 
 final defaultThemeModeProvider = Provider<ThemeMode>((_) => .system);
 

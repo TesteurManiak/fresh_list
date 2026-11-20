@@ -1,5 +1,5 @@
-import 'package:todo_list/src/core/database/converters/custom_int_converter.dart';
-import 'package:todo_list/src/core/database/converters/custom_text_converter.dart';
+import 'package:fresh_list/src/core/database/converters/custom_int_converter.dart';
+import 'package:fresh_list/src/core/database/converters/custom_text_converter.dart';
 
 class const IntIdColumnConverter<T extends int>(final T Function(int) intParser)
     extends CustomIntTypeConverter<T> {

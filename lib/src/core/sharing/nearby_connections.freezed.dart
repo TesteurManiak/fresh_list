@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$NearbySharingState {
 
  bool get isAdvertising; bool get isDiscovering; IMap<String, Peer> get peers;/// Last list received from a peer, waiting for the user to accept it.
- ReceivedList? get receivedList;
+ ReceivedListRecord? get receivedList; Object? get error;
 /// Create a copy of NearbySharingState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,20 +28,20 @@ $NearbySharingStateCopyWith<NearbySharingState> get copyWith => _$NearbySharingS
 @override
 bool operator ==(Object other) {
   final _this = this as NearbySharingState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NearbySharingState&&(identical(other.isAdvertising, _this.isAdvertising) || other.isAdvertising == _this.isAdvertising)&&(identical(other.isDiscovering, _this.isDiscovering) || other.isDiscovering == _this.isDiscovering)&&(identical(other.peers, _this.peers) || other.peers == _this.peers)&&(identical(other.receivedList, _this.receivedList) || other.receivedList == _this.receivedList));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NearbySharingState&&(identical(other.isAdvertising, _this.isAdvertising) || other.isAdvertising == _this.isAdvertising)&&(identical(other.isDiscovering, _this.isDiscovering) || other.isDiscovering == _this.isDiscovering)&&(identical(other.peers, _this.peers) || other.peers == _this.peers)&&(identical(other.receivedList, _this.receivedList) || other.receivedList == _this.receivedList)&&const DeepCollectionEquality().equals(other.error, _this.error));
 }
 
 
 @override
 int get hashCode {
   final _this = this as NearbySharingState;
-  return Object.hash(runtimeType,_this.isAdvertising,_this.isDiscovering,_this.peers,_this.receivedList);
+  return Object.hash(runtimeType,_this.isAdvertising,_this.isDiscovering,_this.peers,_this.receivedList,const DeepCollectionEquality().hash(_this.error));
 }
 
 @override
 String toString() {
   final _this = this as NearbySharingState;
-  return 'NearbySharingState(isAdvertising: ${_this.isAdvertising}, isDiscovering: ${_this.isDiscovering}, peers: ${_this.peers}, receivedList: ${_this.receivedList})';
+  return 'NearbySharingState(isAdvertising: ${_this.isAdvertising}, isDiscovering: ${_this.isDiscovering}, peers: ${_this.peers}, receivedList: ${_this.receivedList}, error: ${_this.error})';
 }
 
 
@@ -52,7 +52,7 @@ abstract mixin class $NearbySharingStateCopyWith<$Res>  {
   factory $NearbySharingStateCopyWith(NearbySharingState value, $Res Function(NearbySharingState) _then) = _$NearbySharingStateCopyWithImpl;
 @useResult
 $Res call({
- bool isAdvertising, bool isDiscovering, IMap<String, Peer> peers, ReceivedList? receivedList
+ bool isAdvertising, bool isDiscovering, IMap<String, Peer> peers, ReceivedListRecord? receivedList, Object? error
 });
 
 
@@ -69,13 +69,13 @@ class _$NearbySharingStateCopyWithImpl<$Res>
 
 /// Create a copy of NearbySharingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isAdvertising = null,Object? isDiscovering = null,Object? peers = null,Object? receivedList = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isAdvertising = null,Object? isDiscovering = null,Object? peers = null,Object? receivedList = freezed,Object? error = freezed,}) {
   return _then(NearbySharingState(
 isAdvertising: null == isAdvertising ? _self.isAdvertising : isAdvertising // ignore: cast_nullable_to_non_nullable
 as bool,isDiscovering: null == isDiscovering ? _self.isDiscovering : isDiscovering // ignore: cast_nullable_to_non_nullable
 as bool,peers: null == peers ? _self.peers : peers // ignore: cast_nullable_to_non_nullable
 as IMap<String, Peer>,receivedList: freezed == receivedList ? _self.receivedList : receivedList // ignore: cast_nullable_to_non_nullable
-as ReceivedList?,
+as ReceivedListRecord?,error: freezed == error ? _self.error : error ,
   ));
 }
 
@@ -87,14 +87,15 @@ as ReceivedList?,
 
 
 class _NearbySharingState implements NearbySharingState {
-  const _NearbySharingState({this.isAdvertising = false, this.isDiscovering = false, this.peers = const IMap<String, Peer>.empty(), this.receivedList});
+  const _NearbySharingState({this.isAdvertising = false, this.isDiscovering = false, this.peers = const IMap<String, Peer>.empty(), this.receivedList, this.error});
   
 
 @override@JsonKey() final  bool isAdvertising;
 @override@JsonKey() final  bool isDiscovering;
 @override@JsonKey() final  IMap<String, Peer> peers;
 /// Last list received from a peer, waiting for the user to accept it.
-@override final  ReceivedList? receivedList;
+@override final  ReceivedListRecord? receivedList;
+@override final  Object? error;
 
 /// Create a copy of NearbySharingState
 /// with the given fields replaced by the non-null parameter values.
@@ -106,18 +107,18 @@ _$NearbySharingStateCopyWith<_NearbySharingState> get copyWith => __$NearbyShari
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NearbySharingState&&(identical(other.isAdvertising, isAdvertising) || other.isAdvertising == isAdvertising)&&(identical(other.isDiscovering, isDiscovering) || other.isDiscovering == isDiscovering)&&(identical(other.peers, peers) || other.peers == peers)&&(identical(other.receivedList, receivedList) || other.receivedList == receivedList));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NearbySharingState&&(identical(other.isAdvertising, isAdvertising) || other.isAdvertising == isAdvertising)&&(identical(other.isDiscovering, isDiscovering) || other.isDiscovering == isDiscovering)&&(identical(other.peers, peers) || other.peers == peers)&&(identical(other.receivedList, receivedList) || other.receivedList == receivedList)&&const DeepCollectionEquality().equals(other.error, error));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,isAdvertising,isDiscovering,peers,receivedList);
+    return Object.hash(runtimeType,isAdvertising,isDiscovering,peers,receivedList,const DeepCollectionEquality().hash(error));
 }
 
 @override
 String toString() {
-    return 'NearbySharingState(isAdvertising: $isAdvertising, isDiscovering: $isDiscovering, peers: $peers, receivedList: $receivedList)';
+    return 'NearbySharingState(isAdvertising: $isAdvertising, isDiscovering: $isDiscovering, peers: $peers, receivedList: $receivedList, error: $error)';
 }
 
 
@@ -128,7 +129,7 @@ abstract mixin class _$NearbySharingStateCopyWith<$Res> implements $NearbySharin
   factory _$NearbySharingStateCopyWith(_NearbySharingState value, $Res Function(_NearbySharingState) _then) = __$NearbySharingStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isAdvertising, bool isDiscovering, IMap<String, Peer> peers, ReceivedList? receivedList
+ bool isAdvertising, bool isDiscovering, IMap<String, Peer> peers, ReceivedListRecord? receivedList, Object? error
 });
 
 
@@ -145,13 +146,13 @@ class __$NearbySharingStateCopyWithImpl<$Res>
 
 /// Create a copy of NearbySharingState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isAdvertising = null,Object? isDiscovering = null,Object? peers = null,Object? receivedList = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isAdvertising = null,Object? isDiscovering = null,Object? peers = null,Object? receivedList = freezed,Object? error = freezed,}) {
   return _then(_NearbySharingState(
 isAdvertising: null == isAdvertising ? _self.isAdvertising : isAdvertising // ignore: cast_nullable_to_non_nullable
 as bool,isDiscovering: null == isDiscovering ? _self.isDiscovering : isDiscovering // ignore: cast_nullable_to_non_nullable
 as bool,peers: null == peers ? _self.peers : peers // ignore: cast_nullable_to_non_nullable
 as IMap<String, Peer>,receivedList: freezed == receivedList ? _self.receivedList : receivedList // ignore: cast_nullable_to_non_nullable
-as ReceivedList?,
+as ReceivedListRecord?,error: freezed == error ? _self.error : error ,
   ));
 }
 

@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_list/src/core/exceptions/unsupported_platform_error.dart';
+import 'package:fresh_list/src/core/utils/device_info.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:todo_list/src/core/exceptions/unsupported_platform_error.dart';
-import 'package:todo_list/src/core/utils/device_info.dart';
 
 final permissionManagerProvider = Provider(
   (ref) => PermissionManager(

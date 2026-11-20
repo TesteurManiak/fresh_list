@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_list/l10n/gen/app_localizations.dart';
+import 'package:fresh_list/src/core/constants/consts.dart';
+import 'package:fresh_list/src/core/localization/locale_controller.dart';
+import 'package:fresh_list/src/core/theme/always_scrollbar_behavior.dart';
+import 'package:fresh_list/src/core/theme/theme_controller.dart';
+import 'package:fresh_list/src/router/router.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:todo_list/l10n/gen/app_localizations.dart';
-import 'package:todo_list/src/core/constants/consts.dart';
-import 'package:todo_list/src/core/localization/locale_controller.dart';
-import 'package:todo_list/src/core/theme/always_scrollbar_behavior.dart';
-import 'package:todo_list/src/core/theme/theme_controller.dart';
-import 'package:todo_list/src/router/router.dart';
 
 class App extends ConsumerWidget {
   const new({super.key});

@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:todo_list/src/core/database/recent_searches_table.drift.dart';
-import 'package:todo_list/src/core/models/recent_search.dart';
+import 'package:fresh_list/src/core/database/recent_searches_table.drift.dart';
+import 'package:fresh_list/src/core/models/recent_search.dart';
 
 class RecentSearchesTable extends Table {
   TextColumn get query => text()();
