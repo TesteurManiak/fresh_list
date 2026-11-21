@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fresh_list/src/core/constants/consts.dart';
 import 'package:fresh_list/src/core/extensions/build_context_extensions.dart';
 import 'package:fresh_list/src/core/mixins/hook.dart';
 import 'package:fresh_list/src/core/utils/haptics_helper.dart';
@@ -13,9 +12,9 @@ import 'package:fresh_list/src/core/widgets/bottom_padding.dart';
 import 'package:fresh_list/src/features/home/notifiers/grocery_list_notifier.dart';
 import 'package:fresh_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 import 'package:fresh_list/src/features/home/widgets/grocery_tile.dart';
+import 'package:fresh_list/src/features/home/widgets/list_title.dart';
 import 'package:fresh_list/src/features/home/widgets/nearby_sharing_bottom_sheet.dart';
 import 'package:fresh_list/src/features/settings/navigation/settings_route.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
 
 class HomeView extends ConsumerStatefulWidget {
@@ -40,18 +39,12 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Row(
+          title: const Row(
             mainAxisSize: .min,
             spacing: 8,
             children: [
-              const AppIcon(),
-              Text(
-                AppConstants.appName,
-                style: GoogleFonts.unbounded(
-                  fontWeight: .w600,
-                  letterSpacing: -.3,
-                ),
-              ),
+              AppIcon(),
+              Flexible(child: ListTitle()),
             ],
           ),
           actions: [

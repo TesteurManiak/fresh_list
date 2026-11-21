@@ -10,8 +10,7 @@ mixin HookMixin<TState extends StatefulWidget> on State<TState> {
 
   FocusNode useFocusNode() => willDispose(FocusNode());
 
-  ValueNotifier<T> useValueNotifier<T>(T value) =>
-      willDispose(ValueNotifier<T>(value));
+  ValueNotifier<T> useValue<T>(T value) => willDispose(ValueNotifier<T>(value));
 
   T willDispose<T extends ChangeNotifier>(T notifier) {
     _hooks.add(notifier);

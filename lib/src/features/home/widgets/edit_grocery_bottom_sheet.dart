@@ -30,7 +30,7 @@ class _EditGroceryBottomSheetState extends ConsumerState<EditGroceryBottomSheet>
   late final searchController = useTextEditingController(
     text: widget.initialValue?.name,
   );
-  late final queryNotifier = useValueNotifier(widget.initialValue?.name ?? '');
+  late final queryNotifier = useValue(widget.initialValue?.name ?? '');
 
   @override
   void initState() {
