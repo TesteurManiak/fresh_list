@@ -10,4 +10,9 @@ extension StringExtensions on String {
     final color = maskedShiftedHashCode | 0xFF000000;
     return Color(color);
   }
+
+  String capitalize() {
+    if (isEmpty) return this;
+    return this[0].toUpperCase() + substring(1);
+  }
 }

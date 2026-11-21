@@ -61,7 +61,6 @@ Then run `build_runner` to generate the appropriate accessors.
 ## TODOs
 
 * Improve Material 3 Expressive UI/UX
-  - Color seed selection
   - Add/Edit entry sheet
   - Edit entries on single tap or double tap
 * Manage multiple lists

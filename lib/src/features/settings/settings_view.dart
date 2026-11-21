@@ -194,7 +194,7 @@ class _ColorPresetIcon extends ConsumerWidget {
           _ => null,
         },
         borderRadius: .circular(10),
-        border: Border.all(color: cs.outlineVariant, width: 1.5),
+        border: .all(color: cs.outlineVariant, width: 1.5),
       ),
       width: size,
       height: size,

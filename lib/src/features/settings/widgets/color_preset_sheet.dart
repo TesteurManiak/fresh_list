@@ -4,6 +4,7 @@ import 'package:fresh_list/src/core/mixins/showable.dart';
 import 'package:fresh_list/src/core/theme/color_preset.dart';
 import 'package:fresh_list/src/core/theme/color_scheme_seed_controller.dart';
 import 'package:fresh_list/src/core/widgets/app_sheet.dart';
+import 'package:fresh_list/src/core/widgets/sheet_tile.dart';
 import 'package:material_ui/material_ui.dart';
 
 class ColorPresetSheet extends ConsumerWidget
@@ -13,23 +14,33 @@ class ColorPresetSheet extends ConsumerWidget
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
-    final cs = ColorScheme.of(context);
     final currentPreset = ref.watch(colorPresetControllerProvider);
+    final cs = ColorScheme.of(context);
 
     return AppSheet(
       child: ListView.separated(
-        itemCount: ColorPreset.values.length,
         shrinkWrap: true,
-        separatorBuilder: (_, _) => const SizedBox(height: 4),
+        itemCount: ColorPreset.values.length,
+        separatorBuilder: (_, _) => const SizedBox(height: SheetTile.gap),
         itemBuilder: (context, index) {
           final preset = ColorPreset.values[index];
-          return ListTile(
-            leading: Icon(Icons.color_lens, color: cs.primary),
-            title: Text(preset.label(strings)),
+          return SheetTile(
+            leading: Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                color: preset.color,
+                borderRadius: .circular(8),
+                border: .all(color: cs.outlineVariant, width: 1.5),
+              ),
+            ),
+            title: preset.label(strings),
             selected: currentPreset == preset,
-            trailing: currentPreset == preset
-                ? Icon(Icons.check, color: cs.primary)
-                : null,
+            borderRadius: SheetTile.radiusFor(
+              index,
+              ColorPreset.values.length,
+              currentPreset == preset,
+            ),
             onTap: () => Navigator.pop(context, preset),
           );
         },
