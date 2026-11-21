@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:fresh_list/app.dart';
 import 'package:fresh_list/gen/assets.gen.dart';
 import 'package:fresh_list/src/core/localization/locale_controller.dart';
+import 'package:fresh_list/src/core/theme/color_scheme_seed_controller.dart';
 import 'package:fresh_list/src/core/theme/theme_controller.dart';
 import 'package:fresh_list/src/core/widgets/error_page.dart';
 import 'package:fresh_list/src/core/widgets/launch_failure_app.dart';
@@ -29,6 +30,7 @@ Future<void> main({List<Override> overrides = const []}) async {
     await Future.wait([
       container.read(localeControllerProvider.notifier).init(),
       container.read(themeControllerProvider.notifier).init(),
+      container.read(colorPresetControllerProvider.notifier).init(),
     ]);
 
     runApp(UncontrolledProviderScope(container: container, child: const App()));

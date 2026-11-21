@@ -2,14 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_list/src/core/extensions/theme_mode_extensions.dart';
 import 'package:fresh_list/src/core/shared_prefs/shared_prefs.dart';
-import 'package:fresh_list/src/core/theme/theme.dart';
 import 'package:material_ui/material_ui.dart';
-
-final defaultThemeModeProvider = Provider<ThemeMode>((_) => .system);
-
-final lightThemeProvider = Provider<ThemeData>((_) => AppTheme.light());
-
-final darkThemeProvider = Provider<ThemeData>((_) => AppTheme.dark());
 
 final platformBrightnessProvider = Provider<Brightness>(
   (_) => PlatformDispatcher.instance.platformBrightness,
@@ -23,7 +16,7 @@ class ThemeController extends Notifier<ThemeMode> {
   static const themeKey = SharedPrefsKey.themeMode;
 
   @override
-  ThemeMode build() => ref.watch(defaultThemeModeProvider);
+  ThemeMode build() => .system;
 
   /// Initialize the theme mode.
   ///
@@ -32,8 +25,7 @@ class ThemeController extends Notifier<ThemeMode> {
   Future<void> init() async {
     final prefs = await ref.read(sharedPreferencesProvider.future);
     final themeModeIndex = prefs.getInt(themeKey.key) ?? ThemeMode.system.index;
-
-    return setThemeMode(ThemeMode.values[themeModeIndex]);
+    await setThemeMode(ThemeMode.values[themeModeIndex]);
   }
 
   /// Used to toggle between light and dark theme modes.
@@ -56,5 +48,5 @@ class ThemeController extends Notifier<ThemeMode> {
   }
 
   /// Used to reset the theme mode to the default theme mode.
-  Future<void> reset() => setThemeMode(ref.read(defaultThemeModeProvider));
+  Future<void> reset() => setThemeMode(.system);
 }

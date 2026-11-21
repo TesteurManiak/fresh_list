@@ -95,17 +95,12 @@ class _Card extends ConsumerWidget {
       name: grocery.name,
       completed: grocery.completed,
       borderRadius: borderRadius,
-      onTap: () {
-        HapticsHelper.light();
-        _showEditionBottomSheet(context, ref, grocery);
-      },
+      onTap: () => _toggleCompletion(ref, grocery),
+      onDoubleTap: () => _showEditionBottomSheet(context, ref, grocery),
       leading: AppCheckbox(
         value: grocery.completed,
         size: 24,
-        onChanged: (_) {
-          grocery.completed ? HapticsHelper.light() : HapticsHelper.success();
-          ref.read(groceryListControllerProvider.notifier).toggle(grocery);
-        },
+        onChanged: (_) => _toggleCompletion(ref, grocery),
       ),
       trailing: AnimatedScale(
         duration: GroceryCard.animationDuration,
@@ -121,6 +116,7 @@ class _Card extends ConsumerWidget {
     WidgetRef ref,
     Grocery initialValue,
   ) async {
+    unawaited(HapticsHelper.light());
     final edited = await EditGroceryBottomSheet(initialValue: initialValue)
         .show(context);
     if (edited == null || edited == grocery || !context.mounted) return;
@@ -129,6 +125,11 @@ class _Card extends ConsumerWidget {
     unawaited(
       ref.read(groceryListControllerProvider.notifier).updateGrocery(edited),
     );
+  }
+
+  void _toggleCompletion(WidgetRef ref, Grocery grocery) {
+    grocery.completed ? HapticsHelper.light() : HapticsHelper.success();
+    ref.read(groceryListControllerProvider.notifier).toggle(grocery);
   }
 }
 

@@ -10,6 +10,7 @@ class GroceryCard extends StatelessWidget {
     this.completed = false,
     this.borderRadius,
     this.onTap,
+    this.onDoubleTap,
   });
 
   final String name;
@@ -18,6 +19,7 @@ class GroceryCard extends StatelessWidget {
   final bool completed;
   final BorderRadius? borderRadius;
   final VoidCallback? onTap;
+  final VoidCallback? onDoubleTap;
 
   static const animationDuration = Duration(milliseconds: 300);
   static const animationCurve = Curves.easeInOut;
@@ -39,6 +41,7 @@ class GroceryCard extends StatelessWidget {
         type: .transparency,
         child: InkWell(
           onTap: onTap,
+          onDoubleTap: onDoubleTap,
           borderRadius: borderRadius,
           child: Padding(
             padding: const .symmetric(horizontal: 16, vertical: 12),

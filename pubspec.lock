@@ -273,6 +273,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.35.3"
+  dynamic_color:
+    dependency: "direct main"
+    description:
+      name: dynamic_color
+      sha256: "869b3bce0100eb519768ecd71c0111f0b5ea679f5f62e1f59c49d80067e730c5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
+  dynamic_color_testing:
+    dependency: "direct dev"
+    description:
+      name: dynamic_color_testing
+      sha256: "0c3e7c0d11bd78045547a3895a8d28293cdfe1126e94f4991a5c9c02eb517f01"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   equatable:
     dependency: transitive
     description:
@@ -419,14 +435,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.14.4"
-  flutter_lints:
-    dependency: transitive
-    description:
-      name: flutter_lints
-      sha256: "3105dc8492f6183fb076ccf1f351ac3d60564bff92e20bfc4af9cc1651f4e7e1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.0"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -671,14 +679,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
-  lints:
-    dependency: transitive
-    description:
-      name: lints
-      sha256: "12f842a479589fea194fe5c5a3095abc7be0c1f2ddfa9a0e76aed1dbd26a87df"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.1.0"
   listen:
     dependency: transitive
     description:
@@ -1406,5 +1406,5 @@ packages:
     source: hosted
     version: "2.2.4"
 sdks:
-  dart: ">=3.14.0 <4.0.0"
+  dart: ">=3.13.7 <4.0.0"
   flutter: ">=3.50.0"

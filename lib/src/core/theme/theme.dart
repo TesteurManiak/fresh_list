@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
 
 class const AppTheme._() {
-  static const seedColor = MaterialColor(0xffF5A623, {});
+  /// Color used as a fallback seed for the theme when no dynamic color is
+  /// available and no user-selected color is provided.
+  static const fallbackSeedColor = Colors.yellow;
 
   static const _pageTransitionsTheme = PageTransitionsTheme(
     builders: {
@@ -12,11 +14,8 @@ class const AppTheme._() {
     },
   );
 
-  static ThemeData _themeBuilder(Brightness brightness) {
-    final base = ThemeData(
-      colorSchemeSeed: Colors.primaries.elementAt(12),
-      brightness: brightness,
-    );
+  static ThemeData _themeBuilder(ColorScheme cs) {
+    final base = ThemeData(colorScheme: cs);
 
     return base.copyWith(
       textTheme: GoogleFonts.googleSansTextTheme(base.textTheme),
@@ -26,9 +25,30 @@ class const AppTheme._() {
         selectionHandleColor: base.colorScheme.primary,
         cursorColor: base.colorScheme.primary,
       ),
+      dialogTheme: base.dialogTheme.copyWith(
+        shape: RoundedRectangleBorder(borderRadius: .circular(28)),
+        clipBehavior: .antiAlias,
+        backgroundColor: base.colorScheme.surfaceContainerHigh,
+        iconColor: base.colorScheme.secondary,
+        titleTextStyle: TextStyle(
+          fontSize: 24,
+          height: 32 / 24,
+          fontWeight: .w400,
+          color: base.colorScheme.onSurface,
+        ),
+      ),
+      bottomSheetTheme: base.bottomSheetTheme.copyWith(
+        shape: RoundedRectangleBorder(borderRadius: .circular(52)),
+        clipBehavior: .antiAlias,
+        constraints: const BoxConstraints(maxWidth: 560),
+        showDragHandle: false,
+        backgroundColor: base.colorScheme.surfaceContainerHigh,
+      ),
     );
   }
 
-  static ThemeData light() => _themeBuilder(.light);
-  static ThemeData dark() => _themeBuilder(.dark);
+  static ThemeData fromColorScheme(ColorScheme cs) => _themeBuilder(cs);
+
+  static ThemeData light() =>
+      _themeBuilder(ColorScheme.fromSeed(seedColor: fallbackSeedColor));
 }

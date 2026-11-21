@@ -4,11 +4,9 @@ import 'package:motor/motor.dart';
 class ExpressiveSearchField extends StatefulWidget {
   const new({
     this.autofocus = false,
-    this.focusNode,
     this.hintText,
     this.leadingIcon,
     this.trailingIcon,
-    this.avatar,
     this.controller,
     this.textCapitalization = .none,
     this.onSubmitted,
@@ -16,11 +14,9 @@ class ExpressiveSearchField extends StatefulWidget {
   });
 
   final bool autofocus;
-  final FocusNode? focusNode;
   final String? hintText;
   final Widget? leadingIcon;
   final Widget? trailingIcon;
-  final Widget? avatar;
   final TextEditingController? controller;
   final TextCapitalization textCapitalization;
   final ValueChanged<String>? onSubmitted;
@@ -30,9 +26,9 @@ class ExpressiveSearchField extends StatefulWidget {
 }
 
 class _ExpressiveSearchFieldState extends State<ExpressiveSearchField> {
-  late final _controller = widget.controller ?? TextEditingController();
-  late final _focusNode = widget.focusNode ?? FocusNode();
+  final _focusNode = FocusNode();
 
+  late final _controller = widget.controller ?? TextEditingController();
   late final ValueNotifier<bool> _showClearButtonNotifier;
 
   void showClearButtonListener() {
@@ -59,7 +55,8 @@ class _ExpressiveSearchFieldState extends State<ExpressiveSearchField> {
     _focusNode.removeListener(showClearButtonListener);
 
     if (widget.controller == null) _controller.dispose();
-    if (widget.focusNode == null) _focusNode.dispose();
+
+    _focusNode.dispose();
     _showClearButtonNotifier.dispose();
 
     super.dispose();
@@ -82,7 +79,7 @@ class _ExpressiveSearchFieldState extends State<ExpressiveSearchField> {
         hintText: widget.hintText,
         hintStyle: textTheme.bodyLarge?.copyWith(color: cs.onSurfaceVariant),
         constraints: const BoxConstraints(minHeight: 56),
-        contentPadding: .all(16),
+        contentPadding: const .all(16),
         border: OutlineInputBorder(
           borderRadius: .circular(28),
           borderSide: BorderSide.none,
@@ -100,7 +97,6 @@ class _ExpressiveSearchFieldState extends State<ExpressiveSearchField> {
             return _TrailingItems(
               showClearButton: showClearButton,
               trailingIcon: widget.trailingIcon,
-              avatar: widget.avatar,
               onClear: () => _controller.clear(),
             );
           },
@@ -111,16 +107,14 @@ class _ExpressiveSearchFieldState extends State<ExpressiveSearchField> {
 }
 
 class _TrailingItems extends StatelessWidget {
-  const _TrailingItems({
+  const new({
     required this.showClearButton,
     required this.trailingIcon,
-    required this.avatar,
     required this.onClear,
   });
 
   final bool showClearButton;
   final Widget? trailingIcon;
-  final Widget? avatar;
   final VoidCallback onClear;
 
   static const clearButtonKey = ValueKey('clear_btn');
@@ -175,14 +169,13 @@ class _TrailingItems extends StatelessWidget {
             child: activeAction,
           ),
         ),
-        ?avatar,
       ],
     );
   }
 }
 
 class _SpringActionTransition extends StatelessWidget {
-  const _SpringActionTransition({
+  const new({
     required this.isEntering,
     required this.spatialMotion,
     required this.effectsMotion,
@@ -226,7 +219,6 @@ class _SpringActionTransition extends StatelessWidget {
             if (!collapseWidth) return transformed;
 
             return Align(
-              alignment: Alignment.center,
               widthFactor: spatial.clamp(0.0, 1.0),
               child: transformed,
             );
@@ -239,7 +231,7 @@ class _SpringActionTransition extends StatelessWidget {
 }
 
 class _ClearButton extends StatelessWidget {
-  const _ClearButton({required this.onClear, super.key});
+  const new({required this.onClear, super.key});
 
   final VoidCallback onClear;
 
@@ -247,7 +239,7 @@ class _ClearButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final materialLocalizations = MaterialLocalizations.of(context);
     return IconButton(
-      icon: Icon(Icons.clear),
+      icon: const Icon(Icons.clear),
       tooltip: materialLocalizations.clearButtonTooltip,
       onPressed: onClear,
     );
