@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_list/l10n/gen/app_localizations.dart';
 import 'package:fresh_list/src/core/extensions/build_context_extensions.dart';
-import 'package:fresh_list/src/core/localization/locale_controller.dart';
+import 'package:fresh_list/src/core/localization/locale_notifier.dart';
 import 'package:fresh_list/src/core/mixins/showable.dart';
 import 'package:fresh_list/src/core/widgets/app_sheet.dart';
 import 'package:fresh_list/src/core/widgets/sheet_tile.dart';
@@ -14,7 +14,7 @@ class LanguageSheet extends ConsumerWidget
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const supportedLocales = AppLocalizations.supportedLocales;
-    final currentLocale = ref.watch(localeControllerProvider);
+    final currentLocale = ref.watch(localeNotifierProvider);
     final strings = context.strings;
 
     return AppSheet(

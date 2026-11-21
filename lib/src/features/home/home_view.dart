@@ -10,7 +10,7 @@ import 'package:fresh_list/src/core/mixins/hook.dart';
 import 'package:fresh_list/src/core/utils/haptics_helper.dart';
 import 'package:fresh_list/src/core/widgets/app_icon.dart';
 import 'package:fresh_list/src/core/widgets/bottom_padding.dart';
-import 'package:fresh_list/src/features/home/controllers/grocery_list_controller.dart';
+import 'package:fresh_list/src/features/home/notifiers/grocery_list_notifier.dart';
 import 'package:fresh_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 import 'package:fresh_list/src/features/home/widgets/grocery_tile.dart';
 import 'package:fresh_list/src/features/home/widgets/nearby_sharing_bottom_sheet.dart';
@@ -30,7 +30,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
 
   @override
   Widget build(BuildContext context) {
-    final groceriesValue = ref.watch(groceryListControllerProvider);
+    final groceriesValue = ref.watch(groceryListNotifierProvider);
     final strings = context.strings;
 
     // Hands the custom controller to the Scaffold so that tapping the iOS
@@ -75,7 +75,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
             final grocery = await const EditGroceryBottomSheet().show(context);
             if (grocery != null) {
               await ref
-                  .read(groceryListControllerProvider.notifier)
+                  .read(groceryListNotifierProvider.notifier)
                   .createGrocery(grocery);
 
               if (!scrollController.hasClients) return;
@@ -128,7 +128,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HookMixin {
               onReorderStart: (_) => HapticsHelper.medium(),
               onReorderEnd: (_) => HapticsHelper.light(),
               onReorderItem: (oldIndex, newIndex) => ref
-                  .read(groceryListControllerProvider.notifier)
+                  .read(groceryListNotifierProvider.notifier)
                   .reorder(oldIndex, newIndex),
             );
           },

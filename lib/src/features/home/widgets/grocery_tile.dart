@@ -6,7 +6,7 @@ import 'package:fresh_list/gen/assets.gen.dart';
 import 'package:fresh_list/src/core/models/grocery.dart';
 import 'package:fresh_list/src/core/utils/haptics_helper.dart';
 import 'package:fresh_list/src/core/widgets/checkbox.dart';
-import 'package:fresh_list/src/features/home/controllers/grocery_list_controller.dart';
+import 'package:fresh_list/src/features/home/notifiers/grocery_list_notifier.dart';
 import 'package:fresh_list/src/features/home/widgets/edit_grocery_bottom_sheet.dart';
 import 'package:fresh_list/src/features/home/widgets/edited_snack.dart';
 import 'package:fresh_list/src/features/home/widgets/grocery_card.dart';
@@ -71,7 +71,7 @@ class _GroceryTileState extends ConsumerState<GroceryTile> {
           }
         },
         onDismissed: (_) => ref
-            .read(groceryListControllerProvider.notifier)
+            .read(groceryListNotifierProvider.notifier)
             .deleteGrocery(grocery),
         background: _Background(
           isThresholdReached: isThresholdReached,
@@ -123,13 +123,13 @@ class _Card extends ConsumerWidget {
 
     EditedSnack(edited.name).show(context);
     unawaited(
-      ref.read(groceryListControllerProvider.notifier).updateGrocery(edited),
+      ref.read(groceryListNotifierProvider.notifier).updateGrocery(edited),
     );
   }
 
   void _toggleCompletion(WidgetRef ref, Grocery grocery) {
     grocery.completed ? HapticsHelper.light() : HapticsHelper.success();
-    ref.read(groceryListControllerProvider.notifier).toggle(grocery);
+    ref.read(groceryListNotifierProvider.notifier).toggle(grocery);
   }
 }
 

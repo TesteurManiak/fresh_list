@@ -9,7 +9,7 @@ import 'package:fresh_list/src/core/models/grocery.dart';
 import 'package:fresh_list/src/core/sharing/nearby_connections.dart';
 import 'package:fresh_list/src/core/widgets/app_sheet.dart';
 import 'package:fresh_list/src/core/widgets/sliver_spacing.dart';
-import 'package:fresh_list/src/features/home/controllers/grocery_list_controller.dart';
+import 'package:fresh_list/src/features/home/notifiers/grocery_list_notifier.dart';
 import 'package:fresh_list/src/features/home/widgets/copied_list_snack.dart';
 import 'package:fresh_list/src/features/home/widgets/error_snack.dart';
 import 'package:fresh_list/src/features/home/widgets/items_added_snack.dart';
@@ -35,7 +35,7 @@ class _NearbySharingBottomSheetState
     if (accepted != true || !mounted) return;
 
     final added = await ref
-        .read(groceryListControllerProvider.notifier)
+        .read(groceryListNotifierProvider.notifier)
         .importGroceries(received.items);
     if (!mounted) return;
     ItemsAddedSnack(added).show(context);
@@ -98,7 +98,7 @@ class _SliverSharedListCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = context.strings;
     final itemCount = ref.watch(
-      groceryListControllerProvider.select((l) => l.value?.length ?? 0),
+      groceryListNotifierProvider.select((l) => l.value?.length ?? 0),
     );
 
     return SliverToBoxAdapter(
@@ -113,7 +113,7 @@ class _SliverSharedListCard extends ConsumerWidget {
   }
 
   Future<void> copyToClipboard(BuildContext context, WidgetRef ref) async {
-    final items = await ref.read(groceryListControllerProvider.future);
+    final items = await ref.read(groceryListNotifierProvider.future);
     final buffer = StringBuffer();
     for (final item in items) {
       buffer.writeln('- ${item.name}');
@@ -393,7 +393,7 @@ class _NearbyPeerTile extends ConsumerWidget {
 
   Future<void> _sendList(BuildContext context, WidgetRef ref) async {
     final Iterable<Grocery> groceries =
-        ref.read(groceryListControllerProvider).value ?? const [];
+        ref.read(groceryListNotifierProvider).value ?? const [];
     try {
       await ref
           .read(nearbySharingControllerProvider.notifier)

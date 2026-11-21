@@ -1,5 +1,5 @@
 import 'package:fresh_list/l10n/gen/app_localizations.dart';
-import 'package:fresh_list/src/core/localization/locale_controller.dart';
+import 'package:fresh_list/src/core/localization/locale_notifier.dart';
 import 'package:material_ui/material_ui.dart';
 
 enum ColorPreset(final Color? color, final LocalizedString label) {
@@ -23,8 +23,12 @@ enum ColorPreset(final Color? color, final LocalizedString label) {
   brown(Colors.brown, _brown),
   blueGrey(Colors.blueGrey, _blueGrey);
 
-  factory fromIndex(int index) =>
-      ColorPreset.values.elementAtOrNull(index) ?? .dynamic;
+  factory fromIndex(int index) {
+    if (index < 0 || index >= ColorPreset.values.length) {
+      return .dynamic;
+    }
+    return ColorPreset.values[index];
+  }
 
   static String _dynamic(AppLocalizations strings) =>
       strings.settings_theme_color_dynamic;

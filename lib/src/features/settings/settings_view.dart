@@ -6,9 +6,9 @@ import 'package:fresh_list/gen/version.dart';
 import 'package:fresh_list/l10n/gen/app_localizations.dart';
 import 'package:fresh_list/src/core/constants/consts.dart';
 import 'package:fresh_list/src/core/extensions/build_context_extensions.dart';
-import 'package:fresh_list/src/core/localization/locale_controller.dart';
-import 'package:fresh_list/src/core/theme/color_scheme_seed_controller.dart';
-import 'package:fresh_list/src/core/theme/theme_controller.dart';
+import 'package:fresh_list/src/core/localization/locale_notifier.dart';
+import 'package:fresh_list/src/core/theme/color_preset_notifier.dart';
+import 'package:fresh_list/src/core/theme/theme_notifier.dart';
 import 'package:fresh_list/src/core/utils/haptics_helper.dart';
 import 'package:fresh_list/src/core/widgets/app_icon.dart';
 import 'package:fresh_list/src/core/widgets/bottom_padding.dart';
@@ -47,7 +47,7 @@ class _SettingsViewState extends State<SettingsView> {
                 title: strings.settings_theme_title,
                 trailing: Consumer(
                   builder: (context, ref, _) {
-                    final themeMode = ref.watch(themeControllerProvider);
+                    final themeMode = ref.watch(themeNotifierProvider);
 
                     return SegmentedButton<ThemeMode>(
                       showSelectedIcon: false,
@@ -69,7 +69,7 @@ class _SettingsViewState extends State<SettingsView> {
                       ],
                       onSelectionChanged: (selection) {
                         ref
-                            .read(themeControllerProvider.notifier)
+                            .read(themeNotifierProvider.notifier)
                             .setThemeMode(selection.first);
                         HapticsHelper.selection();
                       },
@@ -90,7 +90,7 @@ class _SettingsViewState extends State<SettingsView> {
                       if (newPreset == null) return;
                       unawaited(
                         ref
-                            .read(colorPresetControllerProvider.notifier)
+                            .read(colorPresetNotifierProvider.notifier)
                             .setPreset(newPreset),
                       );
                     },
@@ -99,7 +99,7 @@ class _SettingsViewState extends State<SettingsView> {
               ),
               Consumer(
                 builder: (context, ref, _) {
-                  final currentLocale = ref.watch(localeControllerProvider);
+                  final currentLocale = ref.watch(localeNotifierProvider);
                   return MenuTile(
                     icon: Icons.translate,
                     title: strings.settings_language_title,
@@ -109,7 +109,7 @@ class _SettingsViewState extends State<SettingsView> {
                       if (locale == null || locale == currentLocale) return;
                       unawaited(
                         ref
-                            .read(localeControllerProvider.notifier)
+                            .read(localeNotifierProvider.notifier)
                             .setLocale(locale),
                       );
                     },
@@ -182,7 +182,7 @@ class _ColorPresetIcon extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     const size = 32.0;
     final cs = ColorScheme.of(context);
-    final preset = ref.watch(colorPresetControllerProvider);
+    final preset = ref.watch(colorPresetNotifierProvider);
 
     return Container(
       decoration: BoxDecoration(

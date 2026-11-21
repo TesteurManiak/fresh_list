@@ -7,12 +7,12 @@ import 'package:fresh_list/src/core/sharing/shared_grocery_list_codec.dart';
 import 'package:fresh_list/src/features/home/data/repositories/home_repository.dart';
 import 'package:fresh_list/src/features/home/data/sources/home_local_datasource.dart';
 
-final groceryListControllerProvider =
-    StreamNotifierProvider.autoDispose<GroceryListController, IList<Grocery>>(
-      GroceryListController.new,
+final groceryListNotifierProvider =
+    StreamNotifierProvider.autoDispose<GroceryListNotifier, IList<Grocery>>(
+      GroceryListNotifier.new,
     );
 
-class GroceryListController extends StreamNotifier<IList<Grocery>> {
+class GroceryListNotifier extends StreamNotifier<IList<Grocery>> {
   @override
   Stream<IList<Grocery>> build() =>
       ref.watch(homeLocalDatasourceProvider).watchGroceries();

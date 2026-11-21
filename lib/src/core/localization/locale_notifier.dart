@@ -4,17 +4,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_list/l10n/gen/app_localizations.dart';
+import 'package:fresh_list/src/core/mixins/initializable_notifier.dart';
 import 'package:fresh_list/src/core/shared_prefs/shared_prefs.dart';
 
 typedef LocalizedString = String Function(AppLocalizations strings);
 
-final fallbackLocaleProvider = Provider<Locale>(
-  (_) => AppLocalizations.supportedLocales.first,
-);
-
 final systemLocaleProvider = Provider<Locale>((ref) {
-  final fallback = ref.watch(fallbackLocaleProvider);
-  final locale = _resolveLocale(PlatformDispatcher.instance.locale, fallback);
+  final locale = _resolveLocale(
+    PlatformDispatcher.instance.locale,
+    LocaleNotifier.fallbackLocale,
+  );
 
   final observer = _LocaleObserver((_) => ref.invalidateSelf());
   final binding = WidgetsBinding.instance..addObserver(observer);
@@ -31,46 +30,56 @@ class _LocaleObserver(final ValueChanged<List<Locale>?> _didChangeLocales)
   }
 }
 
-final localeControllerProvider = NotifierProvider<LocaleController, Locale>(
-  LocaleController.new,
+final localeNotifierProvider = NotifierProvider<LocaleNotifier, Locale>(
+  LocaleNotifier.new,
 );
 
-class LocaleController extends Notifier<Locale> {
-  static const SharedPrefsKey localeKey = SharedPrefsKey.locale;
+class LocaleNotifier extends Notifier<Locale> with InitializableNotifier {
+  static const localeKey = SharedPrefsKey.locale;
+  static final fallbackLocale = AppLocalizations.supportedLocales.first;
+
+  Locale? _cachedSavedLocale;
 
   @override
   Locale build() {
-    final system = ref.watch(systemLocaleProvider);
-    final fallback = ref.watch(fallbackLocaleProvider);
+    ref.onDispose(() => _cachedSavedLocale = null);
+    initOnBuild();
 
-    return _resolveLocale(system, fallback);
+    final system = ref.watch(systemLocaleProvider);
+    return _cachedSavedLocale ?? _resolveLocale(system, fallbackLocale);
   }
 
-  /// Initialize the locale.
-  ///
-  /// Used to load something if the locale is not set by the device settings
-  /// (e.g: from the local storage).
-  Future<void> init() async {
+  @override
+  Future<void> performInit() async {
     final prefs = await ref.read(sharedPreferencesProvider.future);
-    final locale = prefs.getString(localeKey.key);
+    final savedCode = prefs.getString(localeKey.key);
 
-    if (locale != null) await setLocale(Locale(locale));
+    if (savedCode == null) return;
+
+    final resolved = _resolveLocale(Locale(savedCode));
+    _cachedSavedLocale = resolved;
+    await setLocale(resolved);
   }
 
   /// Used to set the locale if it is supported.
   Future<void> setLocale(Locale locale) async {
     final newLocale = _resolveLocale(locale);
-    if (newLocale == state) return;
+    if (newLocale == state && _cachedSavedLocale == newLocale) return;
 
     final prefs = await ref.read(sharedPreferencesProvider.future);
     await prefs.setString(localeKey.key, newLocale.languageCode);
 
+    _cachedSavedLocale = newLocale;
     state = newLocale;
   }
 
   /// Used to reset the locale to the system locale.
-  Future<void> reset() {
-    return setLocale(ref.read(systemLocaleProvider));
+  Future<void> reset() async {
+    final prefs = await ref.read(sharedPreferencesProvider.future);
+    await prefs.remove(localeKey.key);
+
+    _cachedSavedLocale = null;
+    state = _resolveLocale(ref.read(systemLocaleProvider), fallbackLocale);
   }
 }
 

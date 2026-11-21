@@ -1,10 +1,11 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_driver/driver_extension.dart';
 import 'package:fresh_list/main.dart' as app;
-import 'package:fresh_list/src/core/localization/locale_controller.dart';
+import 'package:fresh_list/src/core/localization/locale_notifier.dart';
 import 'package:fresh_list/src/core/models/recent_search.dart';
-import 'package:fresh_list/src/core/theme/theme_controller.dart';
-import 'package:fresh_list/src/features/home/controllers/grocery_list_controller.dart';
+import 'package:fresh_list/src/core/theme/dynamic_color_notifier.dart';
+import 'package:fresh_list/src/core/theme/theme_notifier.dart';
+import 'package:fresh_list/src/features/home/notifiers/grocery_list_notifier.dart';
 import 'package:material_ui/material_ui.dart';
 
 Future<void> main() async {
@@ -12,8 +13,9 @@ Future<void> main() async {
   WidgetsApp.debugAllowBannerOverride = false;
   await app.main(
     overrides: [
-      localeControllerProvider.overrideWith(_EnglishLocaleController.new),
-      themeControllerProvider.overrideWith(_LightThemeController.new),
+      localeNotifierProvider.overrideWith(_EnglishLocaleController.new),
+      themeNotifierProvider.overrideWith(_LightThemeController.new),
+      dynamicColorNotifierProvider.overrideWith(_NoDynamicColorController.new),
       watchRecentSearchesProvider.overrideWith(
         (_, _) => Stream.fromIterable([
           IList<RecentSearch>([
@@ -26,7 +28,7 @@ Future<void> main() async {
 }
 
 // Ignore the device settings and stored preferences so screenshots are stable.
-class _EnglishLocaleController extends LocaleController {
+class _EnglishLocaleController extends LocaleNotifier {
   @override
   Locale build() => const Locale('en', 'US');
 
@@ -37,7 +39,7 @@ class _EnglishLocaleController extends LocaleController {
   Future<void> setLocale(Locale locale) async => state = locale;
 }
 
-class _LightThemeController extends ThemeController {
+class _LightThemeController extends ThemeNotifier {
   @override
   ThemeMode build() => ThemeMode.light;
 
@@ -46,4 +48,12 @@ class _LightThemeController extends ThemeController {
 
   @override
   Future<void> setThemeMode(ThemeMode mode) async => state = mode;
+}
+
+class _NoDynamicColorController extends DynamicColorNotifier {
+  @override
+  DynamicColorRecord? build() => null;
+
+  @override
+  Future<void> init() async {}
 }

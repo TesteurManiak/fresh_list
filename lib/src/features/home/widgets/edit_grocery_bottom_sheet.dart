@@ -9,7 +9,7 @@ import 'package:fresh_list/src/core/models/recent_search.dart';
 import 'package:fresh_list/src/core/widgets/app_sheet.dart';
 import 'package:fresh_list/src/core/widgets/expressive_search_field.dart';
 import 'package:fresh_list/src/core/widgets/tile_icon.dart';
-import 'package:fresh_list/src/features/home/controllers/grocery_list_controller.dart';
+import 'package:fresh_list/src/features/home/notifiers/grocery_list_notifier.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
@@ -190,7 +190,7 @@ class _SuggestionTileState extends ConsumerState<_SuggestionTile> {
               setState(() => added = true);
 
               ref
-                  .read(groceryListControllerProvider.notifier)
+                  .read(groceryListNotifierProvider.notifier)
                   .createGrocery(grocery);
             },
     );
