@@ -5,6 +5,7 @@ import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_list/src/core/database/database.drift.dart';
 import 'package:fresh_list/src/core/database/groceries_table.dart';
+import 'package:fresh_list/src/core/database/migrations/migrations.dart';
 import 'package:fresh_list/src/core/database/recent_searches_table.dart';
 import 'package:fresh_list/src/core/database/shopping_lists_table.dart';
 import 'package:path/path.dart' as p;
@@ -18,6 +19,9 @@ class AppDatabase extends $AppDatabase {
 
   @override
   int get schemaVersion => 1;
+
+  @override
+  MigrationStrategy get migration => AppMigrationStrategy(this);
 
   static LazyDatabase _openConnection() {
     return LazyDatabase(() async {
