@@ -1,3 +1,4 @@
+import 'package:dynamic_color_ffi/dynamic_color_ffi.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_driver/driver_extension.dart';
 import 'package:fresh_list/main.dart' as app;
@@ -52,7 +53,7 @@ class _LightThemeController extends ThemeNotifier {
 
 class _NoDynamicColorController extends DynamicColorNotifier {
   @override
-  DynamicColorRecord? build() => null;
+  DynamicSchemeFactory? build() => null;
 
   @override
   Future<void> init() async {}

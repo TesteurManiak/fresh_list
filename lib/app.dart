@@ -16,15 +16,15 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dynamicColors = ref.watch(dynamicColorNotifierProvider);
+    final dynamicScheme = ref.watch(dynamicColorNotifierProvider);
     final preset = ref.watch(colorPresetNotifierProvider);
 
     final seedColor = preset.color ?? AppTheme.fallbackSeedColor;
-    final ColorScheme lightScheme = dynamicColors != null && preset == .dynamic
-        ? dynamicColors.lightDynamic
+    final ColorScheme lightScheme = dynamicScheme != null && preset == .dynamic
+        ? dynamicScheme.light
         : .fromSeed(seedColor: seedColor);
-    final ColorScheme darkScheme = dynamicColors != null && preset == .dynamic
-        ? dynamicColors.darkDynamic
+    final ColorScheme darkScheme = dynamicScheme != null && preset == .dynamic
+        ? dynamicScheme.dark
         : .fromSeed(seedColor: seedColor, brightness: .dark);
 
     final lightTheme = AppTheme.fromColorScheme(lightScheme);

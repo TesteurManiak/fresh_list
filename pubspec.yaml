@@ -17,7 +17,10 @@ dependencies:
   device_info_plus: ^13.3.0
   drift: ^2.35.4
   drift_dev: ^2.35.3
-  dynamic_color: ^2.1.0
+  dynamic_color_ffi:
+    git:
+      url: https://github.com/TesteurManiak/dynamic_color_ffi/
+      ref: e8052471d175a225c198fff9acc8f80621649978
   expressive_loading_indicator:
     path: packages/expressive_loading_indicator
   expressive_shapes:
