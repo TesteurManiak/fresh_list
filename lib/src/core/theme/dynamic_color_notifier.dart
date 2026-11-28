@@ -1,23 +1,18 @@
-import 'package:dynamic_color/dynamic_color.dart';
+import 'package:dynamic_color_ffi/dynamic_color_ffi.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_list/src/core/mixins/initializable_notifier.dart';
-import 'package:material_ui/material_ui.dart';
-
-typedef DynamicColorRecord = ({
-  ColorScheme lightDynamic,
-  ColorScheme darkDynamic,
-});
 
 final dynamicColorNotifierProvider =
-    NotifierProvider<DynamicColorNotifier, DynamicColorRecord?>(
+    NotifierProvider<DynamicColorNotifier, DynamicSchemeFactory?>(
       DynamicColorNotifier.new,
     );
 
-class DynamicColorNotifier extends Notifier<DynamicColorRecord?>
+class DynamicColorNotifier extends Notifier<DynamicSchemeFactory?>
     with InitializableNotifier {
+  final plugin = DynamicColorFfi();
   @override
-  DynamicColorRecord? build() {
+  DynamicSchemeFactory? build() {
     initOnBuild();
     return null;
   }
@@ -25,13 +20,10 @@ class DynamicColorNotifier extends Notifier<DynamicColorRecord?>
   @override
   Future<void> performInit() async {
     try {
-      final corePalette = await DynamicColorPlugin.getCorePalette();
-      if (corePalette == null) return;
+      final palettes = plugin.getTonalPalettes();
+      if (palettes == null) return;
 
-      state = (
-        lightDynamic: corePalette.toColorScheme(),
-        darkDynamic: corePalette.toColorScheme(brightness: .dark),
-      );
+      state = ColorPaletteSchemeFactory(tonalPalettes: palettes);
     } on PlatformException {
       // Platform does not support dynamic color; leave state as null.
     } on MissingPluginException {
